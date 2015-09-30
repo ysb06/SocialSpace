@@ -9,7 +9,9 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
+import lab.u2xd.socialspace.miner.DataManager;
 import lab.u2xd.socialspace.supporter.NotificationGenerator;
 
 /** 첫 화면 UI 및 모든 이벤트 관리
@@ -19,6 +21,10 @@ public class MainActivity extends AppCompatActivity {
 
     //Support Team
     NotificationGenerator notiMaker;
+    DataManager dataManager;
+
+    //UI
+    TextView textView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +32,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         notiMaker = new NotificationGenerator();
+        dataManager = new DataManager(this);
+
+        textView = (TextView) findViewById(R.id.textView);
+
         if (!isContainedInNotificationListeners(getApplicationContext())) {
             Intent intent = new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
             startActivityForResult(intent, 2222);
@@ -63,5 +73,7 @@ public class MainActivity extends AppCompatActivity {
     //이벤트
     public void Execute_Click(View view) {
         notiMaker.generateNotification(getApplicationContext());
+        String str = dataManager.showAllData();
+        textView.setText(str);
     }
 }
