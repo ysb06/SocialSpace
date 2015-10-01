@@ -18,4 +18,22 @@
         android:layout_alignParentStart="true"
         android:onClick="Execute_Click" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/main_button_notigen"
+        android:id="@+id/main_button_notigen"
+        android:onClick="NotiGen_Click"
+        android:layout_below="@+id/main_button_execute"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/main_button_datadelete"
+        android:id="@+id/main_button_datadelete"
+        android:onClick="DataDelete_Click"
+        android:layout_alignTop="@+id/main_button_execute"
+        android:layout_toEndOf="@+id/main_button_execute" />
+
 </RelativeLayout>

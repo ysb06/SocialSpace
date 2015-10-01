@@ -1,6 +1,5 @@
-package lab.u2xd.socialspace.miner;
+package lab.u2xd.socialspace.worker;
 
-import android.app.Notification;
 import android.os.Environment;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
@@ -9,13 +8,17 @@ import android.util.Log;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
-/**
+import lab.u2xd.socialspace.worker.miner.CallMiner;
+import lab.u2xd.socialspace.worker.miner.NotificationMiner;
+import lab.u2xd.socialspace.worker.miner.PhoneLogMiner;
+import lab.u2xd.socialspace.worker.miner.SMSMiner;
+import lab.u2xd.socialspace.worker.object.RefinedData;
+
+/** 데이터 획득 서비스, 항시 백그라운드에 상주하며
  * Created by ysb on 2015-09-25.
  */
-public class NotificationMiner extends NotificationListenerService {
+public class MinerManager extends NotificationListenerService {
 
     public static final String EXTRA_TITLE = "android.title";
     public static final String EXTRA_TEXT = "android.text";
@@ -23,36 +26,48 @@ public class NotificationMiner extends NotificationListenerService {
     public static final String EXTRA_LARGE_ICON = "android.largeIcon";
     public static final String EXTRA_MEDIA_SESSION = "android.mediaSession";
 
-    public static final String LOG_FILENAME = "Notification_Log00.txt";
+    public static final String LOG_FILENAME = "MiningReport00.txt";
 
     private DataManager dbManager;
+    private NotificationMiner notificationMiner;
+    private CallMiner callMiner;
+    private SMSMiner smsMiner;
 
     @Override
     public void onCreate() {
-        Log.e("Noti Miner", "I start to work");
+        Log.e("Miner Manager", "We are starting to work");
         dbManager = new DataManager(this);
+        notificationMiner = new NotificationMiner();
+        callMiner = new CallMiner();
+        smsMiner = new SMSMiner(this);
+
+        Log.e("Miner Manager", "Querying Call Log");
+        RefinedData[] data1 = callMiner.queryAllPastData(this);
+        for(int i = 0; i < data1.length; i++) {
+            dbManager.setRefinedData(data1[i]);
+        }
+        Log.e("Miner Manager", "Querying SMS");
+        RefinedData[] data2 = smsMiner.queryAllPastData(this);
+        for(int i = 0; i < data2.length; i++) {
+            dbManager.setRefinedData(data2[i]);
+        }
     }
 
     @Override
     public void onDestroy() {
-        Log.e("Noti Miner", "I will not work");
+        Log.e("Miner Manager", "We are finishing working");
+        dbManager.close();
     }
 
     @Override
     public void onNotificationPosted(StatusBarNotification sbn) {
-        Log.e("Noti Miner", "I got a message!");
-        dbManager.setStatusBarNotification(sbn);
-
-        Notification noti = sbn.getNotification();
-        Date dateNow = new Date(System.currentTimeMillis());
-        writeLog("AYBABTU : " + noti.extras.getString(EXTRA_TITLE) + ",\t\t" + noti.extras.getString(EXTRA_TEXT)
-                + "\r\n" + new SimpleDateFormat("yyyy년 MM월 dd일 HH시 mm분 ss초").format(dateNow) + ",\t\t" + Notification.EXTRA_MEDIA_SESSION + "\r\n");
-
+        dbManager.setRefinedData(notificationMiner.smeltStatusBarNotification(sbn));
+        writeLog(notificationMiner.getNotificationLog(sbn));
     }
 
     @Override
     public void onNotificationRemoved(StatusBarNotification sbn) {
-        Log.e("Noti Miner", "I feel something disappeared!");
+        Log.e("Miner Manager", "I feel something disappeared!");
     }
 
     private boolean writeLog(String str) {
@@ -61,17 +76,17 @@ public class NotificationMiner extends NotificationListenerService {
             String sSDdir = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Context/";
             File dir = new File(sSDdir);
             if(dir.mkdir()) {
-                Log.e("Noti Miner", "I made an directory");
+                Log.e("Miner Manager", "I made an directory");
             }
 
             File file = new File(sSDdir, LOG_FILENAME);
             try {
                 if(!file.exists()) {
                     file.createNewFile();
-                    Log.e("Noti Miner", "File is created");
+                    Log.e("Miner Manager", "File is created");
                 }
                 String path = file.getAbsolutePath();
-                Log.e("Noti Miner", "Reading... " + path);
+                Log.e("Miner Manager", "Reading... " + path);
 
                 FileWriter writer = new FileWriter(file, true);
                 writer.append(str + "\r\n");
@@ -83,7 +98,7 @@ public class NotificationMiner extends NotificationListenerService {
             }
             return true;
         } else {
-            Log.e("Noti Miner", "There is no storage");
+            Log.e("Miner Manager", "There is no storage");
             return false;
         }
     }

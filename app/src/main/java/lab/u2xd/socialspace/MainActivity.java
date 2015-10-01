@@ -11,7 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import lab.u2xd.socialspace.miner.DataManager;
+import lab.u2xd.socialspace.worker.DataManager;
 import lab.u2xd.socialspace.supporter.NotificationGenerator;
 
 /** 첫 화면 UI 및 모든 이벤트 관리
@@ -27,11 +27,18 @@ public class MainActivity extends AppCompatActivity {
     TextView textView;
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        notiMaker.closeAllNotification();
+        dataManager.close();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        notiMaker = new NotificationGenerator();
+        notiMaker = new NotificationGenerator(this);
         dataManager = new DataManager(this);
 
         textView = (TextView) findViewById(R.id.textView);
@@ -42,7 +49,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private static boolean isContainedInNotificationListeners(Context context)
+    /** 현재 Notification Miner가 서비스에 등록이 되어 있는지 확인하는 코드
+     *
+     * @param context
+     * @return
+     */
+    private boolean isContainedInNotificationListeners(Context context)
     {
         String enabledListeners = Settings.Secure.getString(context.getContentResolver(), "enabled_notification_listeners");
         return !TextUtils.isEmpty(enabledListeners) && enabledListeners.contains(context.getPackageName());
@@ -70,10 +82,20 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    //이벤트
+    //Execute 버튼 클릭 이벤트
     public void Execute_Click(View view) {
-        notiMaker.generateNotification(getApplicationContext());
         String str = dataManager.showAllData();
+        dataManager.exportDatabase();
         textView.setText(str);
+    }
+
+    //Notigen 버튼 클릭 이벤트
+    public void NotiGen_Click(View view) {
+        notiMaker.generateNotification(getApplicationContext());
+    }
+
+    //Notigen 버튼 클릭 이벤트
+    public void DataDelete_Click(View view) {
+        dataManager.reset();
     }
 }
