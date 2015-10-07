@@ -36,4 +36,20 @@
         android:layout_alignTop="@+id/main_button_execute"
         android:layout_toEndOf="@+id/main_button_execute" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/main_button_readlog"
+        android:id="@+id/main_button_readlog"
+        android:onClick="ReadLog_Click"
+        android:layout_below="@+id/main_button_notigen"
+        android:layout_alignParentStart="true" />
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/main_progressBar"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
 </RelativeLayout>

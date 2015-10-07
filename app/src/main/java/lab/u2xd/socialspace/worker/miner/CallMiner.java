@@ -3,41 +3,59 @@ package lab.u2xd.socialspace.worker.miner;
 import android.util.Log;
 
 import lab.u2xd.socialspace.worker.object.RefinedData;
+import lab.u2xd.socialspace.worker.warehouse.DataManager;
+import lab.u2xd.socialspace.worker.warehouse.Datastone;
 
 /**
  * Created by yim on 2015-10-01.
  */
 public class CallMiner extends PhoneLogMiner {
 
-    public CallMiner() {
-        super(PhoneLogMiner.URI_CALL, PhoneLogMiner.CALL_PROJECTION, PhoneLogMiner.DEFAULT_SORT_ORDER);
+    private static CallMiner object;
+
+    private CallMiner() {
+        super(URI_CALL, CALL_PROJECTION, DEFAULT_SORT_ORDER);
+    }
+
+    public static CallMiner getMiner() {
+        if(object == null) {
+            object = new CallMiner();
+        }
+        return object;
     }
 
     @Override
-    protected void getAllLog(boolean isIndependent) {
+    protected void drillDatamine() {
         curBasic = context.getContentResolver().query(contentUri, qeuryProjection, null, null, sortOrder);
         Log.e("PhoneLogMiner", "Call Reading Complete : " + contentUri.toString() + ", " + sortOrder);
-        listQueriedResult.clear();
+        listdata.clear();
 
         if(curBasic.moveToFirst()) {
             for(int i = 0; i < curBasic.getCount(); i++) {
-                Integer phonecalltype = curBasic.getInt(5);
-                RefinedData data = new RefinedData("Call", curBasic.getString(2), phonecalltype.toString());
+                Datastone datastone = new Datastone();
 
-                if(phonecalltype == 2) {
-                    String temp = data.Agent;
-                    data.Agent = data.Target;
-                    data.Target = temp;
+                int iType = curBasic.getInt(5);
+
+                String sFrom = "";
+                String sTo = "";
+                if(iType == 2) {
+                    sFrom = "Me";
+                    sTo = curBasic.getString(2);
+                } else {
+                    sFrom = curBasic.getString(2);
+                    sTo = "Me";
                 }
 
-                data.Time = curBasic.getLong(3);
+                datastone.put(DataManager.FIELD_TYPE, DataManager.CONTEXT_TYPE_CALL);
+                datastone.put(DataManager.FIELD_AGENT, sFrom);
+                datastone.put(DataManager.FIELD_TARGET, sTo);
+                datastone.put(DataManager.FIELD_TIME, System.currentTimeMillis());
+                datastone.put(DataManager.FIELD_CONTENT, "통화 종류: " + iType);
 
-                listQueriedResult.add(data);
+                listdata.add(datastone);
+
                 curBasic.moveToNext();
             }
-        }
-        if(isIndependent) {
-            callback.onQuery_Data(listQueriedResult.toArray(new RefinedData[0]));
         }
     }
 }

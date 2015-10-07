@@ -7,5 +7,6 @@
     <string name="main_button_execute">데이터 조회</string>
     <string name="main_button_datadelete">데이터 삭제</string>
     <string name="main_button_notigen">알림 생성</string>
+    <string name="main_button_readlog">문자, 통화기록 읽기</string>
 
 </resources>

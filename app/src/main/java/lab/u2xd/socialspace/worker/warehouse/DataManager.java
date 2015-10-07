@@ -1,4 +1,4 @@
-package lab.u2xd.socialspace.worker;
+package lab.u2xd.socialspace.worker.warehouse;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -7,14 +7,17 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Environment;
 import android.provider.BaseColumns;
-import android.service.notification.StatusBarNotification;
 import android.util.Log;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.Objects;
+import java.util.Queue;
 
 import lab.u2xd.socialspace.worker.object.RefinedData;
 
@@ -23,9 +26,11 @@ import lab.u2xd.socialspace.worker.object.RefinedData;
  */
 public class DataManager extends SQLiteOpenHelper implements BaseColumns {
 
+    private static DataManager object;
+
     public static final String NAME_DATABASE = "ContextDatabase";
     public static final String NAME_TABLE = "ContextData";
-    public static final int VERSION_DATABASE = 9;
+    public static final int VERSION_DATABASE = 10;
 
     public static final String FIELD_TYPE = "Type";
     public static final String FIELD_AGENT = "Agent";
@@ -33,7 +38,10 @@ public class DataManager extends SQLiteOpenHelper implements BaseColumns {
     public static final String FIELD_TIME = "Time";
     public static final String FIELD_CONTENT = "Content";
 
-    public static final String TYPE_KAKAOTALK = "KakaoTalk";
+    public static final String CONTEXT_TYPE_KAKAOTALK = "KakaoTalk";
+    public static final String CONTEXT_TYPE_CALL = "Call";
+    public static final String CONTEXT_TYPE_SMS = "SMS";
+    public static final String CONTEXT_TYPE_MMS = "MMS";
 
     private static final String SQL_CREATE_TABLE = "CREATE TABLE " + NAME_TABLE + "(" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
             FIELD_TYPE + " TEXT, " +
@@ -46,13 +54,25 @@ public class DataManager extends SQLiteOpenHelper implements BaseColumns {
 
     private static final String FILENAME_CSV = "CurrentDatabase.csv";
 
-    public DataManager(Context context) {
-        this(context, NAME_DATABASE, null, VERSION_DATABASE);
-    }
+    //---------------------------------------------------------------------------------------------//
+    private Queue<QueryRequest> listRequest;
+    private boolean isWorking = false;
+
+    private ArrayList<Queryable> listCallback;
+    //---------------------------------------------------------------------------------------------//
 
     private DataManager(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
         getWritableDatabase();
+        listRequest = new LinkedList<>();
+        listCallback = new ArrayList<>();
+    }
+
+    public static DataManager getManager(Context context) {
+        if(object == null) {
+            object = new DataManager(context.getApplicationContext(), NAME_DATABASE, null, VERSION_DATABASE);
+        }
+        return object;
     }
 
     @Override
@@ -83,16 +103,79 @@ public class DataManager extends SQLiteOpenHelper implements BaseColumns {
         Log.e("Data Manager", "Here is something to work!");
     }
 
-    @Deprecated
-    public void setStatusBarNotification(StatusBarNotification sbn) {
-        Log.e("Data Manager", "I got a notification data.");
-
-        //TODO 넣어야 할 데이터 수정 할 것
-        insertData(getWritableDatabase(), sbn.getPackageName(), sbn.getNotification().extras.getString(MinerManager.EXTRA_TITLE),
-                "Me", System.currentTimeMillis(), sbn.getNotification().extras.getString(MinerManager.EXTRA_TEXT));
-        close();
+    //---------------------------------------------------------------------------------------------//
+    private void wake() {
+        if(isWorking) {
+            Log.e("Data Manager","I am already awaken!");
+        } else {
+            Log.e("Data Manager","Whoa! Ok, Ok, I am working.");
+            isWorking = true;
+            Thread work = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    work();
+                    if(listCallback.size() > 0) {
+                        for(int i = 0; i < listCallback.size(); i++) {
+                            listCallback.get(i).onFinish_Query();
+                        }
+                    }
+                }
+            });
+            work.start();
+        }
     }
 
+    // TODO: 2015-10-05 전화 및 문자 메시지 쿼리 완성할 것 
+    
+    private void work() {
+        QueryRequest request;
+        SQLiteDatabase db = getWritableDatabase();
+        long newid = 0;
+
+        while (isWorking) {
+            if(listRequest.size() == 0) {
+                isWorking = false;
+            } else {
+                request = listRequest.poll();
+                ContentValues values = request.getData().refineToContentValues();
+
+                newid = db.insert(NAME_TABLE, null, values);
+                if(newid != 0) {
+                    Log.e("Data Manager", "I save data in " + newid);
+                } else {
+                    Log.e("Data Manager", "I failed to save data");
+                }
+            }
+        }
+    }
+
+    public void queryInsert(Datastone data) {
+        listRequest.add(new QueryRequest(data, QueryRequest.QUERY_TYPE_INSERT));
+        wake();
+    }
+
+    @Deprecated
+    public void registerCallback(Queryable callback) {
+        if(listCallback.size() <= 0) {
+            listCallback.add(callback);
+            Log.e("Data Manager", "Registering Complete");
+        } else {
+            boolean isNotExist = true;
+            for(int i = 0; i < listCallback.size(); i++) {
+                if(listCallback.get(i) == callback) {
+                    isNotExist = false;
+                }
+            }
+            if(isNotExist) {
+                listCallback.add(callback);
+                Log.e("Data Manager", "Registering Complete");
+            }
+        }
+    }
+
+    //---------------------------------------------------------------------------------------------//
+    /* Todo: 데이터 매니저 새로 설계, 아래 메서드들은 추후 정리되거나 삭제되어야 함.
+     */
     public void setRefinedData(RefinedData data) {
         insertData(getWritableDatabase(), data);
     }
@@ -109,12 +192,16 @@ public class DataManager extends SQLiteOpenHelper implements BaseColumns {
         return str;
     }
 
+
     public void reset() {
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL(SQL_DROP_TABLE);
         db.execSQL(SQL_CREATE_TABLE);
     }
 
+    //Todo: SQL 쿼리 요청하는 메서드들은 모두 query 구문을 붇여 구분
+    //Todo: 쿼리는 Queue에 저장하고 순차적으로 실행
+    //Todo: 쿼리는 독립 스레드로 처리
     private void insertData(SQLiteDatabase db, RefinedData data) {
         insertData(db, data.Type, data.Agent, data.Target, data.Time, data.Content);
     }

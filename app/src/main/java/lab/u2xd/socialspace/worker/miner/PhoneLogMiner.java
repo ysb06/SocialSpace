@@ -4,35 +4,33 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.CallLog;
-import android.provider.ContactsContract;
 import android.provider.ContactsContract.CommonDataKinds.Phone;
 import android.provider.Telephony;
 import android.util.Log;
 
 import java.util.ArrayList;
 
-import lab.u2xd.socialspace.worker.object.Queryable;
-import lab.u2xd.socialspace.worker.object.RefinedData;
+import lab.u2xd.socialspace.worker.warehouse.Datastone;
 
 /**
  * Created by ysb on 2015-09-11.
  */
 public abstract class PhoneLogMiner {
 
-    final public static String DEFAULT_SORT_ORDER = "date DESC";
+    final protected static String DEFAULT_SORT_ORDER = "date DESC";
 
-    final public static Uri URI_CALL = CallLog.Calls.CONTENT_URI;
-    final public static Uri URI_SMS = Uri.parse("content://sms");
-    final public static Uri URI_MMS = Uri.parse("content://mms");
-    final public static Uri URI_CONTACT = Phone.CONTENT_URI;
+    final protected static Uri URI_CALL = CallLog.Calls.CONTENT_URI;
+    final protected static Uri URI_SMS = Uri.parse("content://sms");
+    final protected static Uri URI_MMS = Uri.parse("content://mms");
+    final protected static Uri URI_CONTACT = Phone.CONTENT_URI;
 
-    final public static String[] CALL_PROJECTION
+    final protected static String[] CALL_PROJECTION
             = { CallLog.Calls.TYPE, CallLog.Calls.NUMBER, CallLog.Calls.CACHED_NAME, CallLog.Calls.DATE, CallLog.Calls.DURATION, CallLog.Calls.TYPE };
-    final public static String[] SMS_PROJECTION
+    final protected static String[] SMS_PROJECTION
             = { Telephony.Sms._ID, Telephony.Sms.THREAD_ID, Telephony.Sms.ADDRESS, Telephony.Sms.DATE, Telephony.Sms.DATE_SENT, Telephony.Sms.TYPE };
-    final public static String[] MMS_PROJECTION
+    final protected static String[] MMS_PROJECTION
             = { Telephony.Mms._ID, Telephony.Mms.THREAD_ID, Telephony.Mms.SUBJECT, Telephony.Mms.DATE, Telephony.Mms.DATE_SENT, Telephony.Mms.MESSAGE_BOX };
-    final public static String[] CONTACT_PROJECTION
+    final protected static String[] CONTACT_PROJECTION
             = { Phone.NUMBER, Phone.DISPLAY_NAME };
 
     public static final String TYPE_CALL = "Call";
@@ -46,29 +44,29 @@ public abstract class PhoneLogMiner {
     protected Context context;
 
     protected Cursor curBasic;
-    protected ArrayList<RefinedData> listQueriedResult;
+    protected ArrayList<Datastone> listdata;
 
-    protected Queryable callback;
-
-    public PhoneLogMiner(Uri ContentURI, String[] QeuryProjection, String SortOrder) {
-        listQueriedResult = new ArrayList<>();
+    protected PhoneLogMiner(Uri ContentURI, String[] QeuryProjection, String SortOrder) {
+        listdata = new ArrayList<>();
         contentUri = ContentURI;
         sortOrder = SortOrder;
         qeuryProjection = QeuryProjection;
     }
 
-    abstract protected void getAllLog(boolean isIndependent);
+    /** 데이터 수집 작업 실행 */
+    abstract protected void drillDatamine();
 
     /** 지정된 위치의 데이터 수집
      *
      * @param context 현재 액티비티 Context
      */
-    public RefinedData[] queryAllPastData(Context context) {
+    public Datastone[] mineAllData(Context context) {
         Log.e("PhoneLogMiner", "Data Reading...");
-        this.context = context;
-        getAllLog(false);
+        this.context = context.getApplicationContext();
 
-        return listQueriedResult.toArray(new RefinedData[0]);
+        drillDatamine();
+
+        return listdata.toArray(new Datastone[0]);
     }
 
     /** 지정된 위치의 데이터 쓰레드 독립적으로 수집
@@ -76,16 +74,16 @@ public abstract class PhoneLogMiner {
      * @param context 현재 액티비티 Context
      * @param callback 쿼리 완료 후 호출할 콜백 함수
      */
-    public void queryAllPastData(Context context, Queryable callback) {
+    public void mineAllData(Context context, final Minable callback) {
         Log.e("PhoneLogMiner", "Data Reading independantly...");
-        this.context = context;
+        this.context = context.getApplicationContext();
         Thread worker = new Thread(new Runnable() {
             @Override
             public void run() {
-                getAllLog(true);
+                drillDatamine();
+                callback.onFinish_Request(listdata.toArray(new Datastone[0]));
             }
         });
         worker.start();
-        this.callback = callback;
     }
 }
