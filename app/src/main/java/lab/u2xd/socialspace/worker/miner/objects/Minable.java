@@ -1,6 +1,6 @@
-package lab.u2xd.socialspace.worker.miner;
+package lab.u2xd.socialspace.worker.miner.objects;
 
-import lab.u2xd.socialspace.worker.warehouse.Datastone;
+import lab.u2xd.socialspace.worker.warehouse.objects.Datastone;
 
 /**
  * Created by yim on 2015-09-07.

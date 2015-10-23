@@ -1,4 +1,4 @@
-package lab.u2xd.socialspace.worker.warehouse;
+package lab.u2xd.socialspace.worker.warehouse.objects;
 
 import android.content.ContentValues;
 
@@ -91,5 +91,13 @@ public class Datastone {
         }
 
         return values;
+    }
+
+    public String[] refineToStringList() {
+        String[] list = new String[listColumn.size()];
+        for(int i = 0; i < listColumn.size(); i++) {
+            list[i] = (String) listValue.get(listColumn.get(i));
+        }
+        return list;
     }
 }

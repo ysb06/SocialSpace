@@ -1,4 +1,4 @@
-package lab.u2xd.socialspace.worker.warehouse;
+package lab.u2xd.socialspace.worker.warehouse.objects;
 
 /**
  * Created by yim on 2015-09-07.

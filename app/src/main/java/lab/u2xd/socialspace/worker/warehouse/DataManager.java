@@ -16,10 +16,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
-import java.util.Objects;
 import java.util.Queue;
 
+import lab.u2xd.socialspace.worker.miner.ContactMiner;
 import lab.u2xd.socialspace.worker.object.RefinedData;
+import lab.u2xd.socialspace.worker.warehouse.objects.Datastone;
+import lab.u2xd.socialspace.worker.warehouse.objects.QueryRequest;
+import lab.u2xd.socialspace.worker.warehouse.objects.Queryable;
 
 /**
  * Created by ysb on 2015-09-30.
@@ -29,8 +32,9 @@ public class DataManager extends SQLiteOpenHelper implements BaseColumns {
     private static DataManager object;
 
     public static final String NAME_DATABASE = "ContextDatabase";
-    public static final String NAME_TABLE = "ContextData";
-    public static final int VERSION_DATABASE = 10;
+    public static final String NAME_MAINTABLE = "ContextData";
+    public static final String NAME_CONTACTTABLE = "ContactsData";
+    public static final int VERSION_DATABASE = 12;
 
     public static final String FIELD_TYPE = "Type";
     public static final String FIELD_AGENT = "Agent";
@@ -38,21 +42,32 @@ public class DataManager extends SQLiteOpenHelper implements BaseColumns {
     public static final String FIELD_TIME = "Time";
     public static final String FIELD_CONTENT = "Content";
 
+    public static final String FIELD_NUMBER = "Number";
+    public static final String FIELD_NAME = "Name";
+
     public static final String CONTEXT_TYPE_KAKAOTALK = "KakaoTalk";
+    public static final String CONTEXT_TYPE_FACEBOOK= "Facebook";
     public static final String CONTEXT_TYPE_CALL = "Call";
     public static final String CONTEXT_TYPE_SMS = "SMS";
     public static final String CONTEXT_TYPE_MMS = "MMS";
 
-    private static final String SQL_CREATE_TABLE = "CREATE TABLE " + NAME_TABLE + "(" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+    private static final String SQL_CREATE_MAINTABLE = "CREATE TABLE " + NAME_MAINTABLE + "(" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
             FIELD_TYPE + " TEXT, " +
             FIELD_AGENT + " TEXT, " +
             FIELD_TARGET + " TEXT, " +
             FIELD_TIME + " INTEGER, " +
             FIELD_CONTENT + " TEXT)";
-    private static final String SQL_DROP_TABLE = "DROP TABLE IF EXISTS " + NAME_TABLE;
-    private static final String SQL_GET_ALL = "SELECT * FROM " + NAME_TABLE;
+    private static final String SQL_DROP_MAINTABLE = "DROP TABLE IF EXISTS " + NAME_MAINTABLE;
+    private static final String SQL_GET_ALLMAIN = "SELECT * FROM " + NAME_MAINTABLE;
+    private static final String SQL_CREATE_CONTACTTABLE ="CREATE TABLE " + NAME_CONTACTTABLE + "(" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            FIELD_NUMBER + " TEXT, " +
+            FIELD_NAME + " TEXT)";
+    private static final String SQL_DROP_CONTACTTABLE = "DROP TABLE IF EXISTS " + NAME_CONTACTTABLE;
+    private static final String SQL_GET_ALLCONTACT = "SELECT * FROM " + NAME_CONTACTTABLE;
 
     private static final String FILENAME_CSV = "CurrentDatabase.csv";
+
+
 
     //---------------------------------------------------------------------------------------------//
     private Queue<QueryRequest> listRequest;
@@ -60,12 +75,27 @@ public class DataManager extends SQLiteOpenHelper implements BaseColumns {
 
     private ArrayList<Queryable> listCallback;
     //---------------------------------------------------------------------------------------------//
+    private Context context;
+    private ContactMiner contactMiner;
 
     private DataManager(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
-        getWritableDatabase();
         listRequest = new LinkedList<>();
         listCallback = new ArrayList<>();
+
+        contactMiner = new ContactMiner();
+        this.context = context;
+        getWritableDatabase();
+    }
+
+    private void initializeContact(SQLiteDatabase db, Context context) {
+        db.execSQL(SQL_DROP_CONTACTTABLE);
+        db.execSQL(SQL_CREATE_CONTACTTABLE);
+        Datastone[] stones = contactMiner.mineAllData(context);
+
+        for(int i = 0; i < stones.length; i++) {
+            queryInsert(NAME_CONTACTTABLE, stones[i]);
+        }
     }
 
     public static DataManager getManager(Context context) {
@@ -78,14 +108,15 @@ public class DataManager extends SQLiteOpenHelper implements BaseColumns {
     @Override
     public void onCreate(SQLiteDatabase db) {
         Log.e("Data Manager", "I am making database! " + db.isOpen());
-        db.execSQL(SQL_CREATE_TABLE);
+        db.execSQL(SQL_CREATE_MAINTABLE);
         insertData(db, "General", "Me", "Me", 0, "Success!!");
+        initializeContact(db, context);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         Log.e("Data Manager", "I am making database, again!");
-        db.execSQL(SQL_DROP_TABLE);
+        db.execSQL(SQL_DROP_MAINTABLE);
         onCreate(db);
     }
 
@@ -94,13 +125,8 @@ public class DataManager extends SQLiteOpenHelper implements BaseColumns {
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         Log.e("Data Manager", "I am making old database, again!");
         super.onDowngrade(db, oldVersion, newVersion);
-        db.execSQL(SQL_DROP_TABLE);
+        db.execSQL(SQL_DROP_MAINTABLE);
         onCreate(db);
-    }
-
-    @Override
-    public void onOpen(SQLiteDatabase db) {
-        Log.e("Data Manager", "Here is something to work!");
     }
 
     //---------------------------------------------------------------------------------------------//
@@ -110,7 +136,7 @@ public class DataManager extends SQLiteOpenHelper implements BaseColumns {
         } else {
             Log.e("Data Manager","Whoa! Ok, Ok, I am working.");
             isWorking = true;
-            Thread work = new Thread(new Runnable() {
+            Thread tWork = new Thread(new Runnable() {
                 @Override
                 public void run() {
                     work();
@@ -121,11 +147,11 @@ public class DataManager extends SQLiteOpenHelper implements BaseColumns {
                     }
                 }
             });
-            work.start();
+            tWork.start();
         }
     }
 
-    // TODO: 2015-10-05 전화 및 문자 메시지 쿼리 완성할 것 
+    // TODO: 2015-10-05 전화 및 문자 메시지 이벤트 데이터 저장 기능 완성할 것
     
     private void work() {
         QueryRequest request;
@@ -139,19 +165,38 @@ public class DataManager extends SQLiteOpenHelper implements BaseColumns {
                 request = listRequest.poll();
                 ContentValues values = request.getData().refineToContentValues();
 
-                newid = db.insert(NAME_TABLE, null, values);
+                newid = db.insert(request.getTableName(), null, values);
                 if(newid != 0) {
-                    Log.e("Data Manager", "I save data in " + newid);
+                    Log.e("Data Manager", "I save data in " + newid + " at " + request.getTableName());
                 } else {
                     Log.e("Data Manager", "I failed to save data");
                 }
             }
         }
+        Log.e("Data Manager", "Query Processing Complete");
     }
 
     public void queryInsert(Datastone data) {
         listRequest.add(new QueryRequest(data, QueryRequest.QUERY_TYPE_INSERT));
         wake();
+    }
+
+    public void queryInsert(String table, Datastone data) {
+        listRequest.add(new QueryRequest(table, data, QueryRequest.QUERY_TYPE_INSERT));
+        wake();
+    }
+
+    public String getNameOfNumber(String AgentPhoneNumber) {
+        SQLiteDatabase db = getWritableDatabase();
+        //Cursor cursor = db.query(NAME_CONTACTTABLE, new String[]{ FIELD_NAME }, FIELD_NUMBER + "=" + AgentPhoneNumber, null, null, null, null);
+        Cursor cursor = getReadableDatabase().rawQuery(SQL_GET_ALLCONTACT, null);
+        while(cursor.moveToNext()) {
+            Log.e("Data Manager", cursor.getString(1) + ", " + cursor.getString(2));
+            if(cursor.getString(1).equals(AgentPhoneNumber)) {
+                return cursor.getString(2);
+            }
+        }
+        return "Unknown";
     }
 
     @Deprecated
@@ -173,16 +218,15 @@ public class DataManager extends SQLiteOpenHelper implements BaseColumns {
         }
     }
 
+
     //---------------------------------------------------------------------------------------------//
-    /* Todo: 데이터 매니저 새로 설계, 아래 메서드들은 추후 정리되거나 삭제되어야 함.
-     */
     public void setRefinedData(RefinedData data) {
         insertData(getWritableDatabase(), data);
     }
 
     public String showAllData() {
         String str = "";
-        Cursor cursor = getReadableDatabase().rawQuery(SQL_GET_ALL, null);
+        Cursor cursor = getReadableDatabase().rawQuery(SQL_GET_ALLMAIN, null);
 
         while(cursor.moveToNext()) {
             str += cursor.getInt(0) + " : " + cursor.getString(1) + ", Agent = " + cursor.getString(2) +
@@ -195,13 +239,10 @@ public class DataManager extends SQLiteOpenHelper implements BaseColumns {
 
     public void reset() {
         SQLiteDatabase db = getWritableDatabase();
-        db.execSQL(SQL_DROP_TABLE);
-        db.execSQL(SQL_CREATE_TABLE);
+        db.execSQL(SQL_DROP_MAINTABLE);
+        db.execSQL(SQL_CREATE_MAINTABLE);
     }
 
-    //Todo: SQL 쿼리 요청하는 메서드들은 모두 query 구문을 붇여 구분
-    //Todo: 쿼리는 Queue에 저장하고 순차적으로 실행
-    //Todo: 쿼리는 독립 스레드로 처리
     private void insertData(SQLiteDatabase db, RefinedData data) {
         insertData(db, data.Type, data.Agent, data.Target, data.Time, data.Content);
     }
@@ -215,7 +256,7 @@ public class DataManager extends SQLiteOpenHelper implements BaseColumns {
         values.put(FIELD_CONTENT, content);
 
         long newid = 0;
-        newid = db.insert(NAME_TABLE, null, values);
+        newid = db.insert(NAME_MAINTABLE, null, values);
         if(newid != 0) {
             Log.e("Data Manager", "I save data in " + newid);
         } else {
@@ -225,7 +266,7 @@ public class DataManager extends SQLiteOpenHelper implements BaseColumns {
 
     public void exportDatabase() {
         String str = "ID,Type,Agent,Target,Time,Content\r\n";
-        Cursor cursor = getReadableDatabase().rawQuery(SQL_GET_ALL, null);
+        Cursor cursor = getReadableDatabase().rawQuery(SQL_GET_ALLMAIN, null);
         while(cursor.moveToNext()) {
             str += cursor.getString(0) + "," + cursor.getString(1) + "," + cursor.getString(2) + "," + cursor.getString(3) + ","
                     + new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Date(cursor.getLong(4))) + "," + cursor.getString(5) + "\r\n";

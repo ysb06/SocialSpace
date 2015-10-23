@@ -1,6 +1,8 @@
 package lab.u2xd.socialspace.worker.miner;
 
+import android.annotation.TargetApi;
 import android.app.Notification;
+import android.os.Build;
 import android.os.Environment;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
@@ -13,12 +15,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import lab.u2xd.socialspace.worker.warehouse.DataManager;
-import lab.u2xd.socialspace.worker.object.RefinedData;
-import lab.u2xd.socialspace.worker.warehouse.Datastone;
+import lab.u2xd.socialspace.worker.warehouse.objects.Datastone;
 
 /** 데이터 획득 서비스, 항시 백그라운드에 상주하며
  * Created by ysb on 2015-09-25.
  */
+@TargetApi(Build.VERSION_CODES.KITKAT)
 public class NotificationMiner extends NotificationListenerService {
 
     public static final String EXTRA_TITLE = "android.title";
@@ -33,7 +35,7 @@ public class NotificationMiner extends NotificationListenerService {
 
     @Override
     public void onCreate() {
-        Log.e("Miner Manager", "We are starting to work");
+        Log.e("Notification Miner", "We are starting to work");
         dbManager = DataManager.getManager(this);
 
         /*
@@ -52,7 +54,7 @@ public class NotificationMiner extends NotificationListenerService {
 
     @Override
     public void onDestroy() {
-        Log.e("Miner Manager", "We are finishing working");
+        Log.e("Notification Miner", "We are finishing working");
         dbManager.close();
     }
 
@@ -66,7 +68,7 @@ public class NotificationMiner extends NotificationListenerService {
 
     @Override
     public void onNotificationRemoved(StatusBarNotification sbn) {
-        Log.e("Miner Manager", "I feel something disappeared!");
+        Log.e("Notification Miner", "I feel something disappeared!");
     }
 
     /** 상태 바 알림을 Datastone으로 가공
@@ -75,25 +77,54 @@ public class NotificationMiner extends NotificationListenerService {
      * @return 가공된 데이터
      */
     private Datastone mineStatusBarNotification(StatusBarNotification sbn) {
-        Log.e("Notification Miner", "I found something");
-
         Notification noti = sbn.getNotification();
+        Datastone datastone = new Datastone();
 
-        if(sbn.getPackageName().equals("com.kakao.talk")) {
+        Log.e("Notification Miner", "I found something -> " + sbn.getPackageName());
+
+        if(sbn.getPackageName().equals("com.kakao.talk")) {                     //카카오톡
             Log.e("Notification Miner", "It is KakaoTalk data!");
-            Datastone datastone = new Datastone();
 
             datastone.put(DataManager.FIELD_TYPE, DataManager.CONTEXT_TYPE_KAKAOTALK);
             datastone.put(DataManager.FIELD_AGENT, noti.extras.getString(EXTRA_TITLE));
             datastone.put(DataManager.FIELD_TARGET, "Me");
             datastone.put(DataManager.FIELD_TIME, System.currentTimeMillis());
             datastone.put(DataManager.FIELD_CONTENT, noti.extras.getString(EXTRA_TEXT));
+        } else if(sbn.getPackageName().equals("com.facebook.katana")) {         //페이스북
+            Log.e("Notification Miner", "Facebook data!");
 
-            return datastone;
+            String str = noti.extras.getString(EXTRA_TEXT);
+            String sAgent = "";
+            int iIndexSTR = str.indexOf("님이");
+            if(iIndexSTR != -1) {
+                sAgent = str.substring(0, iIndexSTR);
+            } else {
+                sAgent = "Unknown";
+            }
+            datastone.put(DataManager.FIELD_TYPE, DataManager.CONTEXT_TYPE_FACEBOOK);
+            datastone.put(DataManager.FIELD_AGENT, sAgent);
+            datastone.put(DataManager.FIELD_TARGET, "Me");
+            datastone.put(DataManager.FIELD_TIME, System.currentTimeMillis());
+            datastone.put(DataManager.FIELD_CONTENT, "타임라인");
+        } else if(sbn.getPackageName().equals("com.facebook.orca")) {           //페이스북 메신저
+            String sTitle = noti.extras.getString(EXTRA_TITLE);
+            if(sTitle.equals("null")) {
+                Log.e("Notification Miner", "It looks Facebook message data, but it is not, I think.");
+                return null;
+            } else {
+                Log.e("Notification Miner", "Facebook message data!");
+
+                datastone.put(DataManager.FIELD_TYPE, DataManager.CONTEXT_TYPE_FACEBOOK);
+                datastone.put(DataManager.FIELD_AGENT, sTitle);
+                datastone.put(DataManager.FIELD_TARGET, "Me");
+                datastone.put(DataManager.FIELD_TIME, System.currentTimeMillis());
+                datastone.put(DataManager.FIELD_CONTENT, noti.extras.getString(EXTRA_TEXT));
+            }
         } else {
             Log.e("Notification Miner", "It is nothing. Sorry");
             return null;
         }
+        return datastone;
     }
 
     private String getNotificationLog(StatusBarNotification sbn) {
@@ -141,4 +172,5 @@ public class NotificationMiner extends NotificationListenerService {
             return false;
         }
     }
+    // TODO: 2015-10-12 안드로이드 젤리빈 이전 버전에 대한 지원 추가
 }
