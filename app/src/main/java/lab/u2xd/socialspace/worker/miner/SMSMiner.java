@@ -3,6 +3,11 @@ package lab.u2xd.socialspace.worker.miner;
 import android.content.Context;
 import android.util.Log;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
+
 import lab.u2xd.socialspace.worker.warehouse.DataManager;
 import lab.u2xd.socialspace.worker.warehouse.objects.Datastone;
 
@@ -26,38 +31,42 @@ public class SMSMiner extends PhoneLogMiner {
         dataManager = DataManager.getManager(context);
     }
 
-    // TODO: 2015-10-07 ⓐ 휴대폰 연락처들을 읽어 ⓑ 전화번호를 저장된 이름으로 변경해서 ⓒ 데이터베이스에 저장되도록 할 것
-
     @Override
     protected void drillDatamine() {
         Log.e("SMS Miner", "SMS Reading Complete : " + contentUri.toString() + ", " + sortOrder);
 
         if(curBasic.moveToFirst()) {
             for(int i = 0; i < curBasic.getCount(); i++) {
-                Datastone datastone = new Datastone();
-
-                int iType = curBasic.getInt(5);
-
-                String sFrom = "";
-                String sTo = "";
-                if(iType == 2) {
-                    sFrom = "Me";
-                    sTo = dataManager.getNameOfNumber(curBasic.getString(2));
-                } else {
-                    sFrom = dataManager.getNameOfNumber(curBasic.getString(2));
-                    sTo = "Me";
-                }
-
-                datastone.put(DataManager.FIELD_TYPE, DataManager.CONTEXT_TYPE_SMS);
-                datastone.put(DataManager.FIELD_AGENT, sFrom);
-                datastone.put(DataManager.FIELD_TARGET, sTo);
-                datastone.put(DataManager.FIELD_TIME, curBasic.getLong(3));
-                datastone.put(DataManager.FIELD_CONTENT, "문자 종류: " + iType);
-
-                listdata.add(datastone);
-
+                listdata.add(extractCurrentDatastone());
                 curBasic.moveToNext();
             }
         }
+    }
+
+    private Datastone extractCurrentDatastone() {
+        Datastone datastone = new Datastone();
+
+        int iType = curBasic.getInt(5);
+
+        String sType = "";
+        switch (iType) {
+            case 1:
+                sType = "받기 Receive";
+                break;
+            case 2:
+                sType = "보내기 Send";
+                break;
+            default:
+                sType = "오류 Error " + iType;
+                break;
+        }
+
+        datastone.put(DataManager.FIELD_TYPE, DataManager.CONTEXT_TYPE_SMS);
+        datastone.put(DataManager.FIELD_AGENT, dataManager.getNameOfNumber(curBasic.getString(2)));
+        datastone.put(DataManager.FIELD_TARGET, "Me");
+        datastone.put(DataManager.FIELD_TIME, curBasic.getLong(3));
+        datastone.put(DataManager.FIELD_CONTENT, "문자 종류: " + sType + ", 길이: " + curBasic.getString(5).length());
+
+        return datastone;
     }
 }

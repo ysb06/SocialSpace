@@ -9,17 +9,19 @@ import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
+import lab.u2xd.socialspace.worker.warehouse.DataManager;
+import lab.u2xd.socialspace.worker.warehouse.objects.Datastone;
+
 /**
  * Created by ysb on 2015-10-12.
  */
 public class CallEventMiner extends Service {
 
-    // TODO: 2015-10-23 실시간으로 전화 수신 및 문자 수신 이벤트 저장 기능 추가할 것
     private CallEventPickaxe pickaxe;
 
     @Override
     public void onCreate() {
-        pickaxe = new CallEventPickaxe();
+        pickaxe = new CallEventPickaxe(this);
         ((TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE)).listen(pickaxe, PhoneStateListener.LISTEN_CALL_STATE);
     }
 
@@ -42,14 +44,31 @@ public class CallEventMiner extends Service {
 }
 
 class CallEventPickaxe extends PhoneStateListener {
+
+    private Context context;
+    private DataManager dbManager;
+
+    private boolean isCallEvent = false;
+
+    public CallEventPickaxe(Context context) {
+        this.context = context.getApplicationContext();
+        dbManager = DataManager.getManager(this.context);
+    }
+
     @Override
     public void onCallStateChanged(int state, String incomingNumber) {
         switch (state) {
             case 0:     //아무 통화가 없는 상태, 전화 끊음
+                if(isCallEvent) {
+                    CallMiner.getMiner().mineLatestData(context);
+                }
+                isCallEvent = false;
                 break;
-            case 1:     //전화 수신
+            case 1:     //상대방 전화
+                isCallEvent = true;
                 break;
-            case 2:     //통화 중
+            case 2:     //나의 전화
+                isCallEvent = true;
                 break;
             default:
                 break;

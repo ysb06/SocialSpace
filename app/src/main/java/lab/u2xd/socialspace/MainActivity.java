@@ -12,9 +12,12 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 import lab.u2xd.socialspace.worker.miner.CallEventMiner;
 import lab.u2xd.socialspace.worker.miner.CallMiner;
@@ -34,6 +37,8 @@ public class MainActivity extends AppCompatActivity implements Queryable{
     DataManager dataManager;
 
     //UI
+    ArrayList<View> listView;
+    EditText textInputBox;
     TextView textView;
     ProgressBar bar;
 
@@ -52,15 +57,24 @@ public class MainActivity extends AppCompatActivity implements Queryable{
         notiMaker = new NotificationGenerator(this);
         dataManager = DataManager.getManager(this);
 
+        textInputBox = (EditText) findViewById(R.id.adminPass);
         textView = (TextView) findViewById(R.id.textView);
-
+        listView = new ArrayList<>();
+        listView.add(findViewById(R.id.main_button_execute));
+        listView.add(findViewById(R.id.main_button_notigen));
+        listView.add(findViewById(R.id.main_button_readlog));
+        listView.add(findViewById(R.id.main_button_datadelete));
+        listView.add(textView);
+        
         if(Build.VERSION.SDK_INT >= 19) {
             if (!isContainedInNotificationListeners(getApplicationContext())) {
                 Intent intent = new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
                 startActivityForResult(intent, 2222);
             }
+        } else if(Build.VERSION.SDK_INT >= 16) {
+
         } else {
-            Log.e("Main Activity", "Current SDK is under 19. This app may not work properly.");
+            Log.e("Main Activity", "Current SDK is under 16. This app may not work properly.");
             Toast.makeText(MainActivity.this, "Warning : This Device is using old Android", Toast.LENGTH_SHORT).show();
         }
         bar = (ProgressBar) findViewById(R.id.main_progressBar);
@@ -85,11 +99,10 @@ public class MainActivity extends AppCompatActivity implements Queryable{
         ActivityManager manager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
         for(ActivityManager.RunningServiceInfo info : manager.getRunningServices(Integer.MAX_VALUE)) {
             if(info.service.getClassName().equals("lab.u2xd.socialspace.worker.miner.CallEventMiner")) {
-                Log.e("Main Activity","The Service is running!");
+                Log.e("Main Activity","CallEvent Service is already running!");
                 return true;
             }
         }
-        Log.e("Main Activity","The Service is dead");
         return false;
     }
 
@@ -128,9 +141,7 @@ public class MainActivity extends AppCompatActivity implements Queryable{
     //Notigen 버튼 클릭 이벤트
     public void NotiGen_Click(View view) {
         notiMaker.generateNotification(getApplicationContext());
-        String console = "";
-        console = dataManager.getNameOfNumber("01000001234");
-        textView.setText(console);
+        textView.setText(dataManager.getNameOfNumber("01000001234"));
     }
 
     /**데이터 삭제 버튼 클릭 이벤트
@@ -148,6 +159,7 @@ public class MainActivity extends AppCompatActivity implements Queryable{
     public void ReadLog_Click(View view) {
         Datastone[] call = CallMiner.getMiner().mineAllData(this);
         Datastone[] sms = SMSMiner.getMiner(this).mineAllData(this);
+        // TODO: 2015-11-23 추후에는 문자는 데이터 업데이트 형식으로 읽을 것
         for(int i = 0; i < call.length; i++) {
             dataManager.queryInsert(call[i]);
         }
@@ -155,6 +167,15 @@ public class MainActivity extends AppCompatActivity implements Queryable{
             dataManager.queryInsert(sms[i]);
         }
         bar.setVisibility(View.VISIBLE);
+    }
+
+    public void Input_Click(View view) {
+        bar.setVisibility(View.INVISIBLE);
+        if(textInputBox.getText().toString().equals("u2xd lab")) {
+            for (int i = 0; i < listView.size(); i++) {
+                listView.get(i).setVisibility(View.VISIBLE);
+            }
+        }
     }
 
     @Override

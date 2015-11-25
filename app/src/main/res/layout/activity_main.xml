@@ -8,7 +8,8 @@
     <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textView"
-        android:layout_below="@+id/main_button_notigen"
+        android:visibility="invisible"
+        android:layout_below="@+id/main_button_readlog"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
@@ -18,9 +19,10 @@
         android:text="@string/main_button_execute"
         android:id="@+id/main_button_execute"
         android:onClick="Execute_Click"
-        android:layout_alignParentTop="true"
+        android:layout_below="@+id/adminPass"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:visibility="invisible" />
 
     <Button
         android:layout_width="wrap_content"
@@ -28,9 +30,10 @@
         android:text="@string/main_button_notigen"
         android:id="@+id/main_button_notigen"
         android:onClick="NotiGen_Click"
-        android:layout_below="@+id/main_button_execute"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:visibility="invisible"
+        android:layout_below="@+id/adminPass"
+        android:layout_toRightOf="@+id/main_button_execute"
+        android:layout_toEndOf="@+id/main_button_execute" />
 
     <Button
         android:layout_width="wrap_content"
@@ -38,9 +41,10 @@
         android:text="@string/main_button_datadelete"
         android:id="@+id/main_button_datadelete"
         android:onClick="DataDelete_Click"
-        android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/main_button_execute"
-        android:layout_toEndOf="@+id/main_button_execute" />
+        android:visibility="invisible"
+        android:layout_below="@+id/main_button_notigen"
+        android:layout_toRightOf="@+id/main_button_readlog"
+        android:layout_toEndOf="@+id/main_button_readlog" />
 
     <Button
         android:layout_width="wrap_content"
@@ -49,8 +53,9 @@
         android:id="@+id/main_button_readlog"
         android:onClick="ReadLog_Click"
         android:layout_below="@+id/main_button_execute"
-        android:layout_toRightOf="@+id/main_button_notigen"
-        android:layout_toEndOf="@+id/main_button_notigen" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:visibility="invisible" />
 
     <ProgressBar
         android:layout_width="wrap_content"
@@ -58,5 +63,25 @@
         android:id="@+id/main_progressBar"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:id="@+id/adminPass"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/main_button_input"
+        android:id="@+id/main_button_input"
+        android:layout_alignBottom="@+id/adminPass"
+        android:layout_toRightOf="@+id/adminPass"
+        android:layout_toEndOf="@+id/adminPass"
+        android:onClick="Input_Click" />
 
 </RelativeLayout>

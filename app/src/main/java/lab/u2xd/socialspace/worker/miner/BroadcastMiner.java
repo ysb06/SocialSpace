@@ -18,15 +18,21 @@ public class BroadcastMiner extends BroadcastReceiver {
         String action = intent.getAction();
         Log.e("Broadcast Miner", action);
         if(action.equals("lab.u2xd.socialspace.miner.PHONELOG")) {
-            Toast.makeText(context, "어플에서 보낸 신호를 잡았습니다", Toast.LENGTH_SHORT).show();
+            Log.w("Broadcast Miner","Internal Signal");
+
         } else if(action.equals("android.intent.action.PHONE_STATE")) {
-            Toast.makeText(context, "전화에 관련된 신호를 잡습니다", Toast.LENGTH_SHORT).show();
+            Log.w("Broadcast Miner","Calling State Changed");
+
+        } else if(action.equals("android.provider.Telephony.SMS_RECEIVED")) {
+            Log.w("Broadcast Miner","SMS Received");
+
         } else if(action.equals("android.intent.action.BOOT_COMPLETED")) {
             Log.w("Broadcast Miner","Booting Complete");
             Log.w("Broadcast Miner","I wake Call Event Miner");
-            context.startService(new Intent(context, CallEventMiner.class));
+            context.getApplicationContext().startService(new Intent(context, CallEventMiner.class));
+
         } else {
-            Toast.makeText(context, "무언가 신호를 잡습니다", Toast.LENGTH_SHORT).show();
+
         }
         //DataManager.getManager(context).queryInsert(null);
     }

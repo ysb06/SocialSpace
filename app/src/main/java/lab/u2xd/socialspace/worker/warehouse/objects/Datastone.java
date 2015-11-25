@@ -100,4 +100,13 @@ public class Datastone {
         }
         return list;
     }
+
+    @Override
+    public String toString() {
+        String str = "";
+        for(int i = 0; i < listColumn.size(); i++) {
+            str += "[" + i + "]" + " " + listColumn.get(i) + ":\t" + listValue.get(listColumn.get(i)) + "\t";
+        }
+        return str;
+    }
 }

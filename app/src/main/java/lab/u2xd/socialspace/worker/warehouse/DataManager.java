@@ -10,11 +10,12 @@ import android.provider.BaseColumns;
 import android.util.Log;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
+import java.nio.channels.FileChannel;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -65,6 +66,7 @@ public class DataManager extends SQLiteOpenHelper implements BaseColumns {
     private static final String SQL_DROP_CONTACTTABLE = "DROP TABLE IF EXISTS " + NAME_CONTACTTABLE;
     private static final String SQL_GET_ALLCONTACT = "SELECT * FROM " + NAME_CONTACTTABLE;
 
+    private static final String FILENNAME_BASE = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Context/";
     private static final String FILENAME_CSV = "CurrentDatabase.csv";
 
 
@@ -150,8 +152,6 @@ public class DataManager extends SQLiteOpenHelper implements BaseColumns {
             tWork.start();
         }
     }
-
-    // TODO: 2015-10-05 전화 및 문자 메시지 이벤트 데이터 저장 기능 완성할 것
     
     private void work() {
         QueryRequest request;
@@ -188,10 +188,8 @@ public class DataManager extends SQLiteOpenHelper implements BaseColumns {
 
     public String getNameOfNumber(String AgentPhoneNumber) {
         SQLiteDatabase db = getWritableDatabase();
-        //Cursor cursor = db.query(NAME_CONTACTTABLE, new String[]{ FIELD_NAME }, FIELD_NUMBER + "=" + AgentPhoneNumber, null, null, null, null);
         Cursor cursor = getReadableDatabase().rawQuery(SQL_GET_ALLCONTACT, null);
         while(cursor.moveToNext()) {
-            Log.e("Data Manager", cursor.getString(1) + ", " + cursor.getString(2));
             if(cursor.getString(1).equals(AgentPhoneNumber)) {
                 return cursor.getString(2);
             }
@@ -265,25 +263,51 @@ public class DataManager extends SQLiteOpenHelper implements BaseColumns {
     }
 
     public void exportDatabase() {
+        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+            File sd = new File(FILENNAME_BASE + "ExportedDB");
+            if(sd.mkdir()) {
+                Log.e("Data Manager", "Folder Created");
+            }
+            File data = Environment.getDataDirectory();
+            FileChannel source = null;
+            FileChannel destination = null;
+            String currentDBPath = "/data/" + "lab.u2xd.socialspace" +"/databases/" + NAME_DATABASE;
+            String backupDBPath = NAME_DATABASE + ".sqlite3";
+            File currentDB = new File(data, currentDBPath);
+            File backupDB = new File(sd, backupDBPath);
+
+            try {
+                source = new FileInputStream(currentDB).getChannel();
+                destination = new FileOutputStream(backupDB).getChannel();
+                destination.transferFrom(source, 0, source.size());
+                source.close();
+                destination.close();
+                Log.e("Data Manager", "Exporting DB Complete");
+            } catch(IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void exportDatabaseCSV() {
         String str = "ID,Type,Agent,Target,Time,Content\r\n";
         Cursor cursor = getReadableDatabase().rawQuery(SQL_GET_ALLMAIN, null);
         while(cursor.moveToNext()) {
             str += cursor.getString(0) + "," + cursor.getString(1) + "," + cursor.getString(2) + "," + cursor.getString(3) + ","
-                    + new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Date(cursor.getLong(4))) + "," + cursor.getString(5) + "\r\n";
+                    //+ new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Date(cursor.getLong(4))) + "," + cursor.getString(5) + "\r\n";
+                    + cursor.getLong(4) + "," + cursor.getString(5) + "\r\n";
         }
-        writeNew(str);
+        writeCSV(str);
     }
 
     private boolean write(String str) {
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-
-            String sSDdir = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Context/";
-            File dir = new File(sSDdir);
+            File dir = new File(FILENNAME_BASE);
             if(dir.mkdir()) {
                 Log.e("Data Manager", "I made an directory");
             }
 
-            File file = new File(sSDdir, FILENAME_CSV);
+            File file = new File(FILENNAME_BASE, FILENAME_CSV);
             try {
                 if(!file.exists()) {
                     file.createNewFile();
@@ -307,16 +331,14 @@ public class DataManager extends SQLiteOpenHelper implements BaseColumns {
         }
     }
 
-    private boolean writeNew(String str) {
+    private boolean writeCSV(String str) {
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-
-            String sSDdir = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Context/";
-            File dir = new File(sSDdir);
+            File dir = new File(FILENNAME_BASE);
             if(dir.mkdir()) {
                 Log.e("Data Manager", "I made an directory");
             }
 
-            File file = new File(sSDdir, FILENAME_CSV);
+            File file = new File(FILENNAME_BASE, FILENAME_CSV);
             try {
                 if(file.exists()) {
                     if(file.delete())

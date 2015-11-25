@@ -8,6 +8,7 @@ import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -28,7 +29,7 @@ public class NotificationGenerator {
         notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
     }
 
-    /** 아무 알림 하나 생성함
+    /** 테스트 용 아무 알림 하나 생성함
      *
      * @param context 현재 알림을 요청하는 Context
      */
@@ -43,25 +44,15 @@ public class NotificationGenerator {
      * @param message 알림 내용
      */
     public void generateNotification(Context context, String title, String message) {
-        Notification.Builder builder = new Notification.Builder(context);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
         builder.setSmallIcon(R.mipmap.ic_launcher);
         builder.setContentTitle(title);
         builder.setContentText(message);
 
-        if(Build.VERSION.SDK_INT >= 16) {
-            Intent intent = new Intent(context.getApplicationContext(), MainActivity.class);
+        PendingIntent pintent = PendingIntent.getActivity(context, 0, new Intent(context, MainActivity.class), PendingIntent.FLAG_CANCEL_CURRENT);
+        builder.setContentIntent(pintent);
 
-            TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-            stackBuilder.addParentStack(MainActivity.class);
-            stackBuilder.addNextIntent(intent);
-
-            builder.setContentIntent(stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT));
-
-            notificationManager.notify(7601, builder.build());
-        } else {
-            Log.e("Notification Generator","Current SDK is under 16. Failed to make notification.");
-            Toast.makeText(context, "Failed to make notification", Toast.LENGTH_SHORT).show();
-        }
+        notificationManager.notify(7601, builder.build());
     }
 
     public void closeAllNotification() {

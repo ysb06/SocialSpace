@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import lab.u2xd.socialspace.worker.miner.objects.NotificationPickaxe;
 import lab.u2xd.socialspace.worker.warehouse.DataManager;
 import lab.u2xd.socialspace.worker.warehouse.objects.Datastone;
 
@@ -29,7 +30,7 @@ public class NotificationMiner extends NotificationListenerService {
     public static final String EXTRA_LARGE_ICON = "android.largeIcon";
     public static final String EXTRA_MEDIA_SESSION = "android.mediaSession";
 
-    public static final String LOG_FILENAME = "MiningReport00.txt";
+    public static final String LOG_FILENAME = "StatusMiningLog.txt";
 
     private DataManager dbManager;
 
@@ -37,30 +38,24 @@ public class NotificationMiner extends NotificationListenerService {
     public void onCreate() {
         Log.e("Notification Miner", "We are starting to work");
         dbManager = DataManager.getManager(this);
-
-        /*
-        Log.e("Miner Manager", "Querying Call Log");
-        RefinedData[] data1 = callMiner.mineAllData(this);
-        for(int i = 0; i < data1.length; i++) {
-            dbManager.setRefinedData(data1[i]);
-        }
-        Log.e("Miner Manager", "Querying SMS");
-        RefinedData[] data2 = smsMiner.mineAllData(this);
-        for(int i = 0; i < data2.length; i++) {
-            dbManager.setRefinedData(data2[i]);
-        }
-        */
     }
 
     @Override
     public void onDestroy() {
         Log.e("Notification Miner", "We are finishing working");
-        dbManager.close();
     }
 
     @Override
     public void onNotificationPosted(StatusBarNotification sbn) {
-        Datastone data = mineStatusBarNotification(sbn);
+        Notification notification = sbn.getNotification();
+        String[] str = new String[4];
+        str[0] = notification.extras.getString(EXTRA_TITLE) + "|" + notification.extras.getString(EXTRA_TEXT);
+        str[1] = notification.extras.getString(EXTRA_TITLE);
+        str[2] = notification.extras.getString(EXTRA_TEXT);
+        str[3] = notification.extras.getString(EXTRA_TEXT);
+
+        Datastone data = NotificationPickaxe.mine(sbn.getPackageName(), str);
+
         if(data != null)
             dbManager.queryInsert(data);
         writeLog(getNotificationLog(sbn));
@@ -71,62 +66,8 @@ public class NotificationMiner extends NotificationListenerService {
         Log.e("Notification Miner", "I feel something disappeared!");
     }
 
-    /** 상태 바 알림을 Datastone으로 가공
-     *
-     * @param sbn 상태 바 알림
-     * @return 가공된 데이터
-     */
-    private Datastone mineStatusBarNotification(StatusBarNotification sbn) {
-        Notification noti = sbn.getNotification();
-        Datastone datastone = new Datastone();
-
-        Log.e("Notification Miner", "I found something -> " + sbn.getPackageName());
-
-        if(sbn.getPackageName().equals("com.kakao.talk")) {                     //카카오톡
-            Log.e("Notification Miner", "It is KakaoTalk data!");
-
-            datastone.put(DataManager.FIELD_TYPE, DataManager.CONTEXT_TYPE_KAKAOTALK);
-            datastone.put(DataManager.FIELD_AGENT, noti.extras.getString(EXTRA_TITLE));
-            datastone.put(DataManager.FIELD_TARGET, "Me");
-            datastone.put(DataManager.FIELD_TIME, System.currentTimeMillis());
-            datastone.put(DataManager.FIELD_CONTENT, noti.extras.getString(EXTRA_TEXT));
-        } else if(sbn.getPackageName().equals("com.facebook.katana")) {         //페이스북
-            Log.e("Notification Miner", "Facebook data!");
-
-            String str = noti.extras.getString(EXTRA_TEXT);
-            String sAgent = "";
-            int iIndexSTR = str.indexOf("님이");
-            if(iIndexSTR != -1) {
-                sAgent = str.substring(0, iIndexSTR);
-            } else {
-                sAgent = "Unknown";
-            }
-            datastone.put(DataManager.FIELD_TYPE, DataManager.CONTEXT_TYPE_FACEBOOK);
-            datastone.put(DataManager.FIELD_AGENT, sAgent);
-            datastone.put(DataManager.FIELD_TARGET, "Me");
-            datastone.put(DataManager.FIELD_TIME, System.currentTimeMillis());
-            datastone.put(DataManager.FIELD_CONTENT, "타임라인");
-        } else if(sbn.getPackageName().equals("com.facebook.orca")) {           //페이스북 메신저
-            String sTitle = noti.extras.getString(EXTRA_TITLE);
-            if(sTitle.equals("null")) {
-                Log.e("Notification Miner", "It looks Facebook message data, but it is not, I think.");
-                return null;
-            } else {
-                Log.e("Notification Miner", "Facebook message data!");
-
-                datastone.put(DataManager.FIELD_TYPE, DataManager.CONTEXT_TYPE_FACEBOOK);
-                datastone.put(DataManager.FIELD_AGENT, sTitle);
-                datastone.put(DataManager.FIELD_TARGET, "Me");
-                datastone.put(DataManager.FIELD_TIME, System.currentTimeMillis());
-                datastone.put(DataManager.FIELD_CONTENT, noti.extras.getString(EXTRA_TEXT));
-            }
-        } else {
-            Log.e("Notification Miner", "It is nothing. Sorry");
-            return null;
-        }
-        return datastone;
-    }
-
+    //------------------------------------------------------------------//
+    //로깅 기능 추후 비활성화
     private String getNotificationLog(StatusBarNotification sbn) {
         String type = "";
 
@@ -136,7 +77,7 @@ public class NotificationMiner extends NotificationListenerService {
             type = sbn.getPackageName();
         }
         return "Noti : " + type + ", " + sbn.getNotification().extras.getString(EXTRA_TITLE) + ", " + sbn.getNotification().extras.getString(EXTRA_TEXT)
-                + "\r\n" + new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Date(System.currentTimeMillis()));
+                + ", " + new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(new Date(System.currentTimeMillis()));
     }
 
 
@@ -172,5 +113,4 @@ public class NotificationMiner extends NotificationListenerService {
             return false;
         }
     }
-    // TODO: 2015-10-12 안드로이드 젤리빈 이전 버전에 대한 지원 추가
 }
