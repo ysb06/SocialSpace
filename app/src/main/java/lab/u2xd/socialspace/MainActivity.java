@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import lab.u2xd.socialspace.experimenter.ui.BasicInfoUI;
 import lab.u2xd.socialspace.worker.miner.CallEventMiner;
 import lab.u2xd.socialspace.worker.miner.CallMiner;
 import lab.u2xd.socialspace.worker.miner.SMSMiner;
@@ -32,21 +33,46 @@ import lab.u2xd.socialspace.worker.warehouse.objects.Queryable;
  */
 public class MainActivity extends AppCompatActivity implements Queryable{
 
+    static final int REQUEST_GET_BASIC_INFO = 1;
+    static final int REQUEST_GET_PERSONAL_INFOMATION_AGREEMENT = 2;
+
     //Support Team
-    NotificationGenerator notiMaker;
-    DataManager dataManager;
+    private NotificationGenerator notiMaker;
+    private DataManager dataManager;
 
     //UI
-    ArrayList<View> listView;
-    EditText textInputBox;
-    TextView textView;
-    ProgressBar bar;
+    private ArrayList<View> listView;
+    private EditText textInputBox;
+    private TextView textView;
+    private ProgressBar bar;
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         notiMaker.closeAllNotification();
         dataManager.close();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == REQUEST_GET_BASIC_INFO) {
+            if(resultCode == RESULT_OK) {
+                dataManager.queryInsert(data);
+            } else {
+                if(dataManager.isExperimentInfoRecorded()) {
+                    Toast.makeText(this, "실험을 진행하기 위해서는 기본 신상 정보를 입력하셔야 합니다", Toast.LENGTH_LONG);
+                    startActivityForResult(data, REQUEST_GET_BASIC_INFO);
+                }
+            }
+        } else if(requestCode == REQUEST_GET_PERSONAL_INFOMATION_AGREEMENT) {
+            if(resultCode == RESULT_OK) {
+                Intent intentExp = new Intent(this, BasicInfoUI.class);
+                startActivityForResult(intentExp, REQUEST_GET_BASIC_INFO);
+            } else {
+
+            }
+        }
     }
 
     @Override
@@ -82,6 +108,10 @@ public class MainActivity extends AppCompatActivity implements Queryable{
 
         if(!isCallEventMinerServiceStarted()) {
             startService(new Intent(this, CallEventMiner.class));
+        }
+        if(dataManager.isExperimentInfoRecorded()) {
+            Intent intentExp = new Intent(this, BasicInfoUI.class);
+            startActivityForResult(intentExp, REQUEST_GET_PERSONAL_INFOMATION_AGREEMENT);
         }
     }
 

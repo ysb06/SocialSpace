@@ -2,6 +2,7 @@ package lab.u2xd.socialspace.worker.warehouse;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -35,7 +36,8 @@ public class DataManager extends SQLiteOpenHelper implements BaseColumns {
     public static final String NAME_DATABASE = "ContextDatabase";
     public static final String NAME_MAINTABLE = "ContextData";
     public static final String NAME_CONTACTTABLE = "ContactsData";
-    public static final int VERSION_DATABASE = 12;
+    public static final String NAME_EXPERIMENTTABLE = "ExperimentInfo";
+    public static final int VERSION_DATABASE = 14;
 
     public static final String FIELD_TYPE = "Type";
     public static final String FIELD_AGENT = "Agent";
@@ -65,6 +67,16 @@ public class DataManager extends SQLiteOpenHelper implements BaseColumns {
             FIELD_NAME + " TEXT)";
     private static final String SQL_DROP_CONTACTTABLE = "DROP TABLE IF EXISTS " + NAME_CONTACTTABLE;
     private static final String SQL_GET_ALLCONTACT = "SELECT * FROM " + NAME_CONTACTTABLE;
+
+    private static final String SQL_CREATE_EXPERIMENT_INFO = "CREATE TABLE " + NAME_EXPERIMENTTABLE + "(" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            "Name" + " TEXT, " +
+            "Age" + " INTEGER, " +
+            "Major" + " TEXT, " +
+            "Gender" + " TEXT, " +
+            "Phone" + " TEXT, " +
+            "Email" + " TEXT)";
+    private static final String SQL_DROP_EXPERIMENT_INFO = "DROP TABLE IF EXISTS " + NAME_EXPERIMENTTABLE;
+    private static final String SQL_GET_EXPERIMENT_INFO = "SELECT * FROM " + NAME_EXPERIMENTTABLE;
 
     private static final String FILENNAME_BASE = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Context/";
     private static final String FILENAME_CSV = "CurrentDatabase.csv";
@@ -111,6 +123,7 @@ public class DataManager extends SQLiteOpenHelper implements BaseColumns {
     public void onCreate(SQLiteDatabase db) {
         Log.e("Data Manager", "I am making database! " + db.isOpen());
         db.execSQL(SQL_CREATE_MAINTABLE);
+        db.execSQL(SQL_CREATE_EXPERIMENT_INFO);
         insertData(db, "General", "Me", "Me", 0, "Success!!");
         initializeContact(db, context);
     }
@@ -119,6 +132,7 @@ public class DataManager extends SQLiteOpenHelper implements BaseColumns {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         Log.e("Data Manager", "I am making database, again!");
         db.execSQL(SQL_DROP_MAINTABLE);
+        db.execSQL(SQL_DROP_EXPERIMENT_INFO);
         onCreate(db);
     }
 
@@ -128,6 +142,7 @@ public class DataManager extends SQLiteOpenHelper implements BaseColumns {
         Log.e("Data Manager", "I am making old database, again!");
         super.onDowngrade(db, oldVersion, newVersion);
         db.execSQL(SQL_DROP_MAINTABLE);
+        db.execSQL(SQL_DROP_EXPERIMENT_INFO);
         onCreate(db);
     }
 
@@ -176,6 +191,18 @@ public class DataManager extends SQLiteOpenHelper implements BaseColumns {
         Log.e("Data Manager", "Query Processing Complete");
     }
 
+    public void queryInsert(Intent intentBasicInfoResult) {
+        Datastone stone = new Datastone();
+
+        stone.put("Name", intentBasicInfoResult.getStringExtra("expName"));
+        stone.put("Age", intentBasicInfoResult.getIntExtra("expAge", 0));
+        stone.put("Major", intentBasicInfoResult.getStringExtra("expMajor"));
+        stone.put("Gender", intentBasicInfoResult.getStringExtra("expGender"));
+        stone.put("Phone", intentBasicInfoResult.getStringExtra("expNumber"));
+        stone.put("Email", intentBasicInfoResult.getStringExtra("expEmail"));
+        queryInsert(NAME_EXPERIMENTTABLE, stone);
+    }
+
     public void queryInsert(Datastone data) {
         listRequest.add(new QueryRequest(data, QueryRequest.QUERY_TYPE_INSERT));
         wake();
@@ -187,14 +214,30 @@ public class DataManager extends SQLiteOpenHelper implements BaseColumns {
     }
 
     public String getNameOfNumber(String AgentPhoneNumber) {
-        SQLiteDatabase db = getWritableDatabase();
+        getWritableDatabase();
         Cursor cursor = getReadableDatabase().rawQuery(SQL_GET_ALLCONTACT, null);
         while(cursor.moveToNext()) {
             if(cursor.getString(1).equals(AgentPhoneNumber)) {
-                return cursor.getString(2);
+                String temp = cursor.getString(2);
+                cursor.close();
+                return temp;
             }
         }
+        cursor.close();
         return "Unknown";
+    }
+
+    public boolean isExperimentInfoRecorded() {
+        getWritableDatabase();
+        Cursor cursor = getReadableDatabase().rawQuery(SQL_GET_EXPERIMENT_INFO, null);
+        Log.e("Data Manager", "Experiment Size -> " + cursor.getCount());
+        if(cursor.getCount() <= 0) {
+            cursor.close();
+            return true;
+        } else {
+            cursor.close();
+            return false;
+        }
     }
 
     @Deprecated
