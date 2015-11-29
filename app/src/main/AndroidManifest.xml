@@ -61,12 +61,20 @@
         </receiver>
 
         <activity
-            android:name=".experimenter.ui.BasicInfoUI"
+            android:name=".experimenter.BasicInfo"
             android:label="@string/title_activity_basic_info_ui" >
         </activity>
         <activity
             android:name=".experimenter.InfoAgreement"
             android:label="@string/title_activity_info_agreement" >
+        </activity>
+        <activity
+            android:name=".experimenter.FinalQuestionaire"
+            android:label="@string/title_activity_final_questionaire" >
+        </activity>
+        <activity
+            android:name=".experimenter.Question2"
+            android:label="@string/title_activity_question2" >
         </activity>
     </application>
 

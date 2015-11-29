@@ -1,4 +1,4 @@
-package lab.u2xd.socialspace.experimenter.ui;
+package lab.u2xd.socialspace.experimenter;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 import lab.u2xd.socialspace.R;
 
-public class BasicInfoUI extends AppCompatActivity implements View.OnClickListener {
+public class BasicInfo extends AppCompatActivity implements View.OnClickListener {
 
     private EditText fieldName;
     private EditText fieldAge;

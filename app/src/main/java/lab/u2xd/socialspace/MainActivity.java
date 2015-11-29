@@ -19,7 +19,9 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import lab.u2xd.socialspace.experimenter.ui.BasicInfoUI;
+import lab.u2xd.socialspace.experimenter.FinalQuestionaire;
+import lab.u2xd.socialspace.experimenter.InfoAgreement;
+import lab.u2xd.socialspace.experimenter.BasicInfo;
 import lab.u2xd.socialspace.worker.miner.CallEventMiner;
 import lab.u2xd.socialspace.worker.miner.CallMiner;
 import lab.u2xd.socialspace.worker.miner.SMSMiner;
@@ -46,6 +48,8 @@ public class MainActivity extends AppCompatActivity implements Queryable{
     private TextView textView;
     private ProgressBar bar;
 
+    private int iAgreement = 0;
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -58,19 +62,21 @@ public class MainActivity extends AppCompatActivity implements Queryable{
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == REQUEST_GET_BASIC_INFO) {
             if(resultCode == RESULT_OK) {
-                dataManager.queryInsert(data);
+                dataManager.queryInsert(data, iAgreement);
             } else {
                 if(dataManager.isExperimentInfoRecorded()) {
-                    Toast.makeText(this, "실험을 진행하기 위해서는 기본 신상 정보를 입력하셔야 합니다", Toast.LENGTH_LONG);
-                    startActivityForResult(data, REQUEST_GET_BASIC_INFO);
+                    Intent intentExp = new Intent(this, BasicInfo.class);
+                    startActivityForResult(intentExp, REQUEST_GET_BASIC_INFO);
                 }
             }
         } else if(requestCode == REQUEST_GET_PERSONAL_INFOMATION_AGREEMENT) {
             if(resultCode == RESULT_OK) {
-                Intent intentExp = new Intent(this, BasicInfoUI.class);
+                iAgreement = data.getIntExtra("AgreementType", 0);
+                Intent intentExp = new Intent(this, BasicInfo.class);
                 startActivityForResult(intentExp, REQUEST_GET_BASIC_INFO);
             } else {
-
+                Intent intentExp = new Intent(this, InfoAgreement.class);
+                startActivityForResult(intentExp, REQUEST_GET_PERSONAL_INFOMATION_AGREEMENT);
             }
         }
     }
@@ -91,7 +97,12 @@ public class MainActivity extends AppCompatActivity implements Queryable{
         listView.add(findViewById(R.id.main_button_readlog));
         listView.add(findViewById(R.id.main_button_datadelete));
         listView.add(textView);
-        
+
+        if(dataManager.isExperimentInfoRecorded()) {
+            Intent intentExp = new Intent(this, InfoAgreement.class);
+            startActivityForResult(intentExp, REQUEST_GET_PERSONAL_INFOMATION_AGREEMENT);
+        }
+
         if(Build.VERSION.SDK_INT >= 19) {
             if (!isContainedInNotificationListeners(getApplicationContext())) {
                 Intent intent = new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
@@ -108,10 +119,6 @@ public class MainActivity extends AppCompatActivity implements Queryable{
 
         if(!isCallEventMinerServiceStarted()) {
             startService(new Intent(this, CallEventMiner.class));
-        }
-        if(dataManager.isExperimentInfoRecorded()) {
-            Intent intentExp = new Intent(this, BasicInfoUI.class);
-            startActivityForResult(intentExp, REQUEST_GET_PERSONAL_INFOMATION_AGREEMENT);
         }
     }
 
@@ -201,11 +208,16 @@ public class MainActivity extends AppCompatActivity implements Queryable{
 
     public void Input_Click(View view) {
         bar.setVisibility(View.INVISIBLE);
-        if(textInputBox.getText().toString().equals("u2xd lab")) {
+        if(textInputBox.getText().toString().equals("uxexperiment")) {
             for (int i = 0; i < listView.size(); i++) {
                 listView.get(i).setVisibility(View.VISIBLE);
             }
         }
+    }
+
+    public void Complete_Click(View view) {
+        Intent intentExp = new Intent(this, FinalQuestionaire.class);
+        startActivity(intentExp);
     }
 
     @Override

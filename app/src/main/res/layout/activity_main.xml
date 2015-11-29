@@ -72,16 +72,30 @@
         android:id="@+id/adminPass"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_toLeftOf="@+id/main_button_input"
+        android:layout_toStartOf="@+id/main_button_input" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/main_button_input"
         android:id="@+id/main_button_input"
-        android:layout_alignBottom="@+id/adminPass"
-        android:layout_toRightOf="@+id/adminPass"
-        android:layout_toEndOf="@+id/adminPass"
-        android:onClick="Input_Click" />
+        android:onClick="Input_Click"
+        android:layout_alignTop="@+id/adminPass"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/main_button_complete"
+        android:id="@+id/button"
+        android:layout_below="@+id/main_button_input"
+        android:layout_toRightOf="@+id/main_button_datadelete"
+        android:layout_alignBottom="@+id/main_button_datadelete"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:onClick="Complete_Click" />
 
 </RelativeLayout>

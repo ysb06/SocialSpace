@@ -37,7 +37,7 @@ public class DataManager extends SQLiteOpenHelper implements BaseColumns {
     public static final String NAME_MAINTABLE = "ContextData";
     public static final String NAME_CONTACTTABLE = "ContactsData";
     public static final String NAME_EXPERIMENTTABLE = "ExperimentInfo";
-    public static final int VERSION_DATABASE = 14;
+    public static final int VERSION_DATABASE = 15;
 
     public static final String FIELD_TYPE = "Type";
     public static final String FIELD_AGENT = "Agent";
@@ -74,7 +74,9 @@ public class DataManager extends SQLiteOpenHelper implements BaseColumns {
             "Major" + " TEXT, " +
             "Gender" + " TEXT, " +
             "Phone" + " TEXT, " +
-            "Email" + " TEXT)";
+            "Email" + " TEXT," +
+            "Agreement" + " INTEGER)";
+
     private static final String SQL_DROP_EXPERIMENT_INFO = "DROP TABLE IF EXISTS " + NAME_EXPERIMENTTABLE;
     private static final String SQL_GET_EXPERIMENT_INFO = "SELECT * FROM " + NAME_EXPERIMENTTABLE;
 
@@ -191,7 +193,7 @@ public class DataManager extends SQLiteOpenHelper implements BaseColumns {
         Log.e("Data Manager", "Query Processing Complete");
     }
 
-    public void queryInsert(Intent intentBasicInfoResult) {
+    public void queryInsert(Intent intentBasicInfoResult, int agreementType) {
         Datastone stone = new Datastone();
 
         stone.put("Name", intentBasicInfoResult.getStringExtra("expName"));
@@ -200,6 +202,7 @@ public class DataManager extends SQLiteOpenHelper implements BaseColumns {
         stone.put("Gender", intentBasicInfoResult.getStringExtra("expGender"));
         stone.put("Phone", intentBasicInfoResult.getStringExtra("expNumber"));
         stone.put("Email", intentBasicInfoResult.getStringExtra("expEmail"));
+        stone.put("Agreement", agreementType);
         queryInsert(NAME_EXPERIMENTTABLE, stone);
     }
 
@@ -307,9 +310,13 @@ public class DataManager extends SQLiteOpenHelper implements BaseColumns {
 
     public void exportDatabase() {
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+            File dir = new File(FILENNAME_BASE);
             File sd = new File(FILENNAME_BASE + "ExportedDB");
+            if(dir.mkdir()) {
+                Log.e("Data Manager", "Context Folder Created");
+            }
             if(sd.mkdir()) {
-                Log.e("Data Manager", "Folder Created");
+                Log.e("Data Manager", "DB Folder Created");
             }
             File data = Environment.getDataDirectory();
             FileChannel source = null;

@@ -9,6 +9,7 @@
     <string name="main_button_notigen">알림 생성</string>
     <string name="main_button_readlog">문자, 통화기록 읽기</string>
     <string name="main_button_input">코드 실행</string>
+    <string name="main_button_complete">실험 완료</string>
 
     <string name="title_activity_basic_info_ui">실험 기본 정보 입력</string>
     <string name="basicinfo_textfield_name">이름</string>
@@ -23,21 +24,19 @@
 
     <string name="title_activity_info_agreement">개인정보 이용 동의서</string>
     <string name="info_agreement_text_content">
-        1. 목적\n
+        가. 수집 목적\n
         \n
         스마트폰 내 행동 분석을 통한 친밀도 측정 실험을 위한 데이터 수집\n
         실험 참가에 따른 실험비 지급\n
         \n
-        2. 수집항목\n
+        나. 수집항목\n
         \n
         필수적 정보: 개인식별정보 및 실험에 필요한 데이터\n
         - 이름, 나이, 학과, 성별, 전화번호, 휴대폰 번호, 이메일 주소\n
-        - 실험 데이터\n
-        ·스마트 폰 내 연락처(이름, 전화번호, 휴대폰 번호)\n
-        ·통화기록, SMS 수신/발신 내역 (수신/발신 시간, 수신 대상, 발신 대상 등)\n
-        ·메신저 (카카오톡, 페이스북, 페이스북 메신저, 라인, 트위터, 마이피플) 수신/발신 내역 (수신/발신 시간, 수신 대상, 발신 대상 등)\n
-        - 설문 조사 내용\n
-        ·메신저 선호도, 스마트폰 내 연락처 및 메신저 수신/발신 대상과의 관계\n
+        - 스마트 폰 내 연락처(이름, 전화번호, 휴대폰 번호)\n
+        - 통화기록, SMS 수신/발신 내역 (수신/발신 시간, 수신 대상, 발신 대상 등)\n
+        - 메신저 (카카오톡, 페이스북, 페이스북 메신저, 라인, 트위터, 마이피플) 수신/발신 내역 (수신/발신 시간, 수신 대상, 발신 대상 등)\n
+        - 설문조사내용 : 메신저 선호도, 스마트폰 내 연락처 및 메신저 수신/발신 대상과의 관계\n
         \n
         선택적 정보 1: 실험 데이터 분석에 추가적으로 도움이 되는 데이터\n
         - SMS 및 메신저 수신/발신한 내용 전문\n
@@ -46,18 +45,34 @@
         - 계좌번호, 예금주 명\n
         \n
         \n
-        3. 보유이용기간\n
+        다. 보유이용기간\n
         \n
         위 개인정보는 수집·이용에 관한 동의일로부터 3개월 간 보유·이용됩니다. 단, 3개월 이후에는 추후 관련 연구를 위하여 실험 데이터 및 설문 조사 내용은 특정 개인임을 유추하는데 알 수 있는 정보(이름, 전화번호, 휴대폰 번호)는 제외하고 계속 보유·이용됩니다.
         \n
         \n
-        4. 동의를 거부할 권리 및 동의를 거부할 경우의 불이익\n
+        라. 동의를 거부할 권리 및 동의를 거부할 경우의 불이익\n
         \n
         위 개인정보 중 필수적 정보의 수집·이용에 관한 동의는 실험 진행 및 결과 분석에 있어 필수적인 부분이므로 동의하지 않으실 경우 실험 참여가 불가합니다.\n
         선택적 정보 1의 수집·이용에 관하여 동의하지 않으셔도 그에 따른 불이익은 없습니다.\n
         선택적 정보 2의 수집·이용에 관하여 동의하지 않으실 경우 실험자가 직접 방문하여 실험비를 수령해야 합니다.\n
     </string>
-    <string name="info_agreement_text_confirm_message">본인은 위 내용을 완벽하게 이해하고 실험에 참여함에 동의합니다.</string>
-    <string name="info_agreement_button_confirm">예</string>
+    <string name="info_agreement_checkbox_1">필수적 정보의 수집 및 이용에 동의합니다.</string>
+    <string name="info_agreement_checkbox_2">선택적 정보 1의 수집 및 이용에 동의합니다.</string>
+    <string name="info_agreement_checkbox_3">선택적 정보 2의 수집 및 이용에 동의합니다.</string>
+    <string name="info_agreement_button_confirm">확인</string>
+
+    <string name="title_activity_final_questionaire">설문지</string>
+    <string name="final_questionaire_text_guide">좌우 두 개 메신저/SNS 중 선호하는 </string>
+    <string name="final_questionaire_text_subguide">(아래 설문은 연구실에 오셔서 완료할 수도 있습니다)</string>
+    <string name="final_questionaire_button_confirm">설문 완료</string>
+    <string name="final_questionaire_text_sel1">전화</string>
+    <string name="final_questionaire_text_sel2">문자</string>
+    <string name="final_questionaire_text_sel3">카카오톡</string>
+    <string name="final_questionaire_text_sel4">페이스북</string>
+    <string name="final_questionaire_text_sel5">트위터</string>
+    <string name="final_questionaire_text_sel6">기타</string>
+
+    <string name="title_activity_question2">설문지 - 순위</string>
+    <string name="question2_guide">다음 사람들 중 자신이 가장 친밀하다고 느끼는 사람들을 순서대로 나열해 주세요</string>
 
 </resources>
