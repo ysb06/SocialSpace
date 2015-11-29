@@ -57,7 +57,7 @@ public class NotificationMinerCompat extends AccessibilityService {
             Log.e("Notification Miner C", event.getPackageName().toString());
             String[] str = getText(event);
             str[0] = event.getText().toString();
-            Datastone data = NotificationPickaxe.mine(event.getPackageName().toString(), str);
+            Datastone data = NotificationPickaxe.mine(event.getPackageName().toString(), str, true);
             if(data != null)
                 dbManager.queryInsert(data);
             writeLog(getNotificationLog(event.getPackageName().toString(), str));

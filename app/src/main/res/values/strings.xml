@@ -62,9 +62,10 @@
     <string name="info_agreement_button_confirm">확인</string>
 
     <string name="title_activity_final_questionaire">설문지</string>
-    <string name="final_questionaire_text_guide">좌우 두 개 메신저/SNS 중 선호하는 </string>
+    <string name="final_questionaire_text_guide">다음 두 메신저/SNS를 비교하여 선호도를 입력하여 주세요</string>
     <string name="final_questionaire_text_subguide">(아래 설문은 연구실에 오셔서 완료할 수도 있습니다)</string>
     <string name="final_questionaire_button_confirm">설문 완료</string>
+    <string name="final_questionaire_button_next">다음 단계</string>
     <string name="final_questionaire_text_sel1">전화</string>
     <string name="final_questionaire_text_sel2">문자</string>
     <string name="final_questionaire_text_sel3">카카오톡</string>

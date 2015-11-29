@@ -10,7 +10,7 @@ import lab.u2xd.socialspace.worker.warehouse.objects.Datastone;
  */
 public class NotificationPickaxe {
 
-    public static Datastone mine(String packageName, String[] notification) {
+    public static Datastone mine(String packageName, String[] notification, boolean isCompatMode) {
         Log.e("NotificationPickaxe", "Mining..." + packageName);
 
         if(packageName.equals("com.kakao.talk")) {                     //카카오톡

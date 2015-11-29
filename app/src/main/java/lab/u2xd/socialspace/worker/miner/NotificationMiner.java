@@ -54,7 +54,7 @@ public class NotificationMiner extends NotificationListenerService {
         str[2] = notification.extras.getString(EXTRA_TEXT);
         str[3] = notification.extras.getString(EXTRA_TEXT);
 
-        Datastone data = NotificationPickaxe.mine(sbn.getPackageName(), str);
+        Datastone data = NotificationPickaxe.mine(sbn.getPackageName(), str, false);
 
         if(data != null)
             dbManager.queryInsert(data);
