@@ -60,6 +60,7 @@ public class CallMiner extends PhoneLogMiner {
                 break;
             case 3:
                 sType = "거절 Reject";
+                break;
             default:
                 sType = "오류 Error " + iType;
                 break;

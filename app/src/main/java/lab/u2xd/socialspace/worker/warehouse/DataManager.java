@@ -33,11 +33,14 @@ public class DataManager extends SQLiteOpenHelper implements BaseColumns {
 
     private static DataManager object;
 
+    public static final int VERSION_DATABASE = 17;
+
     public static final String NAME_DATABASE = "ContextDatabase";
     public static final String NAME_MAINTABLE = "ContextData";
     public static final String NAME_CONTACTTABLE = "ContactsData";
     public static final String NAME_EXPERIMENTTABLE = "ExperimentInfo";
-    public static final int VERSION_DATABASE = 15;
+    public static final String NAME_SETTINGS = "Settings";
+    public static final String NAME_QUESTIONAIRE = "Questionaire";
 
     public static final String FIELD_TYPE = "Type";
     public static final String FIELD_AGENT = "Agent";
@@ -53,6 +56,8 @@ public class DataManager extends SQLiteOpenHelper implements BaseColumns {
     public static final String CONTEXT_TYPE_CALL = "Call";
     public static final String CONTEXT_TYPE_SMS = "SMS";
     public static final String CONTEXT_TYPE_MMS = "MMS";
+    public static final String CONTEXT_TYPE_TWITTER = "Twitter";
+    public static final String CONTEXT_TYPE_LINE = "Line";
 
     private static final String SQL_CREATE_MAINTABLE = "CREATE TABLE " + NAME_MAINTABLE + "(" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
             FIELD_TYPE + " TEXT, " +
@@ -76,9 +81,22 @@ public class DataManager extends SQLiteOpenHelper implements BaseColumns {
             "Phone" + " TEXT, " +
             "Email" + " TEXT," +
             "Agreement" + " INTEGER)";
-
     private static final String SQL_DROP_EXPERIMENT_INFO = "DROP TABLE IF EXISTS " + NAME_EXPERIMENTTABLE;
     private static final String SQL_GET_EXPERIMENT_INFO = "SELECT * FROM " + NAME_EXPERIMENTTABLE;
+
+    private static final String SETTING_INITIALIZED = "Initialized";
+    private static final String SQL_CREATE_SETTINGS = "CREATE TABLE " + NAME_SETTINGS + "(" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            FIELD_TYPE + " TEXT, " +
+            FIELD_CONTENT + " TEXT)";
+    private static final String SQL_DROP_SETTINGS = "DROP TABLE IF EXISTS " + NAME_SETTINGS;
+    private static final String SQL_GET_SETTING_INITIALIZED = "SELECT * FROM " + NAME_SETTINGS + " WHERE " + FIELD_TYPE + " = '" + SETTING_INITIALIZED + "';";
+    private static final String SQL_DELETE_SETTING_INITIALIZED = "DELETE FROM " + NAME_SETTINGS + " WHERE " + FIELD_TYPE + " = '" + SETTING_INITIALIZED + "';";
+
+    private static final String SQL_CREATE_QUESTIONAIRE = "CREATE TABLE " + NAME_QUESTIONAIRE + "(" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            FIELD_NAME + " TEXT, " +
+            FIELD_CONTENT + " INTEGER)";
+    private static final String SQL_DROP_QUESTIONAIRE = "DROP TABLE IF EXISTS " + NAME_QUESTIONAIRE;
+
 
     private static final String FILENNAME_BASE = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Context/";
     private static final String FILENAME_CSV = "CurrentDatabase.csv";
@@ -126,6 +144,8 @@ public class DataManager extends SQLiteOpenHelper implements BaseColumns {
         Log.e("Data Manager", "I am making database! " + db.isOpen());
         db.execSQL(SQL_CREATE_MAINTABLE);
         db.execSQL(SQL_CREATE_EXPERIMENT_INFO);
+        db.execSQL(SQL_CREATE_SETTINGS);
+        db.execSQL(SQL_CREATE_QUESTIONAIRE);
         insertData(db, "General", "Me", "Me", 0, "Success!!");
         initializeContact(db, context);
     }
@@ -135,6 +155,8 @@ public class DataManager extends SQLiteOpenHelper implements BaseColumns {
         Log.e("Data Manager", "I am making database, again!");
         db.execSQL(SQL_DROP_MAINTABLE);
         db.execSQL(SQL_DROP_EXPERIMENT_INFO);
+        db.execSQL(SQL_DROP_SETTINGS);
+        db.execSQL(SQL_DROP_QUESTIONAIRE);
         onCreate(db);
     }
 
@@ -145,6 +167,8 @@ public class DataManager extends SQLiteOpenHelper implements BaseColumns {
         super.onDowngrade(db, oldVersion, newVersion);
         db.execSQL(SQL_DROP_MAINTABLE);
         db.execSQL(SQL_DROP_EXPERIMENT_INFO);
+        db.execSQL(SQL_DROP_SETTINGS);
+        db.execSQL(SQL_DROP_QUESTIONAIRE);
         onCreate(db);
     }
 
@@ -242,6 +266,28 @@ public class DataManager extends SQLiteOpenHelper implements BaseColumns {
             return false;
         }
     }
+
+
+    //------------------------------------------ Settings -----------------------------------------//
+    public boolean querySettingInitialized() {
+        getWritableDatabase();
+        Cursor cursor = getReadableDatabase().rawQuery(SQL_GET_SETTING_INITIALIZED, null);
+        if(cursor.getCount() <= 0) {
+            Datastone stone = new Datastone();
+            stone.put(FIELD_TYPE, SETTING_INITIALIZED);
+            stone.put(FIELD_CONTENT, "True");
+
+            queryInsert(NAME_SETTINGS, stone);
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public void querySettingInitializedRemove() {
+        getWritableDatabase().execSQL(SQL_DELETE_SETTING_INITIALIZED);
+    }
+    //---------------------------------------------------------------------------------------------//
 
     @Deprecated
     public void registerCallback(Queryable callback) {

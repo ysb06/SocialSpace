@@ -1,5 +1,7 @@
 package lab.u2xd.socialspace;
 
+import android.accessibilityservice.AccessibilityService;
+import android.accessibilityservice.AccessibilityServiceInfo;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
@@ -12,12 +14,18 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.accessibility.AccessibilityManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 import lab.u2xd.socialspace.experimenter.FinalQuestionaire;
 import lab.u2xd.socialspace.experimenter.InfoAgreement;
@@ -37,6 +45,8 @@ public class MainActivity extends AppCompatActivity implements Queryable{
 
     static final int REQUEST_GET_BASIC_INFO = 1;
     static final int REQUEST_GET_PERSONAL_INFOMATION_AGREEMENT = 2;
+    static final int REQUEST_START_NOTIFICATION_SERVICE = 222;
+    static final int REQUEST_START_ACCESSIBILITY_SERVICE = 222;
 
     //Support Team
     private NotificationGenerator notiMaker;
@@ -49,37 +59,6 @@ public class MainActivity extends AppCompatActivity implements Queryable{
     private ProgressBar bar;
 
     private int iAgreement = 0;
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        notiMaker.closeAllNotification();
-        dataManager.close();
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == REQUEST_GET_BASIC_INFO) {
-            if(resultCode == RESULT_OK) {
-                dataManager.queryInsert(data, iAgreement);
-            } else {
-                if(dataManager.isExperimentInfoRecorded()) {
-                    Intent intentExp = new Intent(this, BasicInfo.class);
-                    startActivityForResult(intentExp, REQUEST_GET_BASIC_INFO);
-                }
-            }
-        } else if(requestCode == REQUEST_GET_PERSONAL_INFOMATION_AGREEMENT) {
-            if(resultCode == RESULT_OK) {
-                iAgreement = data.getIntExtra("AgreementType", 0);
-                Intent intentExp = new Intent(this, BasicInfo.class);
-                startActivityForResult(intentExp, REQUEST_GET_BASIC_INFO);
-            } else {
-                Intent intentExp = new Intent(this, InfoAgreement.class);
-                startActivityForResult(intentExp, REQUEST_GET_PERSONAL_INFOMATION_AGREEMENT);
-            }
-        }
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +75,11 @@ public class MainActivity extends AppCompatActivity implements Queryable{
         listView.add(findViewById(R.id.main_button_notigen));
         listView.add(findViewById(R.id.main_button_readlog));
         listView.add(findViewById(R.id.main_button_datadelete));
+        Button btnComplete = (Button) findViewById(R.id.main_button_complete);
+        listView.add(btnComplete);
         listView.add(textView);
+
+        bar = (ProgressBar) findViewById(R.id.main_progressBar);
 
         if(dataManager.isExperimentInfoRecorded()) {
             Intent intentExp = new Intent(this, InfoAgreement.class);
@@ -105,20 +88,48 @@ public class MainActivity extends AppCompatActivity implements Queryable{
 
         if(Build.VERSION.SDK_INT >= 19) {
             if (!isContainedInNotificationListeners(getApplicationContext())) {
-                Intent intent = new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
-                startActivityForResult(intent, 2222);
-            }
-        } else if(Build.VERSION.SDK_INT >= 16) {
+                Toast.makeText(this, "SocialSpace를 활성화시켜 주세요", Toast.LENGTH_LONG).show();
 
+                Intent intent = new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS");
+                startActivityForResult(intent, REQUEST_START_NOTIFICATION_SERVICE);
+            }
+        } else if(Build.VERSION.SDK_INT < 19 && Build.VERSION.SDK_INT >= 16) {
+            Log.e("Main Activity","Notification Miner run as compat mode");
+            if(isNotificationMinerCompatStarted()) {
+                Log.e("Main Activity","Notification Miner Compat Mode was already started.");
+            } else {
+                Toast.makeText(this, "접근성의 SocialSpace를 활성화시켜 주세요", Toast.LENGTH_LONG).show();
+
+                Intent intent = new Intent(android.provider.Settings.ACTION_ACCESSIBILITY_SETTINGS);
+                startActivityForResult(intent, REQUEST_START_ACCESSIBILITY_SERVICE);
+            }
         } else {
             Log.e("Main Activity", "Current SDK is under 16. This app may not work properly.");
             Toast.makeText(MainActivity.this, "Warning : This Device is using old Android", Toast.LENGTH_SHORT).show();
         }
-        bar = (ProgressBar) findViewById(R.id.main_progressBar);
-        bar.setVisibility(View.INVISIBLE);
 
         if(!isCallEventMinerServiceStarted()) {
             startService(new Intent(this, CallEventMiner.class));
+        }
+
+        if(dataManager.querySettingInitialized()) {
+            Log.e("Main Activity", "Relaunched");
+        } else {
+            Datastone[] call = CallMiner.getMiner().mineAllData(this);
+            for (int i = 0; i < call.length; i++) {
+                dataManager.queryInsert(call[i]);
+            }
+        }
+
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int date = calendar.get(Calendar.DATE);
+
+        Log.e("Main Activity", year + "-" + month + "-" + date);
+
+        if(year >= 2015 && month >= 11 && date >= 6) {
+            btnComplete.setVisibility(View.VISIBLE);
         }
     }
 
@@ -143,7 +154,56 @@ public class MainActivity extends AppCompatActivity implements Queryable{
         return false;
     }
 
+    /** 현재 Notification Miner Compat이 서비스에 등록이 되어있는지 확인하는 코드
+     *
+     * @return 서비스 등록 여부
+     */
+    private boolean isNotificationMinerCompatStarted() {
+        AccessibilityManager am = (AccessibilityManager) getSystemService(ACCESSIBILITY_SERVICE);
+        List<AccessibilityServiceInfo> list = am.getEnabledAccessibilityServiceList(AccessibilityServiceInfo.FEEDBACK_ALL_MASK);
+        Log.e("Main Activity", "AM -> " + list.toString());
+        boolean isOn = false;
+        for(int i = 0; i < list.size(); i++) {
+            Log.e("Main Activity", "AM -> " + list.get(i).getId() + ", " + this.getPackageName());
+            isOn = list.get(i).getId().contains(this.getPackageName());
+        }
+        return isOn;
+    }
+
     //--------------onCreate 완료--------------//
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        notiMaker.closeAllNotification();
+        dataManager.close();
+    }
+
+    //Activity에서 신호를 받을 때 작동
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == REQUEST_GET_BASIC_INFO) {
+            if(resultCode == RESULT_OK) {
+                dataManager.queryInsert(data, iAgreement);
+            } else {
+                if(dataManager.isExperimentInfoRecorded()) {
+                    Intent intentExp = new Intent(this, BasicInfo.class);
+                    startActivityForResult(intentExp, REQUEST_GET_BASIC_INFO);
+                }
+            }
+        } else if(requestCode == REQUEST_GET_PERSONAL_INFOMATION_AGREEMENT) {
+            if(resultCode == RESULT_OK) {
+                iAgreement = data.getIntExtra("AgreementType", 0);
+                Intent intentExp = new Intent(this, BasicInfo.class);
+                startActivityForResult(intentExp, REQUEST_GET_BASIC_INFO);
+            } else {
+                Intent intentExp = new Intent(this, InfoAgreement.class);
+                startActivityForResult(intentExp, REQUEST_GET_PERSONAL_INFOMATION_AGREEMENT);
+            }
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -178,7 +238,6 @@ public class MainActivity extends AppCompatActivity implements Queryable{
     //Notigen 버튼 클릭 이벤트
     public void NotiGen_Click(View view) {
         notiMaker.generateNotification(getApplicationContext());
-        textView.setText(dataManager.getNameOfNumber("01000001234"));
     }
 
     /**데이터 삭제 버튼 클릭 이벤트
@@ -187,6 +246,7 @@ public class MainActivity extends AppCompatActivity implements Queryable{
      */
     public void DataDelete_Click(View view) {
         dataManager.reset();
+        dataManager.querySettingInitializedRemove();
     }
 
     /** 전화, 문자 읽기 기능 실행 버튼 클릭 이벤트
@@ -194,12 +254,8 @@ public class MainActivity extends AppCompatActivity implements Queryable{
      * @param view 사용자가 클릭한 Button View
      */
     public void ReadLog_Click(View view) {
-        Datastone[] call = CallMiner.getMiner().mineAllData(this);
         Datastone[] sms = SMSMiner.getMiner(this).mineAllData(this);
         // TODO: 2015-11-23 추후에는 문자는 데이터 업데이트 형식으로 읽을 것
-        for(int i = 0; i < call.length; i++) {
-            dataManager.queryInsert(call[i]);
-        }
         for(int i = 0; i < sms.length; i++) {
             dataManager.queryInsert(sms[i]);
         }
@@ -208,7 +264,7 @@ public class MainActivity extends AppCompatActivity implements Queryable{
 
     public void Input_Click(View view) {
         bar.setVisibility(View.INVISIBLE);
-        if(textInputBox.getText().toString().equals("uxexperiment")) {
+        if(textInputBox.getText().toString().equals("uxproject")) {
             for (int i = 0; i < listView.size(); i++) {
                 listView.get(i).setVisibility(View.VISIBLE);
             }

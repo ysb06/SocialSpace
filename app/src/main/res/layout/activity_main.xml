@@ -8,7 +8,7 @@
     <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textView"
-        android:visibility="visible"
+        android:visibility="invisible"
         android:layout_below="@+id/main_button_readlog"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
@@ -22,7 +22,7 @@
         android:layout_below="@+id/adminPass"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:visibility="visible" />
+        android:visibility="invisible" />
 
     <Button
         android:layout_width="wrap_content"
@@ -30,7 +30,7 @@
         android:text="@string/main_button_notigen"
         android:id="@+id/main_button_notigen"
         android:onClick="NotiGen_Click"
-        android:visibility="visible"
+        android:visibility="invisible"
         android:layout_below="@+id/adminPass"
         android:layout_toRightOf="@+id/main_button_execute"
         android:layout_toEndOf="@+id/main_button_execute" />
@@ -41,7 +41,7 @@
         android:text="@string/main_button_datadelete"
         android:id="@+id/main_button_datadelete"
         android:onClick="DataDelete_Click"
-        android:visibility="visible"
+        android:visibility="invisible"
         android:layout_below="@+id/main_button_notigen"
         android:layout_toRightOf="@+id/main_button_readlog"
         android:layout_toEndOf="@+id/main_button_readlog" />
@@ -55,14 +55,15 @@
         android:layout_below="@+id/main_button_execute"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:visibility="visible" />
+        android:visibility="invisible" />
 
     <ProgressBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/main_progressBar"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:visibility="invisible" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -90,12 +91,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/main_button_complete"
-        android:id="@+id/button"
+        android:id="@+id/main_button_complete"
         android:layout_below="@+id/main_button_input"
         android:layout_toRightOf="@+id/main_button_datadelete"
         android:layout_alignBottom="@+id/main_button_datadelete"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:onClick="Complete_Click" />
+        android:onClick="Complete_Click"
+        android:visibility="invisible" />
 
 </RelativeLayout>

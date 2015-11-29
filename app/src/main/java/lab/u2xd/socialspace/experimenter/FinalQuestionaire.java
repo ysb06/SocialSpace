@@ -1,16 +1,16 @@
 package lab.u2xd.socialspace.experimenter;
 
 import android.content.res.Resources;
-import android.graphics.Color;
-import android.graphics.PixelFormat;
-import android.support.annotation.DimenRes;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -19,7 +19,7 @@ import java.util.HashMap;
 
 import lab.u2xd.socialspace.R;
 
-public class FinalQuestionaire extends AppCompatActivity implements SeekBar.OnSeekBarChangeListener {
+public class FinalQuestionaire extends AppCompatActivity implements SeekBar.OnSeekBarChangeListener, View.OnTouchListener {
 
     private RelativeLayout layoutQuestionaire;
     private ArrayList<SeekBar> listAnswers;
@@ -53,6 +53,9 @@ public class FinalQuestionaire extends AppCompatActivity implements SeekBar.OnSe
         addQuestion(R.string.final_questionaire_text_sel4, R.string.final_questionaire_text_sel5);
         addQuestion(R.string.final_questionaire_text_sel4, R.string.final_questionaire_text_sel6);
         addQuestion(R.string.final_questionaire_text_sel5, R.string.final_questionaire_text_sel6);
+
+        ScrollView sv = (ScrollView) findViewById(R.id.questionaire_scrollView);
+        sv.setOnTouchListener(this);
     }
 
     @Override
@@ -107,14 +110,15 @@ public class FinalQuestionaire extends AppCompatActivity implements SeekBar.OnSe
         bar.setLayoutParams(barParam);
         bar.setOnSeekBarChangeListener(this);
         bar.setKeyProgressIncrement(1);
+        bar.setOnTouchListener(this);
 
         textLeft.setText(res.getString(string_id1));
-        textLeft.setTextSize(res.getDimension(R.dimen.questionaire_text_size));
+        textLeft.setTextSize(res.getDimensionPixelSize(R.dimen.questionaire_text_size) / 2);
         textLeft.setWidth(res.getDimensionPixelSize(R.dimen.questionaire_text_width));
         listLeftText.put(bar, textLeft);
 
         textRight.setText(res.getString(string_id2));
-        textRight.setTextSize(res.getDimension(R.dimen.questionaire_text_size));
+        textRight.setTextSize(res.getDimensionPixelSize(R.dimen.questionaire_text_size) / 2);
         textRight.setWidth(res.getDimensionPixelSize(R.dimen.questionaire_text_width));
         listRightText.put(bar, textRight);
 
@@ -126,7 +130,7 @@ public class FinalQuestionaire extends AppCompatActivity implements SeekBar.OnSe
         TextView numHint = new TextView(this);
         numHint.setId(2 * listReferPosition.size() + 2);
         numHint.setText("0");
-        numHint.setTextSize(res.getDimension(R.dimen.questionaire_text_small_size));
+        numHint.setTextSize(res.getDimensionPixelSize(R.dimen.questionaire_text_small_size));
         numHint.setPadding(0, 0, 0, res.getDimensionPixelSize(R.dimen.questionaire_text_padding));
 
         RelativeLayout.LayoutParams numHintParams = new RelativeLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -163,5 +167,19 @@ public class FinalQuestionaire extends AppCompatActivity implements SeekBar.OnSe
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
 
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        ScrollView scrollView = (ScrollView) findViewById(R.id.questionaire_scrollView);
+        int scrollY = scrollView.getScrollY();
+        if(scrollView.getChildAt(0).getBottom() - scrollY == scrollView.getHeight()) {
+            findViewById(R.id.final_questionaire_button_next).setEnabled(true);
+        }
+        return false;
+    }
+
+    public void Next_onClick(View v) {
+        Log.e("Final Questionaire", "Answer Confirmed");
     }
 }
