@@ -33,9 +33,13 @@ public class NotificationPickaxe {
             Log.e("NotificationPickaxe", "Line data!");
             return runLine(notification, isCompatMode);
 
-        } else if(packageName.equals("mypeople")) {                     //마이피플
-            Log.e("NotificationPickaxe", "MyPeople data!");
-            return null;
+        } else if(packageName.equals("com.kakao.story")) {                     //카카오스토리
+            Log.e("NotificationPickaxe", "Kakaostory data!");
+            return runKakaoStory(notification, isCompatMode);
+
+        } else if(packageName.equals("com.nhn.android.band")) {                     //카카오스토리
+            Log.e("NotificationPickaxe", "band data!");
+            return runKakaoStory(notification, isCompatMode);
 
         } else {
             Log.e("NotificationPickaxe", "It is nothing. Sorry");
@@ -47,7 +51,7 @@ public class NotificationPickaxe {
         Datastone datastone = new Datastone();
         datastone.put(DataManager.FIELD_TYPE, DataManager.CONTEXT_TYPE_KAKAOTALK);
         datastone.put(DataManager.FIELD_AGENT, noti[1]);
-        datastone.put(DataManager.FIELD_TARGET, "Me");
+        datastone.put(DataManager.FIELD_TARGET, "Null");
         datastone.put(DataManager.FIELD_TIME, System.currentTimeMillis());
         datastone.put(DataManager.FIELD_CONTENT, "길이: " + noti[2].length());
 
@@ -80,7 +84,7 @@ public class NotificationPickaxe {
         }
         datastone.put(DataManager.FIELD_TYPE, DataManager.CONTEXT_TYPE_FACEBOOK);
         datastone.put(DataManager.FIELD_AGENT, sAgent);
-        datastone.put(DataManager.FIELD_TARGET, "Me");
+        datastone.put(DataManager.FIELD_TARGET, "Null");
         datastone.put(DataManager.FIELD_TIME, System.currentTimeMillis());
         datastone.put(DataManager.FIELD_CONTENT, sType);
 
@@ -106,7 +110,7 @@ public class NotificationPickaxe {
 
             datastone.put(DataManager.FIELD_TYPE, DataManager.CONTEXT_TYPE_FACEBOOK);
             datastone.put(DataManager.FIELD_AGENT, noti[1]);
-            datastone.put(DataManager.FIELD_TARGET, "Me");
+            datastone.put(DataManager.FIELD_TARGET, "Null");
             datastone.put(DataManager.FIELD_TIME, System.currentTimeMillis());
             datastone.put(DataManager.FIELD_CONTENT, "길이: " + content);
         }
@@ -150,7 +154,7 @@ public class NotificationPickaxe {
 
         datastone.put(DataManager.FIELD_TYPE, DataManager.CONTEXT_TYPE_TWITTER);
         datastone.put(DataManager.FIELD_AGENT, sAgent);
-        datastone.put(DataManager.FIELD_TARGET, "Me");
+        datastone.put(DataManager.FIELD_TARGET, "Null");
         datastone.put(DataManager.FIELD_TIME, System.currentTimeMillis());
         datastone.put(DataManager.FIELD_CONTENT, "길이: " + sContent);
 
@@ -159,8 +163,6 @@ public class NotificationPickaxe {
 
     private static Datastone runLine(String[] rawString, boolean isCompatMode) {
         Datastone datastone = new Datastone();
-        Log.e("NotificationPickaxe", rawString[0]);
-        Log.e("NotificationPickaxe", rawString[1] + "|" + rawString[2] + "|" + rawString[3]);
 
         String sAgent = "";
         String sContent = "";
@@ -192,6 +194,75 @@ public class NotificationPickaxe {
         datastone.put(DataManager.FIELD_TYPE, DataManager.CONTEXT_TYPE_LINE);
         datastone.put(DataManager.FIELD_AGENT, sAgent);
         datastone.put(DataManager.FIELD_TARGET, "Me");
+        datastone.put(DataManager.FIELD_TIME, System.currentTimeMillis());
+        datastone.put(DataManager.FIELD_CONTENT, "길이: " + sContent);
+
+        return datastone;
+    }
+
+    private static Datastone runKakaoStory(String[] rawString, boolean isCompatMode) {
+        Datastone datastone = new Datastone();
+
+        String sAgent = "";
+        String sContent = "";
+
+        if (isCompatMode) {
+            Log.e("NotificationPickaxe", "Not supported");
+            return null;
+        } else {
+            if(rawString[2].contains("님과")) {
+                sAgent = rawString[2].split("님과")[0];
+                sContent = "null";
+            } else if (rawString[2].contains("님이")) {
+                sAgent = rawString[2].split("님이")[0];
+                sContent = "null";
+            } else {
+                return null;
+            }
+        }
+
+        datastone.put(DataManager.FIELD_TYPE, DataManager.CONTEXT_TYPE_KAKAOSTORY);
+        datastone.put(DataManager.FIELD_AGENT, sAgent);
+        datastone.put(DataManager.FIELD_TARGET, "Null");
+        datastone.put(DataManager.FIELD_TIME, System.currentTimeMillis());
+        datastone.put(DataManager.FIELD_CONTENT, "길이: " + sContent);
+
+        return datastone;
+    }
+
+    private static Datastone runBand(String[] rawString, boolean isCompatMode) {
+        Datastone datastone = new Datastone();
+        Log.e("NotificationPickaxe", rawString[0]);
+        Log.e("NotificationPickaxe", rawString[1] + "|" + rawString[2] + "|" + rawString[3]);
+
+        String sAgent = "";
+        String sContent = "";
+
+        if (isCompatMode) {
+            Log.e("NotificationPickaxe", "Not supported");
+            return null;
+        } else {
+            if(rawString[2].contains("님과")) {
+                sAgent = rawString[2].split("님과")[0];
+                sContent = "null";
+            } else if (rawString[2].contains("님이")) {
+                sAgent = rawString[2].split("님이")[0];
+                int iIndexSTR = rawString[2].indexOf("\"");
+                if (iIndexSTR != -1) {                                  //일반 페이스북 담벼락
+                    String str = rawString[2].substring(iIndexSTR);
+                    sContent = str.length() + "";
+                    Log.e("NotificationPickaxe", "Band -> " + str);
+                } else  {
+                    sContent = "null";
+                }
+            } else {
+                return null;
+            }
+        }
+
+        datastone.put(DataManager.FIELD_TYPE, DataManager.CONTEXT_TYPE_BAND);
+        datastone.put(DataManager.FIELD_AGENT, sAgent);
+        datastone.put(DataManager.FIELD_TARGET, "Null");
         datastone.put(DataManager.FIELD_TIME, System.currentTimeMillis());
         datastone.put(DataManager.FIELD_CONTENT, "길이: " + sContent);
 

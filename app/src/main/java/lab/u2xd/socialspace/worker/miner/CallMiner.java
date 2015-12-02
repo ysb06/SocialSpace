@@ -69,7 +69,7 @@ public class CallMiner extends PhoneLogMiner {
         datastone.put(DataManager.FIELD_AGENT, curBasic.getString(2));
         datastone.put(DataManager.FIELD_TARGET, "Me");
         datastone.put(DataManager.FIELD_TIME, curBasic.getLong(3));
-        datastone.put(DataManager.FIELD_CONTENT, "통화 종류: " + sType);
+        datastone.put(DataManager.FIELD_CONTENT, "통화 종류: " + sType + ", 길이: " + curBasic.getInt(4));
 
         return datastone;
     }

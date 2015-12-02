@@ -4,9 +4,9 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 
-    <string name="main_button_execute">데이터 조회</string>
+    <string name="main_button_execute">데이터 추출</string>
     <string name="main_button_datadelete">데이터 삭제</string>
-    <string name="main_button_notigen">알림 생성</string>
+    <string name="main_button_notigen">개인정보 재입력</string>
     <string name="main_button_readlog">문자 읽기</string>
     <string name="main_button_input">코드 실행</string>
     <string name="main_button_complete">실험 완료</string>
@@ -35,7 +35,7 @@
         - 이름, 나이, 학과, 성별, 전화번호, 휴대폰 번호, 이메일 주소\n
         - 스마트 폰 내 연락처(이름, 전화번호, 휴대폰 번호)\n
         - 통화기록, SMS 수신/발신 내역 (수신/발신 시간, 수신 대상, 발신 대상 등)\n
-        - 메신저 (카카오톡, 페이스북, 페이스북 메신저, 라인, 트위터, 마이피플) 수신/발신 내역 (수신/발신 시간, 수신 대상, 발신 대상 등)\n
+        - 메신저 (카카오톡, 카카오스토리, 페이스북, 페이스북 메신저, 라인, 트위터, 네이버 밴드) 수신/발신 내역 (수신/발신 시간, 수신 대상, 발신 대상 등)\n
         - 설문조사내용 : 메신저 선호도, 스마트폰 내 연락처 및 메신저 수신/발신 대상과의 관계\n
         \n
         선택적 정보 1: 실험 데이터 분석에 추가적으로 도움이 되는 데이터\n

@@ -92,12 +92,13 @@
         android:layout_height="wrap_content"
         android:text="@string/main_button_complete"
         android:id="@+id/main_button_complete"
-        android:layout_below="@+id/main_button_input"
-        android:layout_toRightOf="@+id/main_button_datadelete"
         android:layout_alignBottom="@+id/main_button_datadelete"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:onClick="Complete_Click"
-        android:visibility="invisible" />
+        android:visibility="invisible"
+        android:layout_toRightOf="@+id/main_button_notigen"
+        android:layout_toEndOf="@+id/main_button_notigen"
+        android:layout_below="@+id/adminPass" />
 
 </RelativeLayout>

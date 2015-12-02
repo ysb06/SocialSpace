@@ -12,6 +12,10 @@ import java.io.IOException;
  */
 public class DataWriter {
 
+    public static void initialize() {
+
+    }
+
     public static boolean write(String filename, String content) {
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
 

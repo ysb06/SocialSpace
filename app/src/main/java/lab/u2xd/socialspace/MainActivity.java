@@ -199,8 +199,10 @@ public class MainActivity extends AppCompatActivity implements Queryable{
                 Intent intentExp = new Intent(this, BasicInfo.class);
                 startActivityForResult(intentExp, REQUEST_GET_BASIC_INFO);
             } else {
-                Intent intentExp = new Intent(this, InfoAgreement.class);
-                startActivityForResult(intentExp, REQUEST_GET_PERSONAL_INFOMATION_AGREEMENT);
+                if(dataManager.isExperimentInfoRecorded()) {
+                    Intent intentExp = new Intent(this, InfoAgreement.class);
+                    startActivityForResult(intentExp, REQUEST_GET_PERSONAL_INFOMATION_AGREEMENT);
+                }
             }
         }
     }
@@ -229,15 +231,16 @@ public class MainActivity extends AppCompatActivity implements Queryable{
 
     //Execute 버튼 클릭 이벤트
     public void Execute_Click(View view) {
-        String str = dataManager.showAllData();
+        //String str = dataManager.showAllData();
         dataManager.exportDatabase();
-        textView.setText(str);
+        //textView.setText(str);
         sendBroadcast(new Intent("lab.u2xd.socialspace.miner.PHONELOG"));
     }
 
-    //Notigen 버튼 클릭 이벤트
+    //Notigen 버튼 클릭 이벤트, 개인정보 재입력 기능으로 변환함
     public void NotiGen_Click(View view) {
-        notiMaker.generateNotification(getApplicationContext());
+        Intent intentExp = new Intent(this, InfoAgreement.class);
+        startActivityForResult(intentExp, REQUEST_GET_PERSONAL_INFOMATION_AGREEMENT);
     }
 
     /**데이터 삭제 버튼 클릭 이벤트

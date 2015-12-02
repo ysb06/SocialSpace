@@ -58,6 +58,8 @@ public class DataManager extends SQLiteOpenHelper implements BaseColumns {
     public static final String CONTEXT_TYPE_MMS = "MMS";
     public static final String CONTEXT_TYPE_TWITTER = "Twitter";
     public static final String CONTEXT_TYPE_LINE = "Line";
+    public static final String CONTEXT_TYPE_KAKAOSTORY = "KakaoStory";
+    public static final String CONTEXT_TYPE_BAND = "Band";
 
     private static final String SQL_CREATE_MAINTABLE = "CREATE TABLE " + NAME_MAINTABLE + "(" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
             FIELD_TYPE + " TEXT, " +
