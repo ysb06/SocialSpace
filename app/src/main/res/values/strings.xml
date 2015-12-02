@@ -10,6 +10,7 @@
     <string name="main_button_readlog">문자 읽기</string>
     <string name="main_button_input">코드 실행</string>
     <string name="main_button_complete">실험 완료</string>
+    <string name="main_button_run_service">Start Space</string>
 
     <string name="title_activity_basic_info_ui">실험 기본 정보 입력</string>
     <string name="basicinfo_textfield_name">이름</string>
@@ -75,5 +76,11 @@
 
     <string name="title_activity_question2">설문지 - 순위</string>
     <string name="question2_guide">다음 사람들 중 자신이 가장 친밀하다고 느끼는 사람들을 순서대로 나열해 주세요</string>
+
+    <!-- ========== Space 인터페이스 UI ========== -->
+    <string name="title_activity_space_field">Space Field</string>
+
+
+    <string name="title_activity_space_main">메인 화면</string>
 
 </resources>

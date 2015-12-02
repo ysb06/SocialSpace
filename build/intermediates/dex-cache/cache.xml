@@ -2,6 +2,13 @@
 <items version="2" >
 
     <item
+        jar="D:\Program Files\Android\SDK\extras\android\m2repository\com\android\support\support-annotations\23.0.1\support-annotations-23.0.1.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="1fce89a6428c51467090d7f424e4c9c3dbd55f7e">
+        <dex dex="D:\Workspace\Android\SocialSpace\app\build\intermediates\pre-dexed\debug\support-annotations-23.0.1-fe334e2792f5f591f4f4c9dd2a440a52dea8971b.jar" />
+    </item>
+    <item
         jar="D:\Program Files\Android\SDK\extras\android\m2repository\com\android\support\support-annotations\23.0.0\support-annotations-23.0.0.jar"
         jumboMode="false"
         revision="23.0.0"
@@ -9,11 +16,11 @@
         <dex dex="D:\Workspace\Android\SocialSpace\app\build\intermediates\pre-dexed\release\support-annotations-23.0.0-183130e4133d1d65a08f3d0dc605a2008e2e752d.jar" />
     </item>
     <item
-        jar="D:\Workspace\Android\SocialSpace\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.0.0\jars\classes.jar"
+        jar="D:\Workspace\Android\SocialSpace\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.0\jars\libs\internal_impl-23.0.0.jar"
         jumboMode="false"
         revision="23.0.0"
-        sha1="4fcf0b1879f8caf497c073e1432d398e9e2988c1">
-        <dex dex="D:\Workspace\Android\SocialSpace\app\build\intermediates\pre-dexed\release\classes-c17dd4302a95bde395c75da24869300b25ff80fc.jar" />
+        sha1="8bd336eeae661e8311330284897ee07f8ebaa297">
+        <dex dex="D:\Workspace\Android\SocialSpace\app\build\intermediates\pre-dexed\release\internal_impl-23.0.0-d74b0d5c9c6124de983173bdc522f480af057e9e.jar" />
     </item>
     <item
         jar="D:\Workspace\Android\SocialSpace\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.0\jars\classes.jar"
@@ -23,11 +30,32 @@
         <dex dex="D:\Workspace\Android\SocialSpace\app\build\intermediates\pre-dexed\release\classes-b5249f5d535f7f8a484c8749324c782f90a2b6cd.jar" />
     </item>
     <item
-        jar="D:\Workspace\Android\SocialSpace\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.0\jars\libs\internal_impl-23.0.0.jar"
+        jar="D:\Workspace\Android\SocialSpace\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.0.0\jars\classes.jar"
         jumboMode="false"
         revision="23.0.0"
-        sha1="8bd336eeae661e8311330284897ee07f8ebaa297">
-        <dex dex="D:\Workspace\Android\SocialSpace\app\build\intermediates\pre-dexed\release\internal_impl-23.0.0-d74b0d5c9c6124de983173bdc522f480af057e9e.jar" />
+        sha1="4fcf0b1879f8caf497c073e1432d398e9e2988c1">
+        <dex dex="D:\Workspace\Android\SocialSpace\app\build\intermediates\pre-dexed\release\classes-c17dd4302a95bde395c75da24869300b25ff80fc.jar" />
+    </item>
+    <item
+        jar="D:\Workspace\Android\SocialSpace\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\jars\libs\internal_impl-23.0.1.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="aa92916125166649d8ad4ba3940c3dd7515596d3">
+        <dex dex="D:\Workspace\Android\SocialSpace\app\build\intermediates\pre-dexed\debug\internal_impl-23.0.1-8f22c60cbe1002dfe44ba22f40b1ed09fd19a2ef.jar" />
+    </item>
+    <item
+        jar="D:\Workspace\Android\SocialSpace\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.0.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="d86429b0f0b3f3cafbeb78dda1b9d89119ccb05d">
+        <dex dex="D:\Workspace\Android\SocialSpace\app\build\intermediates\pre-dexed\debug\classes-2cddd5a368060c26de1ffc5e9216cedd2a41a55f.jar" />
+    </item>
+    <item
+        jar="D:\Workspace\Android\SocialSpace\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\jars\classes.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="c31e21b53ff2f74664e498248d01453a32e32d48">
+        <dex dex="D:\Workspace\Android\SocialSpace\app\build\intermediates\pre-dexed\debug\classes-ed71171741a212be4de8b67c33c10b02bd9b8614.jar" />
     </item>
 
 </items>

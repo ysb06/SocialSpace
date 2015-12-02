@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import lab.u2xd.socialspace.worker.miner.objects.NotificationPickaxe;
+import lab.u2xd.socialspace.worker.miner.object.NotificationPickaxe;
 import lab.u2xd.socialspace.worker.warehouse.DataManager;
 import lab.u2xd.socialspace.worker.warehouse.objects.Datastone;
 

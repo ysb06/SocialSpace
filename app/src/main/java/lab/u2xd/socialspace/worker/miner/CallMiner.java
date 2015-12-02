@@ -1,11 +1,9 @@
 package lab.u2xd.socialspace.worker.miner;
 
 import android.content.Context;
-import android.database.Cursor;
-import android.net.Uri;
 import android.util.Log;
 
-import lab.u2xd.socialspace.worker.miner.objects.LatestDataPickaxe;
+import lab.u2xd.socialspace.worker.miner.object.LatestDataPickaxe;
 import lab.u2xd.socialspace.worker.warehouse.DataManager;
 import lab.u2xd.socialspace.worker.warehouse.objects.Datastone;
 

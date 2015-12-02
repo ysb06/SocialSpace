@@ -30,6 +30,7 @@ import java.util.List;
 import lab.u2xd.socialspace.experimenter.FinalQuestionaire;
 import lab.u2xd.socialspace.experimenter.InfoAgreement;
 import lab.u2xd.socialspace.experimenter.BasicInfo;
+import lab.u2xd.socialspace.spaceservice.SpaceField;
 import lab.u2xd.socialspace.worker.miner.CallEventMiner;
 import lab.u2xd.socialspace.worker.miner.CallMiner;
 import lab.u2xd.socialspace.worker.miner.SMSMiner;
@@ -45,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements Queryable{
 
     static final int REQUEST_GET_BASIC_INFO = 1;
     static final int REQUEST_GET_PERSONAL_INFOMATION_AGREEMENT = 2;
+    static final int REQUEST_SERVICE = 3;
     static final int REQUEST_START_NOTIFICATION_SERVICE = 222;
     static final int REQUEST_START_ACCESSIBILITY_SERVICE = 222;
 
@@ -204,24 +206,22 @@ public class MainActivity extends AppCompatActivity implements Queryable{
                     startActivityForResult(intentExp, REQUEST_GET_PERSONAL_INFOMATION_AGREEMENT);
                 }
             }
+        } else if(requestCode == REQUEST_SERVICE) {
+            Log.e("Main Activity", "Service End");
+            // TODO: 2015-12-02 추후 서비스 개발 완료되면 메인 액티비티 종료 코드를 추가할 것
         }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
@@ -277,6 +277,12 @@ public class MainActivity extends AppCompatActivity implements Queryable{
     public void Complete_Click(View view) {
         Intent intentExp = new Intent(this, FinalQuestionaire.class);
         startActivity(intentExp);
+    }
+
+    public void RunService_Click(View view) {
+        // TODO: 2015-12-02 SpaceField 개발이 완료되면 메인화면(Space Main)을 부를 수 있도록 클래스 명을 변경할 것
+        Intent intentExp = new Intent(this, SpaceField.class);
+        startActivityForResult(intentExp, REQUEST_SERVICE);
     }
 
     @Override

@@ -76,6 +76,14 @@
             android:name=".experimenter.Question2"
             android:label="@string/title_activity_question2" >
         </activity>
+        <activity
+            android:name=".spaceservice.SpaceMain"
+            android:label="@string/title_activity_space_main" >
+        </activity>
+        <activity
+            android:name=".spaceservice.SpaceField"
+            android:label="@string/title_activity_space_field" >
+        </activity>
     </application>
 
 </manifest>

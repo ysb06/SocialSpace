@@ -1,4 +1,4 @@
-package lab.u2xd.socialspace.worker.miner.objects;
+package lab.u2xd.socialspace.worker.miner.object;
 
 import lab.u2xd.socialspace.worker.warehouse.objects.Datastone;
 

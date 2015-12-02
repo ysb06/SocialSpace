@@ -11,7 +11,7 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
-import lab.u2xd.socialspace.worker.miner.objects.Minable;
+import lab.u2xd.socialspace.worker.miner.object.Minable;
 import lab.u2xd.socialspace.worker.warehouse.objects.Datastone;
 
 /**
