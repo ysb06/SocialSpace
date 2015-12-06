@@ -2,6 +2,7 @@ package lab.u2xd.socialspace.worker.miner;
 
 import android.annotation.TargetApi;
 import android.app.Notification;
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Environment;
 import android.service.notification.NotificationListenerService;
@@ -54,7 +55,8 @@ public class NotificationMiner extends NotificationListenerService {
         str[2] = notification.extras.getString(EXTRA_TEXT);
         str[3] = notification.extras.getString(EXTRA_TEXT);
 
-        Datastone data = NotificationPickaxe.mine(sbn.getPackageName(), str, false);
+        Bitmap icon = notification.extras.getParcelable(EXTRA_LARGE_ICON);
+        Datastone data = NotificationPickaxe.mine(this, sbn.getPackageName(), str, false, icon);
 
         if(data != null)
             dbManager.queryInsert(data);

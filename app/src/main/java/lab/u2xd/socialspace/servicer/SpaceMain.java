@@ -1,33 +1,23 @@
-package lab.u2xd.socialspace.spaceservice;
+package lab.u2xd.socialspace.servicer;
 
-import android.opengl.GLES20;
-import android.opengl.GLSurfaceView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import lab.u2xd.socialspace.R;
-import lab.u2xd.socialspace.spaceservice.graphic.GLField;
 
-public class SpaceField extends AppCompatActivity {
-
-    private GLSurfaceView glsv;
+public class SpaceMain extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        //OpenGL 초기화
-        glsv = new GLSurfaceView(this);
-        glsv.setRenderer(new GLField());
-        glsv.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
-        setContentView(glsv);
+        setContentView(R.layout.activity_space_main);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_space_field, menu);
+        getMenuInflater().inflate(R.menu.menu_space_main, menu);
         return true;
     }
 

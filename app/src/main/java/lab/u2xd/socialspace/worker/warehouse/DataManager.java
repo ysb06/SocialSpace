@@ -23,6 +23,7 @@ import java.util.Queue;
 import lab.u2xd.socialspace.worker.miner.ContactMiner;
 import lab.u2xd.socialspace.worker.object.RefinedData;
 import lab.u2xd.socialspace.worker.warehouse.objects.Datastone;
+import lab.u2xd.socialspace.worker.warehouse.objects.ProfileRaw;
 import lab.u2xd.socialspace.worker.warehouse.objects.QueryRequest;
 import lab.u2xd.socialspace.worker.warehouse.objects.Queryable;
 
@@ -33,7 +34,8 @@ public class DataManager extends SQLiteOpenHelper implements BaseColumns {
 
     private static DataManager object;
 
-    public static final int VERSION_DATABASE = 17;
+    public static final int VERSION_DATABASE = 18;
+    //실험 시작단계의 데이터 베이스는 17임
 
     public static final String NAME_DATABASE = "ContextDatabase";
     public static final String NAME_MAINTABLE = "ContextData";
@@ -50,6 +52,7 @@ public class DataManager extends SQLiteOpenHelper implements BaseColumns {
 
     public static final String FIELD_NUMBER = "Number";
     public static final String FIELD_NAME = "Name";
+    public static final String FIELD_PROFILE_IMAGE = "Profile";
 
     public static final String CONTEXT_TYPE_KAKAOTALK = "KakaoTalk";
     public static final String CONTEXT_TYPE_FACEBOOK= "Facebook";
@@ -60,7 +63,9 @@ public class DataManager extends SQLiteOpenHelper implements BaseColumns {
     public static final String CONTEXT_TYPE_LINE = "Line";
     public static final String CONTEXT_TYPE_KAKAOSTORY = "KakaoStory";
     public static final String CONTEXT_TYPE_BAND = "Band";
+    public static final String[] CONTEXT_TYPE_ALL = {CONTEXT_TYPE_CALL, CONTEXT_TYPE_SMS, CONTEXT_TYPE_KAKAOTALK, CONTEXT_TYPE_KAKAOSTORY, CONTEXT_TYPE_FACEBOOK, CONTEXT_TYPE_TWITTER, CONTEXT_TYPE_LINE, CONTEXT_TYPE_BAND};
 
+    //메인 Context 데이터베이스 관련
     private static final String SQL_CREATE_MAINTABLE = "CREATE TABLE " + NAME_MAINTABLE + "(" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
             FIELD_TYPE + " TEXT, " +
             FIELD_AGENT + " TEXT, " +
@@ -69,12 +74,15 @@ public class DataManager extends SQLiteOpenHelper implements BaseColumns {
             FIELD_CONTENT + " TEXT)";
     private static final String SQL_DROP_MAINTABLE = "DROP TABLE IF EXISTS " + NAME_MAINTABLE;
     private static final String SQL_GET_ALLMAIN = "SELECT * FROM " + NAME_MAINTABLE;
+    //연락처 데이터베이스 관련
     private static final String SQL_CREATE_CONTACTTABLE ="CREATE TABLE " + NAME_CONTACTTABLE + "(" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
             FIELD_NUMBER + " TEXT, " +
-            FIELD_NAME + " TEXT)";
+            FIELD_NAME + " TEXT, " +
+            FIELD_PROFILE_IMAGE + " TEXT)";     //프로필 이미지는 경로로 저장
+    private static final String SQL_SET_IMAGE_PATH = "";
     private static final String SQL_DROP_CONTACTTABLE = "DROP TABLE IF EXISTS " + NAME_CONTACTTABLE;
     private static final String SQL_GET_ALLCONTACT = "SELECT * FROM " + NAME_CONTACTTABLE;
-
+    //실험 데이터베이스 관련
     private static final String SQL_CREATE_EXPERIMENT_INFO = "CREATE TABLE " + NAME_EXPERIMENTTABLE + "(" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
             "Name" + " TEXT, " +
             "Age" + " INTEGER, " +
@@ -86,6 +94,7 @@ public class DataManager extends SQLiteOpenHelper implements BaseColumns {
     private static final String SQL_DROP_EXPERIMENT_INFO = "DROP TABLE IF EXISTS " + NAME_EXPERIMENTTABLE;
     private static final String SQL_GET_EXPERIMENT_INFO = "SELECT * FROM " + NAME_EXPERIMENTTABLE;
 
+    //환경설정 데이터베이스 관련
     private static final String SETTING_INITIALIZED = "Initialized";
     private static final String SQL_CREATE_SETTINGS = "CREATE TABLE " + NAME_SETTINGS + "(" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
             FIELD_TYPE + " TEXT, " +
@@ -93,7 +102,7 @@ public class DataManager extends SQLiteOpenHelper implements BaseColumns {
     private static final String SQL_DROP_SETTINGS = "DROP TABLE IF EXISTS " + NAME_SETTINGS;
     private static final String SQL_GET_SETTING_INITIALIZED = "SELECT * FROM " + NAME_SETTINGS + " WHERE " + FIELD_TYPE + " = '" + SETTING_INITIALIZED + "';";
     private static final String SQL_DELETE_SETTING_INITIALIZED = "DELETE FROM " + NAME_SETTINGS + " WHERE " + FIELD_TYPE + " = '" + SETTING_INITIALIZED + "';";
-
+    //설문조사 관련, 현재 사용하지 않음
     private static final String SQL_CREATE_QUESTIONAIRE = "CREATE TABLE " + NAME_QUESTIONAIRE + "(" + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
             FIELD_NAME + " TEXT, " +
             FIELD_CONTENT + " INTEGER)";
@@ -132,6 +141,7 @@ public class DataManager extends SQLiteOpenHelper implements BaseColumns {
         for(int i = 0; i < stones.length; i++) {
             queryInsert(NAME_CONTACTTABLE, stones[i]);
         }
+        Log.i("Data Manager", "Database is initialized -> " + db.isOpen());
     }
 
     public static DataManager getManager(Context context) {
@@ -143,7 +153,6 @@ public class DataManager extends SQLiteOpenHelper implements BaseColumns {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        Log.e("Data Manager", "I am making database! " + db.isOpen());
         db.execSQL(SQL_CREATE_MAINTABLE);
         db.execSQL(SQL_CREATE_EXPERIMENT_INFO);
         db.execSQL(SQL_CREATE_SETTINGS);
@@ -154,7 +163,7 @@ public class DataManager extends SQLiteOpenHelper implements BaseColumns {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        Log.e("Data Manager", "I am making database, again!");
+        Log.e("Data Manager", "Database is Upgraded");
         db.execSQL(SQL_DROP_MAINTABLE);
         db.execSQL(SQL_DROP_EXPERIMENT_INFO);
         db.execSQL(SQL_DROP_SETTINGS);
@@ -165,7 +174,7 @@ public class DataManager extends SQLiteOpenHelper implements BaseColumns {
 
     @Override
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        Log.e("Data Manager", "I am making old database, again!");
+        Log.e("Data Manager", "Database is Downgraded");
         super.onDowngrade(db, oldVersion, newVersion);
         db.execSQL(SQL_DROP_MAINTABLE);
         db.execSQL(SQL_DROP_EXPERIMENT_INFO);
@@ -195,7 +204,12 @@ public class DataManager extends SQLiteOpenHelper implements BaseColumns {
             tWork.start();
         }
     }
-    
+
+    /* 가능하다면 SELECT 문도 여기서 처리할 수 있도록 하면 좋을 듯. 지금은 귀찮아서 하지 않겠음
+    * 솔직히 이 데이터 매니저 구조 자체가 아주 비효율적으로 보임
+    * Datastone 객체로 변환했다 다시 ContentValue로 변환하는 과정에서 상당한 시간적 손실이 있는 것으로 보임
+    * 이러한 Time Delay때문에 어쩔 수 없이 SQL 요청 시 따로 스레드를 만들어 처리하는 구조가 되어 있음
+    * 더 가능하다면 이 데이터 처리 구조 자체를 바꾸면 좋겠지만 그럴 경우 앱을 갈아 엎는 형식이 될 거임. */
     private void work() {
         QueryRequest request;
         SQLiteDatabase db = getWritableDatabase();
@@ -207,16 +221,29 @@ public class DataManager extends SQLiteOpenHelper implements BaseColumns {
             } else {
                 request = listRequest.poll();
                 ContentValues values = request.getData().refineToContentValues();
+                //만약 쿼리 타입 중에 ContentValues를 쓰지 않는 경우가 있다면 위 코드 1줄 부분은 if문 안쪽으로 각각 넣어 줄 것
 
-                newid = db.insert(request.getTableName(), null, values);
-                if(newid != 0) {
-                    Log.e("Data Manager", "I save data in " + newid + " at " + request.getTableName());
+                if(request.getType() == QueryRequest.QUERY_TYPE_INSERT) {                       // Insert 쿼리
+                    newid = db.insert(request.getTableName(), null, values);
+                    if (newid != 0) {
+                        Log.i("Data Manager", "I save data in " + newid + " at " + request.getTableName());
+                    } else {
+                        Log.e("Data Manager", "I failed to save data");
+                    }
+                } else if(request.getType() == QueryRequest.QUERY_TYPE_UPDATE) {
+                    String where = request.getWhere() + "=?";
+                    newid = db.update(request.getTableName(), values, where, request.getWhereConditions());
+                    if (newid != 0) {
+                        Log.i("Data Manager", "Update Complete in " + newid + " at " + request.getTableName());
+                    } else {
+                        Log.e("Data Manager", "I failed to update data");
+                    }
                 } else {
-                    Log.e("Data Manager", "I failed to save data");
+                    Log.wtf("Data Manager", "Unknown Query Type! You must define Query Type.");
                 }
             }
         }
-        Log.e("Data Manager", "Query Processing Complete");
+        Log.i("Data Manager", "Query Processing Complete");
     }
 
     public void queryInsert(Intent intentBasicInfoResult, int agreementType) {
@@ -232,6 +259,10 @@ public class DataManager extends SQLiteOpenHelper implements BaseColumns {
         queryInsert(NAME_EXPERIMENTTABLE, stone);
     }
 
+    /** 메인 Context 테이블에 데이터 저장 쿼리
+     *
+     * @param data
+     */
     public void queryInsert(Datastone data) {
         listRequest.add(new QueryRequest(data, QueryRequest.QUERY_TYPE_INSERT));
         wake();
@@ -242,7 +273,7 @@ public class DataManager extends SQLiteOpenHelper implements BaseColumns {
         wake();
     }
 
-    public String getNameOfNumber(String AgentPhoneNumber) {
+    public String queryNameOfNumber(String AgentPhoneNumber) {
         getWritableDatabase();
         Cursor cursor = getReadableDatabase().rawQuery(SQL_GET_ALLCONTACT, null);
         while(cursor.moveToNext()) {
@@ -256,10 +287,20 @@ public class DataManager extends SQLiteOpenHelper implements BaseColumns {
         return "Unknown";
     }
 
+
+    public void queryImageNameUpdate(String name, String path) {
+        Datastone data = new Datastone();
+        data.put(FIELD_PROFILE_IMAGE, path);
+
+        listRequest.add(new QueryRequest(NAME_CONTACTTABLE, data, FIELD_NAME, new String[] { name }, QueryRequest.QUERY_TYPE_UPDATE));
+        wake();
+    }
+
+    //실험 정보 관련, 추후 서비스 개인정보 테이블로도 쓸 수 있음
     public boolean isExperimentInfoRecorded() {
         getWritableDatabase();
         Cursor cursor = getReadableDatabase().rawQuery(SQL_GET_EXPERIMENT_INFO, null);
-        Log.e("Data Manager", "Experiment Size -> " + cursor.getCount());
+        Log.i("Data Manager", "Experiment Size -> " + cursor.getCount());
         if(cursor.getCount() <= 0) {
             cursor.close();
             return true;
@@ -269,8 +310,7 @@ public class DataManager extends SQLiteOpenHelper implements BaseColumns {
         }
     }
 
-
-    //------------------------------------------ Settings -----------------------------------------//
+    // Setting 변경 관련
     public boolean querySettingInitialized() {
         getWritableDatabase();
         Cursor cursor = getReadableDatabase().rawQuery(SQL_GET_SETTING_INITIALIZED, null);
@@ -280,8 +320,10 @@ public class DataManager extends SQLiteOpenHelper implements BaseColumns {
             stone.put(FIELD_CONTENT, "True");
 
             queryInsert(NAME_SETTINGS, stone);
+            cursor.close();
             return false;
         } else {
+            cursor.close();
             return true;
         }
     }
@@ -289,7 +331,61 @@ public class DataManager extends SQLiteOpenHelper implements BaseColumns {
     public void querySettingInitializedRemove() {
         getWritableDatabase().execSQL(SQL_DELETE_SETTING_INITIALIZED);
     }
-    //---------------------------------------------------------------------------------------------//
+
+    //Context 테이블 읽기 쿼리
+    public ArrayList<ProfileRaw> queryContextData() {
+        Cursor cursor = getReadableDatabase().rawQuery(SQL_GET_ALLMAIN + " order by " + FIELD_TIME + " desc", null);
+        ArrayList<ProfileRaw> listName = new ArrayList<>();
+        Log.i("Data Manager", "Query Complete -> " + cursor.getCount());
+
+        if(cursor.moveToFirst()) {
+            do {
+                if(!cursor.isNull(2)) {
+                    ProfileRaw target = new ProfileRaw(cursor.getString(2));
+
+                    boolean isNameNotOnList = true;
+                    for (int i = 0; i < listName.size(); i++) {
+                        if (listName.get(i).name.equals(cursor.getString(2))) {
+                            target = listName.get(i);
+                            isNameNotOnList = false;
+                        }
+                    }
+                    if (isNameNotOnList) {  //여기가 문제
+                        listName.add(target);
+                    }
+
+                    for (int i = 0; i < CONTEXT_TYPE_ALL.length; i++) {
+                        if (CONTEXT_TYPE_ALL[i].equals(cursor.getString(1))) {
+                            target.count[i]++;
+
+                            target.listEvent.add(i);
+                            target.listTime.add(cursor.getLong(4));
+                        }
+                    }
+                }
+            } while (cursor.moveToNext());
+
+            Log.i("Data Manager", "Result -> " + listName.size());
+        }
+        return listName;
+    }
+
+    // Contact
+    public String queryBitmapPathOfName(String name) {
+        String path = "";
+        Cursor cursor = getReadableDatabase().rawQuery(SQL_GET_ALLCONTACT, null);
+        while(cursor.moveToNext()) {
+            if(cursor.getString(2).equals(name)) {
+                path = cursor.getString(3);
+                cursor.close();
+                return path;
+            }
+        }
+        cursor.close();
+        return null;
+    }
+
+    //------------------------ 이 밑으로는 안 쓰이거나 쓰지 말아야 할 코드 ------------------------//
 
     @Deprecated
     public void registerCallback(Queryable callback) {
@@ -325,10 +421,11 @@ public class DataManager extends SQLiteOpenHelper implements BaseColumns {
                     ", Time = " + cursor.getInt(4) +
                     ", Content = " + cursor.getString(5) + "\r\n \r\n";
         }
+        cursor.close();
         return str;
     }
 
-
+    /** 데이터베이스 초기화 메서드, 데이터 구조가 변경되는 것 외에는 데이터베이스는 기본적으로 지워지면 안됨. 데이터 구조 변경 시 데이터베이스 버전을 바꾸는 것으로 리셋 대체 */
     public void reset() {
         SQLiteDatabase db = getWritableDatabase();
         db.execSQL(SQL_DROP_MAINTABLE);

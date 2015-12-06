@@ -7,9 +7,9 @@
     <string name="main_button_execute">데이터 추출</string>
     <string name="main_button_datadelete">데이터 삭제</string>
     <string name="main_button_notigen">개인정보 재입력</string>
-    <string name="main_button_readlog">문자 읽기</string>
+    <string name="main_button_readlog">통화 읽기</string>
     <string name="main_button_input">코드 실행</string>
-    <string name="main_button_complete">실험 완료</string>
+    <string name="main_button_complete">실험 완료\n(문자 읽기)</string>
     <string name="main_button_run_service">Start Space</string>
 
     <string name="title_activity_basic_info_ui">실험 기본 정보 입력</string>

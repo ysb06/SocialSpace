@@ -1,7 +1,9 @@
 package lab.u2xd.socialspace.worker.warehouse.objects;
 
 import android.content.ContentValues;
+import android.graphics.Bitmap;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -60,31 +62,31 @@ public class Datastone {
             value = listValue.get(key);
 
             switch (listValueType.get(value)) {
-                case Datastone.TYPE_BOOLEAN:
+                case TYPE_BOOLEAN:
                     values.put(key, (boolean) value);
                     break;
-                case Datastone.TYPE_BYTE:
+                case TYPE_BYTE:
                     values.put(key, (byte) value);
                     break;
-                case Datastone.TYPE_CHARACTER:
+                case TYPE_CHARACTER:
                     values.put(key, (short)(char) value);
                     break;
-                case Datastone.TYPE_SHORT:
+                case TYPE_SHORT:
                     values.put(key, (short) value);
                     break;
-                case Datastone.TYPE_INTEGER:
+                case TYPE_INTEGER:
                     values.put(key, (int) value);
                     break;
-                case Datastone.TYPE_LONG:
+                case TYPE_LONG:
                     values.put(key, (long) value);
                     break;
-                case Datastone.TYPE_FLOAT:
+                case TYPE_FLOAT:
                     values.put(key, (float) value);
                     break;
-                case Datastone.TYPE_DOUBLE:
+                case TYPE_DOUBLE:
                     values.put(key, (double) value);
                     break;
-                case Datastone.TYPE_STRING:
+                case TYPE_STRING:
                     values.put(key, (String) value);
                     break;
             }

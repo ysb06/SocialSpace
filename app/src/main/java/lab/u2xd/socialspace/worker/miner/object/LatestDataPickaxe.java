@@ -44,22 +44,26 @@ public class LatestDataPickaxe implements Runnable {
         Datastone datastone = new Datastone();
 
         int iType = curBasic.getInt(5);
-
-        String sFrom = "Me";
-        String sTo = curBasic.getString(2);
-        if(sTo == null) {
-            sTo = "Unknown";
-        }
-        if(iType != 2) {
-            String temp = sFrom;
-            sFrom = sTo;
-            sTo = temp;
+        String sType = "";
+        switch (iType) {
+            case 1:
+                sType = "받기 Receive";
+                break;
+            case 2:
+                sType = "걸기 Call";
+                break;
+            case 3:
+                sType = "거절 Reject";
+                break;
+            default:
+                sType = "오류 Error " + iType;
+                break;
         }
         datastone.put(DataManager.FIELD_TYPE, DataManager.CONTEXT_TYPE_CALL);
-        datastone.put(DataManager.FIELD_AGENT, sFrom);
-        datastone.put(DataManager.FIELD_TARGET, sTo);
+        datastone.put(DataManager.FIELD_AGENT, curBasic.getString(2));
+        datastone.put(DataManager.FIELD_TARGET, "Me");
         datastone.put(DataManager.FIELD_TIME, curBasic.getLong(3));
-        datastone.put(DataManager.FIELD_CONTENT, "통화 종류: " + iType);
+        datastone.put(DataManager.FIELD_CONTENT, "통화 종류: " + sType + ", 길이: " + curBasic.getInt(4));
 
         return datastone;
     }

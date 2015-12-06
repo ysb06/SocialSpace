@@ -1,7 +1,16 @@
 package lab.u2xd.socialspace.worker.miner.object;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.os.Environment;
 import android.util.Log;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+
+import lab.u2xd.socialspace.supporter.DataWriter;
 import lab.u2xd.socialspace.worker.warehouse.DataManager;
 import lab.u2xd.socialspace.worker.warehouse.objects.Datastone;
 
@@ -10,11 +19,14 @@ import lab.u2xd.socialspace.worker.warehouse.objects.Datastone;
  */
 public class NotificationPickaxe {
 
-    public static Datastone mine(String packageName, String[] notification, boolean isCompatMode) {
+    public static Datastone mine(Context context, String packageName, String[] notification, boolean isCompatMode, Bitmap icon) {
         Log.e("NotificationPickaxe", "Mining..." + packageName);
 
         if(packageName.equals("com.kakao.talk")) {                       //카카오톡
             Log.e("NotificationPickaxe", "It is KakaoTalk data!");
+            if(!isCompatMode) {
+                collectIcon(context, notification, icon);
+            }
             return runKakaoTalk(notification);
 
         } else if(packageName.equals("com.facebook.katana")) {         //페이스북
@@ -56,6 +68,12 @@ public class NotificationPickaxe {
         datastone.put(DataManager.FIELD_CONTENT, "길이: " + noti[2].length());
 
         return datastone;
+    }
+
+    private static void collectIcon(Context context, String[] noti, Bitmap bitmap) {
+        String path = DataWriter.saveBitmap(context, noti[1], bitmap);
+        DataManager dbManager = DataManager.getManager(context);
+        dbManager.queryImageNameUpdate(noti[1], path);
     }
 
     private static Datastone runFacebookStatus(String[] noti, boolean isCompatMode) {

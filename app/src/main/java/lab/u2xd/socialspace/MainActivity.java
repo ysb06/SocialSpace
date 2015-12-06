@@ -1,10 +1,15 @@
 package lab.u2xd.socialspace;
 
-import android.accessibilityservice.AccessibilityService;
 import android.accessibilityservice.AccessibilityServiceInfo;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.os.Build;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
@@ -17,20 +22,21 @@ import android.view.View;
 import android.view.accessibility.AccessibilityManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import lab.u2xd.socialspace.experimenter.FinalQuestionaire;
 import lab.u2xd.socialspace.experimenter.InfoAgreement;
 import lab.u2xd.socialspace.experimenter.BasicInfo;
-import lab.u2xd.socialspace.spaceservice.SpaceField;
+import lab.u2xd.socialspace.servicer.SpaceField;
+import lab.u2xd.socialspace.servicer.graphic.object.GLPicture;
+import lab.u2xd.socialspace.supporter.DataWriter;
 import lab.u2xd.socialspace.worker.miner.CallEventMiner;
 import lab.u2xd.socialspace.worker.miner.CallMiner;
 import lab.u2xd.socialspace.worker.miner.SMSMiner;
@@ -257,10 +263,10 @@ public class MainActivity extends AppCompatActivity implements Queryable{
      * @param view 사용자가 클릭한 Button View
      */
     public void ReadLog_Click(View view) {
-        Datastone[] sms = SMSMiner.getMiner(this).mineAllData(this);
+        Datastone[] call = CallMiner.getMiner().mineAllData(this);
         // TODO: 2015-11-23 추후에는 문자는 데이터 업데이트 형식으로 읽을 것
-        for(int i = 0; i < sms.length; i++) {
-            dataManager.queryInsert(sms[i]);
+        for(int i = 0; i < call.length; i++) {
+            dataManager.queryInsert(call[i]);
         }
         bar.setVisibility(View.VISIBLE);
     }
@@ -275,14 +281,25 @@ public class MainActivity extends AppCompatActivity implements Queryable{
     }
 
     public void Complete_Click(View view) {
+        /* 폐기된 설문조사
         Intent intentExp = new Intent(this, FinalQuestionaire.class);
         startActivity(intentExp);
+        //*/
+
+        Datastone[] sms = SMSMiner.getMiner(this).mineAllData(this);
+        // TODO: 2015-11-23 추후에는 문자는 데이터 업데이트 형식으로 읽을 것
+        for(int i = 0; i < sms.length; i++) {
+            dataManager.queryInsert(sms[i]);
+        }
+        bar.setVisibility(View.VISIBLE);
     }
 
     public void RunService_Click(View view) {
         // TODO: 2015-12-02 SpaceField 개발이 완료되면 메인화면(Space Main)을 부를 수 있도록 클래스 명을 변경할 것
+        //*
         Intent intentExp = new Intent(this, SpaceField.class);
         startActivityForResult(intentExp, REQUEST_SERVICE);
+        //*/
     }
 
     @Override

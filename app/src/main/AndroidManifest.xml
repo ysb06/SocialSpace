@@ -77,12 +77,13 @@
             android:label="@string/title_activity_question2" >
         </activity>
         <activity
-            android:name=".spaceservice.SpaceMain"
+            android:name=".servicer.SpaceMain"
             android:label="@string/title_activity_space_main" >
         </activity>
         <activity
-            android:name=".spaceservice.SpaceField"
-            android:label="@string/title_activity_space_field" >
+            android:name=".servicer.SpaceField"
+            android:label="@string/title_activity_space_field"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         </activity>
     </application>
 

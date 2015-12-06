@@ -3,11 +3,6 @@ package lab.u2xd.socialspace.worker.miner;
 import android.content.Context;
 import android.util.Log;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.TimeZone;
-
 import lab.u2xd.socialspace.worker.warehouse.DataManager;
 import lab.u2xd.socialspace.worker.warehouse.objects.Datastone;
 
@@ -62,7 +57,7 @@ public class SMSMiner extends PhoneLogMiner {
         }
 
         datastone.put(DataManager.FIELD_TYPE, DataManager.CONTEXT_TYPE_SMS);
-        datastone.put(DataManager.FIELD_AGENT, dataManager.getNameOfNumber(curBasic.getString(2)));
+        datastone.put(DataManager.FIELD_AGENT, dataManager.queryNameOfNumber(curBasic.getString(2)));
         datastone.put(DataManager.FIELD_TARGET, "Me");
         datastone.put(DataManager.FIELD_TIME, curBasic.getLong(3));
         datastone.put(DataManager.FIELD_CONTENT, "문자 종류: " + sType + ", 길이: " + curBasic.getString(5).length());
