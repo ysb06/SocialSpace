@@ -19,6 +19,8 @@ import lab.u2xd.socialspace.worker.warehouse.objects.ProfileRaw;
  */
 public class Processor implements Comparator<ProfileRaw> {
 
+    private static final int PLANET_SIZE = 18;
+
     private Context context;
     private DataManager dbManager;
 
@@ -42,27 +44,29 @@ public class Processor implements Comparator<ProfileRaw> {
 
         Collections.sort(rawData, this);
         Collections.reverse(rawData);
-        Log.i("Processor", "Calculation Complete");
+        Log.i("Processor", "Calculation Complete -> " + rawData.size());
         for(ProfileRaw raw : rawData) {
-            Log.i("Processor", "Name -> " + raw.name + ", Score -> " + raw.score);
+            Log.i("Processor", "Score -> " + raw.name + ",  " + raw.score);
         }
     }
 
     public SocialPlanet[] getPlanets() {
         SocialPlanet[] planets;
-        if(rawData.size() < 9) {
+        if(rawData.size() < PLANET_SIZE) {
             planets = new SocialPlanet[rawData.size()];
         } else {
-            planets = new SocialPlanet[9];
+            planets = new SocialPlanet[PLANET_SIZE];
         }
         Bitmap face = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher);
         for(int i = 0; i < planets.length; i++) {
-            String path = dbManager.queryBitmapPathOfName(rawData.get(i).name);
+            /* String path = dbManager.queryBitmapPathOfName(rawData.get(i).name);
             if(path == null) {
                 planets[i] = new SocialPlanet(face, rawData.get(i));
             } else {
                 planets[i] = new SocialPlanet(BitmapFactory.decodeFile(path), rawData.get(i));
             }
+            // 실험자들을 위한 코드 비활성화, 실험 후에는 원래대로 할 것 */
+            planets[i] = new SocialPlanet(face, rawData.get(i));        //실험 후에는 삭제
         }
         return planets;
     }
@@ -83,6 +87,10 @@ public class Processor implements Comparator<ProfileRaw> {
     private void removeNotPeople(ArrayList<ProfileRaw> raws) {
         for(ProfileRaw raw : raws) {
             if(raw.name.equals("카카오톡")) {
+                raws.remove(raw);
+                removeNotPeople(raws);
+                return;
+            } else if(raw.name.contains("LINE")) {
                 raws.remove(raw);
                 removeNotPeople(raws);
                 return;

@@ -26,7 +26,7 @@ public class ClosedField implements Runnable {
         this.planets = planets;
 
         //임시 움직임 코드
-        float fMinRad = 0.35f;
+        float fMinRad = 0.25f;
         float fTotalScore = 0;
         for(SocialPlanet planet : planets) {
             fTotalScore += planet.getScore();
@@ -35,7 +35,7 @@ public class ClosedField implements Runnable {
 
         for(int i = 0; i < planets.length; i++) {
             float ratio = 1 - (planets[i].getScore() / fTotalScore);
-            planets[i].setPosition(fMinRad + (ratio * 0.2f) * (float)i);
+            planets[i].setPosition(fMinRad + (ratio * 0.12f) * (float)i);
         }
 
         //---------------

@@ -24,7 +24,7 @@ public class SpaceField extends AppCompatActivity implements View.OnTouchListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        calculator = new WeightedACOProcessor(this);
+        calculator = new Processor(this);
         SocialPlanet[] planets = calculator.getPlanets();
 
         //OpenGL 초기화

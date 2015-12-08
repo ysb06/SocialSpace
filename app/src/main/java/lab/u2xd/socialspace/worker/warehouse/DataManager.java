@@ -34,7 +34,7 @@ public class DataManager extends SQLiteOpenHelper implements BaseColumns {
 
     private static DataManager object;
 
-    public static final int VERSION_DATABASE = 18;
+    public static final int VERSION_DATABASE = 17;
     //실험 시작단계의 데이터 베이스는 17임
 
     public static final String NAME_DATABASE = "ContextDatabase";

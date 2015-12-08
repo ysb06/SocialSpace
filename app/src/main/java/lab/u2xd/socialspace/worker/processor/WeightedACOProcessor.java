@@ -12,12 +12,12 @@ public class WeightedACOProcessor extends Processor {
 
     public static final float IMPACT_TIME = 0.9f;
 
-    public static final float WEIGHT_CALL = 0.25f;
-    public static final float WEIGHT_SMS = 0.15f;
-    public static final float WEIGHT_KAKAO = 0.45f;
-    public static final float WEIGHT_FACEBOOK = 0.05f;
-    public static final float WEIGHT_TWITTER = 0.05f;
-    public static final float WEIGHT_OTHERS = 0.05f;
+    public static final float WEIGHT_CALL = 0.238f;
+    public static final float WEIGHT_SMS = 0.140f;
+    public static final float WEIGHT_KAKAO = 0.341f;
+    public static final float WEIGHT_FACEBOOK = 0.138f;
+    public static final float WEIGHT_TWITTER = 0.065f;
+    public static final float WEIGHT_OTHERS = 0.077f;
 
     public static final int TYPE_CALL = 0;
     public static final int TYPE_SMS = 1;
