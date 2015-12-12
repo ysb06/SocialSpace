@@ -37,7 +37,17 @@ public class GLTriangle extends GLObject2D implements GLDrawable {
     }
 
     @Override
-    public void draw(GL10 gl) {
+    public void onCreate(GL10 gl) {
+
+    }
+
+    @Override
+    public void onDestroy() {
+
+    }
+
+    @Override
+    public void onDraw(GL10 gl) {
         gl.glVertexPointer(2, GL10.GL_FLOAT, 0, verBuffer);
         gl.glDrawArrays(GL10.GL_TRIANGLES, 0, 3);
 

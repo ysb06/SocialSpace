@@ -62,12 +62,6 @@ public class DataWriter {
         return str;
     }
 
-    public static void testName() {
-        File test = new File("Test.txt");
-
-        Log.e("Data Writer", test.getAbsoluteFile().getAbsolutePath());
-    }
-
     public static boolean write(String filename, String content) {
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
 

@@ -7,5 +7,7 @@ import javax.microedition.khronos.opengles.GL10;
  */
 public interface GLDrawable {
 
-    void draw(GL10 gl);
+    void onCreate(GL10 gl);
+    void onDestroy();
+    void onDraw(GL10 gl);
 }

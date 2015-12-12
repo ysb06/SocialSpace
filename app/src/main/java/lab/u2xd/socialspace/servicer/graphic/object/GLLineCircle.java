@@ -1,5 +1,7 @@
 package lab.u2xd.socialspace.servicer.graphic.object;
 
+import android.util.Log;
+
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
@@ -18,6 +20,7 @@ public class GLLineCircle implements GLDrawable {
     private float fRadius;
     private float fStartAngle;
     private float fAngle;
+    protected boolean isVisible = true;
 
     private FloatBuffer[] buffers;
 
@@ -61,6 +64,10 @@ public class GLLineCircle implements GLDrawable {
         fx = x;
         fy = y;
         setVertexBuffer();
+    }
+
+    public void setVisible(boolean visible) {
+        isVisible = visible;
     }
 
     public float getX() {
@@ -128,10 +135,22 @@ public class GLLineCircle implements GLDrawable {
 
 
     @Override
-    public void draw(GL10 gl) {
-        for(FloatBuffer buffer : buffers) {
-            gl.glVertexPointer(2, GL10.GL_FLOAT, 0, buffer);
-            gl.glDrawArrays(GL10.GL_LINES, 0, 2);
+    public void onCreate(GL10 gl) {
+
+    }
+
+    @Override
+    public void onDestroy() {
+
+    }
+
+    @Override
+    public void onDraw(GL10 gl) {
+        if (isVisible) {
+            for (FloatBuffer buffer : buffers) {
+                gl.glVertexPointer(2, GL10.GL_FLOAT, 0, buffer);
+                gl.glDrawArrays(GL10.GL_LINES, 0, 2);
+            }
         }
     }
 }

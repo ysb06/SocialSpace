@@ -86,9 +86,19 @@ public class GLDotCircle implements GLDrawable {
     }
 
     @Override
-    public void draw(GL10 gl) {
+    public void onCreate(GL10 gl) {
+
+    }
+
+    @Override
+    public void onDestroy() {
+
+    }
+
+    @Override
+    public void onDraw(GL10 gl) {
         for(GLTriangle triangle : triLine) {
-            triangle.draw(gl);
+            triangle.onDraw(gl);
         }
     }
 }

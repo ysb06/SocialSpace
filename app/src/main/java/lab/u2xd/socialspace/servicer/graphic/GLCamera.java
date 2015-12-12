@@ -1,0 +1,91 @@
+package lab.u2xd.socialspace.servicer.graphic;
+
+import javax.microedition.khronos.opengles.GL10;
+
+/**
+ * Created by ysb on 2015-12-10.
+ */
+public class GLCamera {
+
+    private static final float CAM_SPEED = 0.01f;
+    private static final float CAM_ZOOM_SPEED = 0.005f;
+
+    private static final int MODE_NO_WORK = 0;
+    private static final int MODE_NORMAL = 1;
+    private static final int MODE_CENTER = 2;
+
+    private int iMode = 0;
+
+    public GLCamera() {
+
+    }
+
+    private float targetX = 0;
+    private float targetY = 0;
+    int iZoomRequest = 0;
+
+    public void controlView(GL10 gl) {
+        if(iZoomRequest == 1) {
+            gl.glScalef(1.45f, 1.45f, 1.45f);
+            iZoomRequest = 0;
+        }
+
+        runCamWorkMove(gl);
+
+        if(targetX == 0 && targetY == 0) {
+            if (iZoomRequest == 2) {
+                gl.glScalef((1 / 1.45f), (1 / 1.45f), (1 / 1.45f));
+                iZoomRequest = 0;
+            }
+        }
+    }
+
+    public void requestFocusNearCenter() {
+        targetX = 0.5f;
+        targetY = 0.5f;
+        iZoomRequest = 1;
+    }
+
+    public void requestMove1() {
+        targetX = -0.3f;
+        targetY = -0.3f;
+    }
+
+    public void requestMove2() {
+        targetX = -0.6f;
+        targetY = -0.6f;
+    }
+
+    public void requestNormal() {
+        targetX = 0.4f;
+        targetY = 0.4f;
+        iZoomRequest = 2;
+    }
+
+    private void runCamWorkMove(GL10 gl) {
+        if(targetX < -0.001 || targetX > 0.001) {
+            if(targetX >= 0) {
+                targetX -= CAM_SPEED;
+                gl.glTranslatef(CAM_SPEED, 0, 0);
+            } else {
+                targetX += CAM_SPEED;
+                gl.glTranslatef(-CAM_SPEED, -0, 0);
+            }
+        } else {
+            targetX = 0;
+        }
+
+        if(targetY < -0.001 || targetY > 0.001) {
+            if(targetY >= 0) {
+                targetY -= CAM_SPEED;
+                gl.glTranslatef(0, CAM_SPEED, 0);
+            } else {
+                targetY += CAM_SPEED;
+                gl.glTranslatef(0, -CAM_SPEED, 0);
+            }
+        } else {
+            targetY = 0;
+        }
+    }
+
+}

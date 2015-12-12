@@ -6,7 +6,6 @@ import android.graphics.Color;
 import javax.microedition.khronos.opengles.GL10;
 
 import lab.u2xd.socialspace.servicer.graphic.object.GLLineCircle;
-import lab.u2xd.socialspace.servicer.graphic.object.component.GLDestroyable;
 import lab.u2xd.socialspace.servicer.graphic.object.component.GLDrawable;
 import lab.u2xd.socialspace.servicer.graphic.object.GLPicture;
 import lab.u2xd.socialspace.servicer.graphic.object.GLText;
@@ -15,10 +14,10 @@ import lab.u2xd.socialspace.worker.warehouse.objects.ProfileRaw;
 /**
  * Created by ysb on 2015-12-03.
  */
-public class SocialPlanet implements GLDrawable, GLDestroyable {
+public class SocialPlanet implements GLDrawable {
 
-    private static final float CENTER_X = 0.7f;
-    private static final float CENTER_Y = 1f;
+    private float fCenterX = 0;
+    private float fCenterY = 0;
 
     private GLText name;
     private GLPicture face;
@@ -36,34 +35,61 @@ public class SocialPlanet implements GLDrawable, GLDestroyable {
     public SocialPlanet(Bitmap profile, ProfileRaw raw) {
         face = new GLPicture(0, 0, 0.15f, profile);
         this.name = new GLText(0, 0, 0.03f, Color.WHITE, raw.name);
-        track = new GLLineCircle(-CENTER_X, -CENTER_Y, 1);
+        track = new GLLineCircle(fCenterX, fCenterY, 1);
         score = raw.score;
+    }
+
+    public void setPosition(double radian) {
+        dRadian = radian;
+    }
+
+    @Override
+    public void onCreate(GL10 gl) {
+        name.onCreate(gl);
+        face.onCreate(gl);
+        track.onCreate(gl);
     }
 
     private void setPosition(float x, float y) {
         face.setPosition(x, y);
-        name.setPosition(x, y - (face.getHeight() + name.getTextPicture().getHeight()) / 2);
+        name.setPosition(x, y - (face.getHeight() + name.getHeight()) / 2);
+    }
+
+    public float getX() {
+        return face.getX();
+    }
+
+    public float getCenterX() {
+        return fCenterX;
+    }
+
+    public float getCenterY() {
+        return fCenterY;
+    }
+
+    public float getY() {
+        return face.getY();
+    }
+
+    public void resetPosition() {
+        dRadian = 0f;
+    }
+
+    public void setSpeed(double speed) {
+        dRadianSpeed = speed;
     }
 
     /** 반지름을 설정, 중심은 화면 왼쪽 최하단 <b>근처</b>
      *
      * @param radius 0에서 1사이의 반지름 값
      */
-    public void setPosition(float radius) {
+    public void setOrbit(float radius) {
         fRadius = radius;
         track.setRadius(radius);
     }
 
-    public GLText getName() {
-        return name;
-    }
-
-    public GLPicture getFace() {
-        return face;
-    }
-
-    public GLLineCircle getTrack() {
-        return track;
+    public float getRadius() {
+        return fRadius;
     }
 
     public float getScore() {
@@ -72,24 +98,33 @@ public class SocialPlanet implements GLDrawable, GLDestroyable {
 
     public void update() {
         dRadian += dRadianSpeed;
-        if(face.getX() < -(name.getTextPicture().getWidth() / 2) - 0.6f) {
-            dRadian = 0;
-        }
-        rePosition(dRadian);
+        orbit(dRadian);
     }
 
-    private void rePosition(double radian) {
-        float fx = (float)(Math.cos(radian)) * fRadius - CENTER_X;
-        float fy = (float)(Math.sin(radian)) * fRadius - CENTER_Y;
+    public void setCenter(float x, float y) {
+        fCenterX = x;
+        fCenterY = y;
+        track.setPosition(x, y);
+    }
+
+    public void setVisible(boolean visible) {
+        name.setVisible(visible);
+        face.setVisible(visible);
+        track.setVisible(visible);
+    }
+
+    private void orbit(double radian) {
+        float fx = (float)(Math.cos(radian)) * fRadius + fCenterX;
+        float fy = (float)(Math.sin(radian)) * fRadius + fCenterY;
 
         setPosition(fx, fy);
     }
 
     @Override
-    public void draw(GL10 gl) {
-        face.draw(gl);
-        name.draw(gl);
-        track.draw(gl);
+    public void onDraw(GL10 gl) {
+        face.onDraw(gl);
+        name.onDraw(gl);
+        track.onDraw(gl);
     }
 
     @Override

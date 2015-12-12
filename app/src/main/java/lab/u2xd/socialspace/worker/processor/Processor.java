@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,8 +19,6 @@ import lab.u2xd.socialspace.worker.warehouse.objects.ProfileRaw;
  * Created by ysb on 2015-12-04.
  */
 public class Processor implements Comparator<ProfileRaw> {
-
-    private static final int PLANET_SIZE = 18;
 
     private Context context;
     private DataManager dbManager;
@@ -46,27 +45,33 @@ public class Processor implements Comparator<ProfileRaw> {
         Collections.reverse(rawData);
         Log.i("Processor", "Calculation Complete -> " + rawData.size());
         for(ProfileRaw raw : rawData) {
-            Log.i("Processor", "Score -> " + raw.name + ",  " + raw.score);
+            Log.e("Processor", "Score -> " + raw.name + ",  " + raw.score);
         }
     }
 
-    public SocialPlanet[] getPlanets() {
+    public SocialPlanet[] getPlanets(int planet_count) {
+        if(planet_count > 20 || planet_count < 1) {
+            planet_count = 20;
+            Toast.makeText(context, "표시 수는 20개를 넘을 수 없습니다", Toast.LENGTH_SHORT);
+        }
         SocialPlanet[] planets;
-        if(rawData.size() < PLANET_SIZE) {
+
+        if(rawData.size() < planet_count) {
             planets = new SocialPlanet[rawData.size()];
         } else {
-            planets = new SocialPlanet[PLANET_SIZE];
+            planets = new SocialPlanet[planet_count];
         }
         Bitmap face = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher);
         for(int i = 0; i < planets.length; i++) {
-            /* String path = dbManager.queryBitmapPathOfName(rawData.get(i).name);
+            //*
+            String path = dbManager.queryBitmapPathOfName(rawData.get(i).name);
             if(path == null) {
                 planets[i] = new SocialPlanet(face, rawData.get(i));
             } else {
                 planets[i] = new SocialPlanet(BitmapFactory.decodeFile(path), rawData.get(i));
             }
             // 실험자들을 위한 코드 비활성화, 실험 후에는 원래대로 할 것 */
-            planets[i] = new SocialPlanet(face, rawData.get(i));        //실험 후에는 삭제
+            //planets[i] = new SocialPlanet(face, rawData.get(i));        //실험 후에는 삭제
         }
         return planets;
     }

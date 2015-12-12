@@ -55,7 +55,17 @@ public class GLRectangle extends GLObject2D implements GLDrawable {
     }
 
     @Override
-    public void draw(GL10 gl) {
+    public void onCreate(GL10 gl) {
+
+    }
+
+    @Override
+    public void onDestroy() {
+
+    }
+
+    @Override
+    public void onDraw(GL10 gl) {
         gl.glVertexPointer(3, GL10.GL_FLOAT, 0, verBuffer);
         gl.glDrawElements(GL10.GL_TRIANGLES, index.length, GL10.GL_UNSIGNED_BYTE, idxBuffer);
     }

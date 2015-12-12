@@ -8,13 +8,12 @@ import android.graphics.Rect;
 
 import javax.microedition.khronos.opengles.GL10;
 
-import lab.u2xd.socialspace.servicer.graphic.object.component.GLDestroyable;
 import lab.u2xd.socialspace.servicer.graphic.object.component.GLDrawable;
 
 /**
  * Created by ysb on 2015-12-04.
  */
-public class GLText implements GLDrawable, GLDestroyable {
+public class GLText implements GLDrawable {
 
     /** 텍스트 선명도, 값이 높을수록 품질은 높으나 속도가 느려질 수 있음 */
     private static final float RESOLUTION_TEXT = 50f;
@@ -31,10 +30,6 @@ public class GLText implements GLDrawable, GLDestroyable {
         setSize(size);
         sContent = text;
         iColor = color;
-    }
-
-    public GLPicture getTextPicture() {
-        return glText;
     }
 
     private GLPicture createStringBitmap(String text, int color, float size) {
@@ -62,6 +57,14 @@ public class GLText implements GLDrawable, GLDestroyable {
         glText.setPosition(x, y);
     }
 
+    public float getWidth() {
+        return glText.getWidth();
+    }
+
+    public float getHeight() {
+        return glText.getHeight();
+    }
+
     /** 높이를 기준으로 한 글자 크기 설정
      *
      * @param size 글자 크기
@@ -71,14 +74,23 @@ public class GLText implements GLDrawable, GLDestroyable {
         glText.setSize(size * ratio, size);
     }
 
+    public void setVisible(boolean visible) {
+        glText.setVisible(visible);
+    }
+
     @Override
-    public void draw(GL10 gl) {
-        glText.draw(gl);
+    public void onCreate(GL10 gl) {
+        glText.onCreate(gl);
     }
 
     @Override
     public void onDestroy() {
         bitText.recycle();
         glText.onDestroy();
+    }
+
+    @Override
+    public void onDraw(GL10 gl) {
+        glText.onDraw(gl);
     }
 }

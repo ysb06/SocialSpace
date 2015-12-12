@@ -1,10 +1,10 @@
 package lab.u2xd.socialspace.servicer.object;
 
-import android.provider.Settings;
 import android.util.Log;
 
-import lab.u2xd.socialspace.servicer.object.SocialPlanet;
-import lab.u2xd.socialspace.servicer.object.error.RadiusOutOfBoundException;
+import java.util.Random;
+
+import lab.u2xd.socialspace.servicer.graphic.GLCamera;
 
 /**
  * Created by ysb on 2015-12-03.
@@ -12,39 +12,41 @@ import lab.u2xd.socialspace.servicer.object.error.RadiusOutOfBoundException;
 public class ClosedField implements Runnable {
 
     //Closed Field는 Social Field와 운명을 같이 한다.
-    private Thread updator;
+    protected Thread updator;
     private boolean isLive = true;
     private boolean isPaused = false;
 
     private SocialPlanet[] planets;
 
-    public ClosedField() {
+    GLCamera camera;
+    private float fCenterX = 0;
+    private float fCenterY = 0;
+
+    public ClosedField(GLCamera camera) {
         updator = new Thread(this);
+        this.camera = camera;
     }
 
     public void initialize(SocialPlanet[] planets) {
         this.planets = planets;
 
-        //임시 움직임 코드
-        float fMinRad = 0.25f;
         float fTotalScore = 0;
         for(SocialPlanet planet : planets) {
             fTotalScore += planet.getScore();
         }
 
+        Random rnd = new Random();
+
+        fCenterX = -0.7f;
+        fCenterY = -1.f;
 
         for(int i = 0; i < planets.length; i++) {
             float ratio = 1 - (planets[i].getScore() / fTotalScore);
-            planets[i].setPosition(fMinRad + (ratio * 0.12f) * (float)i);
+            planets[i].setOrbit(2f * ratio - 1.25f + (i * 0.07f));
+            planets[i].setCenter(fCenterX, fCenterY);
+            planets[i].setPosition(Math.PI / 2 * rnd.nextDouble());
+            planets[i].setSpeed(rnd.nextDouble() * 0.001d + 0.001f);
         }
-
-        //---------------
-        // TODO: 2015-12-03 Procssor로부터 표시할 리스트 및 스코어를 받아서 각 객체를 생성 랜더링 준비
-        // 이곳은 Processor에서 작업이 끝나면 불려져서 랜더링할 준비를 하게 된다.
-        // Processor는 하나가 아니며 어떠한 프로세서가 부르더라도 같은 작업을 할 수 있도록 설게되어야 함.
-        // 총 9개(7+_ 법칙에 의해...)의 SocialPlanet을 Processor로부터 받음(SocialPlanet 객체들은 Processor에서 생성)
-        // 모든 객체의 움직임 및 UI는 이곳에서 관
-        // initialize 작업이 끝나면 SpaceField로 GLPictures 객체들을 넘겨 GLSpaceView에 표시할 수 있게 해야 함
         updator.start();
     }
 
@@ -88,12 +90,80 @@ public class ClosedField implements Runnable {
         Log.i("Closed Field", "Thread Stopped!");
     }
 
+    private boolean bSwitch = true;
+
     /** 초당 60번 불리는 함수, Closed Field 내 객체 움직임 담당 */
-    private void update() {
+    protected void update() {
         for(int i = 0; i < planets.length; i++) {
+            if(iMode == 0) {
+                if (planets[i].getX() < -0.7f) {
+                    planets[i].setPosition(0);
+                }
+            } else if(iMode == 1) {
+                if (planets[i].getX() < -1.0f) {
+                    if(i <= 3)
+                        planets[i].setPosition(-0.6f);
+                    else
+                        planets[i].setPosition(0.3f);
+                }
+            } else if(iMode == 2) {
+                if (planets[i].getX() < -0.7f) {
+                    planets[i].setPosition(1);
+                }
+            } else if(iMode == 3) {
+                if (planets[i].getX() < -0.5f) {
+                    planets[i].setPosition(0.4);
+                }
+            }
             planets[i].update();
         }
     }
 
+    private int iMode = 0;
 
+    public void onTouch(float x, float y) {
+        Log.e("Closed Field", "X -> " + x + ", Y -> " + y);
+
+        if(x > 0.4f && y > 0.5f) {
+            iMode++;
+
+            if(iMode > 3) {
+                iMode = 0;
+            } else if(iMode < 0) {
+                iMode = 3;
+            }
+
+            if(iMode == 0) {
+                camera.requestNormal();
+
+                for(int i = 0; i < planets.length; i++) {
+                    planets[i].setVisible(true);
+                }
+            } else if(iMode == 1) {
+                camera.requestFocusNearCenter();
+
+            } else if(iMode == 2) {
+                camera.requestMove1();
+
+                if(planets.length >= 4) {
+                    for(int i = 0; i < planets.length; i++) {
+                        if(i < 4 || i > 11)
+                            planets[i].setVisible(false);
+                    }
+                }
+            } else if(iMode == 3) {
+                camera.requestMove2();
+
+                if(planets.length >= 11) {
+                    for(int i = 0; i < planets.length; i++) {
+                        if(i <= 11)
+                            planets[i].setVisible(false);
+                        else
+                            planets[i].setVisible(true);
+                    }
+                }
+            }
+            Log.e("Closed Field", "Mode -> " + iMode + ", Size => " + planets[1].getRadius());
+        }
+    }
 }
