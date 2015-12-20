@@ -1,4 +1,4 @@
-package lab.u2xd.socialspace.servicer;
+package lab.u2xd.socialspace.servicer.ui;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

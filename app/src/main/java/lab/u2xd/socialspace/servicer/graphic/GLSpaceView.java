@@ -5,6 +5,8 @@ import android.opengl.GLSurfaceView;
 import android.util.AttributeSet;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.ListIterator;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -17,12 +19,12 @@ import lab.u2xd.socialspace.servicer.graphic.object.component.GLDrawable;
 public class GLSpaceView extends android.opengl.GLSurfaceView implements GLSurfaceView.Renderer {
 
     private final float[] COLOR_BASE = {0.05f, 0.05f, 0.05f, 1};
-    private ArrayList<GLDrawable> objects;
+    private LinkedList<GLDrawable> objects;
     private GLCamera camera;
 
     public GLSpaceView(Context context, GLCamera camera) {
         super(context);
-        objects = new ArrayList<>();
+        objects = new LinkedList<>();
         setRenderer(this);
         setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
         this.camera = camera;
@@ -30,7 +32,7 @@ public class GLSpaceView extends android.opengl.GLSurfaceView implements GLSurfa
 
     public GLSpaceView(Context context, AttributeSet attrs, GLCamera camera) {
         super(context, attrs);
-        objects = new ArrayList<>();
+        objects = new LinkedList<>();
         setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
         setRenderer(this);
         this.camera = camera;
@@ -72,6 +74,8 @@ public class GLSpaceView extends android.opengl.GLSurfaceView implements GLSurfa
             gl.glViewport(-(height - width) / 2, 0, height, height);
         else
             gl.glViewport(0, 0, width, width);
+
+        camera.setup(gl);
     }
 
     @Override
@@ -79,9 +83,12 @@ public class GLSpaceView extends android.opengl.GLSurfaceView implements GLSurfa
         gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
         camera.controlView(gl);
 
-        for (int i = 0; i < objects.size(); i++) {
-            objects.get(i).onDraw(gl);
+        ListIterator<GLDrawable> iterator = objects.listIterator();
+
+        while (iterator.hasNext()) {
+            iterator.next().onDraw(gl);
         }
+
     }
 
     public void destroy() {

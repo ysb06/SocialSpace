@@ -3,6 +3,8 @@ package lab.u2xd.socialspace.worker.processor;
 import android.content.Context;
 import android.util.Log;
 
+import java.util.ArrayList;
+
 import lab.u2xd.socialspace.worker.warehouse.objects.ProfileRaw;
 
 /**
@@ -10,14 +12,14 @@ import lab.u2xd.socialspace.worker.warehouse.objects.ProfileRaw;
  */
 public class WeightedACOProcessor extends Processor {
 
-    public static final float IMPACT_TIME = 0.9f;
+    public static final float IMPACT_TIME = 0.999999f;
 
-    public static final float WEIGHT_CALL = 0.238f;
-    public static final float WEIGHT_SMS = 0.140f;
-    public static final float WEIGHT_KAKAO = 0.341f;
-    public static final float WEIGHT_FACEBOOK = 0.138f;
-    public static final float WEIGHT_TWITTER = 0.065f;
-    public static final float WEIGHT_OTHERS = 0.077f;
+    public static final float WEIGHT_CALL = 0.448f;
+    public static final float WEIGHT_SMS = 0.240f;
+    public static final float WEIGHT_KAKAO = 0.024f;
+    public static final float WEIGHT_FACEBOOK = 0.144f;
+    public static final float WEIGHT_TWITTER = 0.064f;
+    public static final float WEIGHT_OTHERS = 0.080f;
 
     public static final int TYPE_CALL = 0;
     public static final int TYPE_SMS = 1;
@@ -45,6 +47,12 @@ public class WeightedACOProcessor extends Processor {
         }
         float fTotalScore = 0;
         long lTimeNow = System.currentTimeMillis();
+
+        long lMaxTime = 0;
+        long lMinTime = 9999999999999L;
+
+        ArrayList<Long> listTimeSpan = new ArrayList<>();
+        long lPrevTime = 0;
 
         for(int i = 0; i < raw.listEvent.size(); i++) {
             float weight = 0;
@@ -75,8 +83,48 @@ public class WeightedACOProcessor extends Processor {
             }
             double dTimeSpan = (double)(lTimeNow - raw.listTime.get(i)) / 86400000d;
             fTotalScore += weight * Math.pow(IMPACT_TIME, dTimeSpan);
+
+            lMaxTime = Math.max(lMaxTime, raw.listTime.get(i));
+            lMinTime = Math.min(lMinTime, raw.listTime.get(i));
+
+            if(lPrevTime != 0) {
+                listTimeSpan.add(raw.listTime.get(i) - lPrevTime);
+            }
+            lPrevTime = raw.listTime.get(i);
         }
 
-        raw.score = fTotalScore;
+        long lTimeSpanStd = getStandardDeviation(listTimeSpan);
+        raw.score = fTotalScore * (lMaxTime - lMinTime) / lTimeSpanStd;
+    }
+
+    private long mean(ArrayList<Long> list) {
+        if(list.size() <= 0) {
+            return 0;
+        }
+        long mean = 0;
+
+        for(long num : list) {
+            mean += num;
+        }
+
+        return mean / list.size();
+    }
+
+    private long getStandardDeviation(ArrayList<Long> list) {
+        double std = 0;
+        long mean = mean(list);
+
+        if(list.size() < 2) {
+            return -1;
+        }
+
+        double diff = 0;
+        for(long num : list) {
+            diff = num - mean;
+            std += diff * diff;
+        }
+        std = Math.sqrt(std / list.size());
+
+        return (long) std;
     }
 }

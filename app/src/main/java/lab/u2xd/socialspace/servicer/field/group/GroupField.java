@@ -1,10 +1,8 @@
-package lab.u2xd.socialspace.servicer.object.group;
+package lab.u2xd.socialspace.servicer.field.group;
 
 import android.util.Log;
 
-import java.util.ArrayList;
-
-import lab.u2xd.socialspace.servicer.object.SocialPlanet;
+import lab.u2xd.socialspace.servicer.field.SocialPlanet;
 
 /**
  * Created by ysb on 2015-12-03.

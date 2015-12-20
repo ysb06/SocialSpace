@@ -1,5 +1,7 @@
 package lab.u2xd.socialspace.servicer.graphic;
 
+import android.opengl.GLU;
+
 import javax.microedition.khronos.opengles.GL10;
 
 /**
@@ -24,20 +26,27 @@ public class GLCamera {
     private float targetY = 0;
     int iZoomRequest = 0;
 
+    private boolean isRequestedNormal = false;
+
+    public void setup(GL10 gl) {
+        gl.glPopMatrix();
+        gl.glPushMatrix();
+    }
+
     public void controlView(GL10 gl) {
+
+        if(isRequestedNormal) {
+            gl.glPopMatrix();
+            gl.glPushMatrix();
+            isRequestedNormal = false;
+        }
+
         if(iZoomRequest == 1) {
             gl.glScalef(1.45f, 1.45f, 1.45f);
             iZoomRequest = 0;
         }
 
         runCamWorkMove(gl);
-
-        if(targetX == 0 && targetY == 0) {
-            if (iZoomRequest == 2) {
-                gl.glScalef((1 / 1.45f), (1 / 1.45f), (1 / 1.45f));
-                iZoomRequest = 0;
-            }
-        }
     }
 
     public void requestFocusNearCenter() {
@@ -57,12 +66,11 @@ public class GLCamera {
     }
 
     public void requestNormal() {
-        targetX = 0.4f;
-        targetY = 0.4f;
-        iZoomRequest = 2;
+        isRequestedNormal = true;
     }
 
     private void runCamWorkMove(GL10 gl) {
+
         if(targetX < -0.001 || targetX > 0.001) {
             if(targetX >= 0) {
                 targetX -= CAM_SPEED;

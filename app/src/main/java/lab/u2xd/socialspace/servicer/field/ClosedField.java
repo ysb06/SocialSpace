@@ -1,4 +1,4 @@
-package lab.u2xd.socialspace.servicer.object;
+package lab.u2xd.socialspace.servicer.field;
 
 import android.util.Log;
 
@@ -42,7 +42,9 @@ public class ClosedField implements Runnable {
 
         for(int i = 0; i < planets.length; i++) {
             float ratio = 1 - (planets[i].getScore() / fTotalScore);
-            planets[i].setOrbit(2f * ratio - 1.25f + (i * 0.07f));
+            Log.e("Closed Field", "Ratio -> " + ratio);
+
+            planets[i].setOrbit(ratio + (i * 0.07f) - 0.25f);
             planets[i].setCenter(fCenterX, fCenterY);
             planets[i].setPosition(Math.PI / 2 * rnd.nextDouble());
             planets[i].setSpeed(rnd.nextDouble() * 0.001d + 0.001f);
@@ -163,7 +165,6 @@ public class ClosedField implements Runnable {
                     }
                 }
             }
-            Log.e("Closed Field", "Mode -> " + iMode + ", Size => " + planets[1].getRadius());
         }
     }
 }

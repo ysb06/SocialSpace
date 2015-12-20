@@ -1,7 +1,5 @@
 package lab.u2xd.socialspace.servicer.graphic.object;
 
-import android.util.Log;
-
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;

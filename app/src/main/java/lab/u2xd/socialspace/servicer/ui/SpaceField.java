@@ -1,4 +1,4 @@
-package lab.u2xd.socialspace.servicer;
+package lab.u2xd.socialspace.servicer.ui;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -14,11 +14,12 @@ import android.view.WindowManager;
 import lab.u2xd.socialspace.R;
 import lab.u2xd.socialspace.servicer.graphic.GLCamera;
 import lab.u2xd.socialspace.servicer.graphic.GLSpaceView;
-import lab.u2xd.socialspace.servicer.object.ClosedField;
-import lab.u2xd.socialspace.servicer.object.SocialPlanet;
-import lab.u2xd.socialspace.servicer.object.group.GroupField;
-import lab.u2xd.socialspace.servicer.object.group.SocialPlanetGroup;
+import lab.u2xd.socialspace.servicer.field.ClosedField;
+import lab.u2xd.socialspace.servicer.field.SocialPlanet;
+import lab.u2xd.socialspace.servicer.field.group.GroupField;
+import lab.u2xd.socialspace.servicer.field.group.SocialPlanetGroup;
 import lab.u2xd.socialspace.worker.processor.Processor;
+import lab.u2xd.socialspace.worker.processor.WeightedACOProcessor;
 
 public class SpaceField extends AppCompatActivity implements View.OnTouchListener {
 
@@ -57,8 +58,8 @@ public class SpaceField extends AppCompatActivity implements View.OnTouchListene
 
         setContentView(glsv);
 
-        calculator = new Processor(this);
-        SocialPlanet[] planets = calculator.getPlanets(20);
+        calculator = new WeightedACOProcessor(this);
+        SocialPlanet[] planets = calculator.getPlanets();
 
         if(mode == MODE_NORMAL) {
             //OpenGL 초기화

@@ -1,6 +1,4 @@
-package lab.u2xd.socialspace.servicer.object.group;
-
-import android.util.Log;
+package lab.u2xd.socialspace.servicer.field.group;
 
 import java.util.ArrayList;
 
@@ -8,7 +6,7 @@ import javax.microedition.khronos.opengles.GL10;
 
 import lab.u2xd.socialspace.servicer.graphic.object.GLLineCircle;
 import lab.u2xd.socialspace.servicer.graphic.object.component.GLDrawable;
-import lab.u2xd.socialspace.servicer.object.SocialPlanet;
+import lab.u2xd.socialspace.servicer.field.SocialPlanet;
 
 /**
  * Created by ysb on 2015-12-09.

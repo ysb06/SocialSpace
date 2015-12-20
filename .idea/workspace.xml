@@ -11,31 +11,33 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8eb44288-c390-43d5-b0c1-079a695a96fb" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/graphic/GLCamera.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/object/group/GroupField.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/object/group/SocialPlanetGroup.java" />
-      <change type="DELETED" beforePath="D:\Workspace\Android\SocialSpace\app\src\main\java\lab\u2xd\socialspace\servicer\graphic\object\component\GLDestroyable.java" afterPath="" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/graphic/GLCameraU.java" />
+      <change type="DELETED" beforePath="D:\Workspace\Android\SocialSpace\app\src\main\java\lab\u2xd\socialspace\servicer\object\error\RadiusOutOfBoundException.java" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.4/taskArtifacts/cache.properties.lock" afterPath="$PROJECT_DIR$/.gradle/2.4/taskArtifacts/cache.properties.lock" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.4/taskArtifacts/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/2.4/taskArtifacts/fileHashes.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.4/taskArtifacts/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/2.4/taskArtifacts/fileSnapshots.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/intermediates/gradle_project_sync_data.bin" afterPath="$PROJECT_DIR$/build/intermediates/gradle_project_sync_data.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.4/taskArtifacts/taskArtifacts.bin" afterPath="$PROJECT_DIR$/.gradle/2.4/taskArtifacts/taskArtifacts.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/object/ClosedField.java" afterPath="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/object/ClosedField.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/worker/warehouse/DataManager.java" afterPath="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/worker/warehouse/DataManager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/supporter/DataWriter.java" afterPath="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/supporter/DataWriter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/graphic/object/GLDotCircle.java" afterPath="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/graphic/object/GLDotCircle.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/graphic/object/component/GLDrawable.java" afterPath="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/graphic/object/component/GLDrawable.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/graphic/GLCamera.java" afterPath="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/graphic/GLCamera.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/graphic/object/GLLineCircle.java" afterPath="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/graphic/object/GLLineCircle.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/graphic/object/GLPicture.java" afterPath="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/graphic/object/GLPicture.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/graphic/object/GLRectangle.java" afterPath="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/graphic/object/GLRectangle.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/graphic/GLSpaceView.java" afterPath="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/graphic/GLSpaceView.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/graphic/object/GLText.java" afterPath="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/graphic/object/GLText.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/graphic/object/GLTriangle.java" afterPath="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/graphic/object/GLTriangle.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/MainActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/MainActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/worker/processor/Processor.java" afterPath="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/worker/processor/Processor.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/object/SocialPlanet.java" afterPath="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/object/SocialPlanet.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/SpaceField.java" afterPath="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/SpaceField.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/worker/processor/WeightedACOProcessor.java" afterPath="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/worker/processor/WeightedACOProcessor.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_space_field.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_space_field.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_space_main.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_space_main.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/local.properties" afterPath="$PROJECT_DIR$/local.properties" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/menu/menu_space_field.xml" afterPath="$PROJECT_DIR$/app/src/main/res/menu/menu_space_field.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/menu/menu_space_main.xml" afterPath="$PROJECT_DIR$/app/src/main/res/menu/menu_space_main.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MOVED" beforePath="D:\Workspace\Android\SocialSpace\app\src\main\java\lab\u2xd\socialspace\servicer\SpaceField.java" afterPath="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/ui/SpaceField.java" />
+      <change type="MOVED" beforePath="D:\Workspace\Android\SocialSpace\app\src\main\java\lab\u2xd\socialspace\servicer\SpaceMain.java" afterPath="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/ui/SpaceMain.java" />
+      <change type="MOVED" beforePath="D:\Workspace\Android\SocialSpace\app\src\main\java\lab\u2xd\socialspace\servicer\object\ClosedField.java" afterPath="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/field/ClosedField.java" />
+      <change type="MOVED" beforePath="D:\Workspace\Android\SocialSpace\app\src\main\java\lab\u2xd\socialspace\servicer\object\SocialPlanet.java" afterPath="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/field/SocialPlanet.java" />
+      <change type="MOVED" beforePath="D:\Workspace\Android\SocialSpace\app\src\main\java\lab\u2xd\socialspace\servicer\object\group\GroupField.java" afterPath="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/field/group/GroupField.java" />
+      <change type="MOVED" beforePath="D:\Workspace\Android\SocialSpace\app\src\main\java\lab\u2xd\socialspace\servicer\object\group\SocialPlanetGroup.java" afterPath="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/field/group/SocialPlanetGroup.java" />
     </list>
     <ignored path="SocialSpace.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -119,78 +121,25 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="SpaceField.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/SpaceField.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="86" column="19" selection-start-line="86" selection-start-column="19" selection-end-line="86" selection-end-column="19" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ClosedField.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/object/ClosedField.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.38605443">
-              <caret line="132" column="26" selection-start-line="132" selection-start-column="26" selection-end-line="132" selection-end-column="26" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SocialPlanet.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/object/SocialPlanet.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="112" column="34" selection-start-line="112" selection-start-column="34" selection-end-line="112" selection-end-column="34" />
-              <folding>
-                <element signature="e#1256#1257#0" expanded="true" />
-                <element signature="e#1288#1289#0" expanded="true" />
-                <element signature="e#1618#1619#0" expanded="true" />
-                <element signature="e#1652#1653#0" expanded="true" />
-                <element signature="e#1946#1947#0" expanded="true" />
-                <element signature="e#1982#1983#0" expanded="true" />
-                <element signature="e#2213#2214#0" expanded="true" />
-                <element signature="e#2243#2244#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="DataManager.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/worker/warehouse/DataManager.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="36" column="49" selection-start-line="36" selection-start-column="49" selection-end-line="36" selection-end-column="49" />
+              <caret line="39" column="63" selection-start-line="39" selection-start-column="48" selection-end-line="39" selection-end-column="63" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="GLText.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/graphic/object/GLText.java">
+      <file leaf-file-name="WeightedACOProcessor.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/worker/processor/WeightedACOProcessor.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="79" column="0" selection-start-line="79" selection-start-column="0" selection-end-line="79" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.6139456">
+              <caret line="24" column="32" selection-start-line="24" selection-start-column="32" selection-end-line="24" selection-end-column="32" />
               <folding>
-                <element signature="e#1766#1767#0" expanded="true" />
-                <element signature="e#1806#1807#0" expanded="true" />
-                <element signature="e#2216#2217#0" expanded="true" />
-                <element signature="e#2258#2259#0" expanded="true" />
+                <element signature="e#1180#1181#0" expanded="true" />
+                <element signature="e#1210#1211#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="GLPicture.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/graphic/object/GLPicture.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="18" column="13" selection-start-line="18" selection-start-column="13" selection-end-line="18" selection-end-column="13" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -199,21 +148,30 @@
         <entry file="file://$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/worker/processor/Processor.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="70" column="25" selection-start-line="70" selection-start-column="25" selection-end-line="70" selection-end-column="25" />
+              <caret line="77" column="9" selection-start-line="77" selection-start-column="9" selection-end-line="77" selection-end-column="9" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="GLLineCircle.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/graphic/object/GLLineCircle.java">
+      <file leaf-file-name="ClosedField.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/field/ClosedField.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="69" column="28" selection-start-line="69" selection-start-column="28" selection-end-line="69" selection-end-column="28" />
+              <caret line="123" column="26" selection-start-line="123" selection-start-column="26" selection-end-line="123" selection-end-column="26" />
               <folding>
-                <element signature="e#1523#1524#0" expanded="true" />
-                <element signature="e#1558#1559#0" expanded="true" />
+                <element signature="imports" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SpaceField.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/ui/SpaceField.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="61" column="55" selection-start-line="61" selection-start-column="55" selection-end-line="61" selection-end-column="55" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -1669,10 +1627,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/spaceservice/graphic/object/GLTriangle.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/spaceservice/SpaceField.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/spaceservice/graphic/object/GLPicture.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/spaceservice/graphic/object/GLObject2D.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/spaceservice/graphic/object/GLRectangle.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/spaceservice/graphic/GLSpaceView.java" />
@@ -1696,7 +1650,6 @@
         <option value="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/worker/processor/ACOProcessor.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/worker/processor/WeightedProcessor.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/worker/warehouse/objects/ProfileRaw.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/worker/processor/WeightedACOProcessor.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/graphic/object/GLTriangle.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/graphic/object/GLRectangle.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/graphic/object/component/GLDrawable.java" />
@@ -1709,17 +1662,22 @@
         <option value="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/object/group/ClosedGroupField.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/object/group/SocialPlanetGroup.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/object/group/GroupField.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/graphic/GLSpaceView.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/SpaceField.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/graphic/GLCamera.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/supporter/DataWriter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/graphic/object/GLPicture.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/graphic/object/GLText.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/graphic/object/GLLineCircle.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/object/ClosedField.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/object/SocialPlanet.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/graphic/GLCameraU.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/graphic/GLCamera.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/field/SocialPlanet.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/graphic/GLSpaceView.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/ui/SpaceField.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/field/ClosedField.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/worker/warehouse/DataManager.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/worker/processor/Processor.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/object/ClosedField.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/worker/processor/WeightedACOProcessor.java" />
       </list>
     </option>
   </component>
@@ -1781,7 +1739,7 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="AndroidView">
         <subPane>
           <PATH>
@@ -1928,7 +1886,7 @@
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="servicer" />
+              <option name="myItemId" value="supporter" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -1954,37 +1912,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="object" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="SocialSpace" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="socialspace" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="servicer" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="object" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="group" />
+              <option name="myItemId" value="ui" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -2014,16 +1942,42 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="SocialSpace" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="socialspace" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="servicer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="field" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
       <pane id="ProjectPane" />
-      <pane id="Scope" />
+      <pane id="Scratches" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="recentsLimit" value="5" />
-    <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_SERIALS" value="42f75405ace39faf" />
+    <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_SERIALS" value="emulator-5554" />
     <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_AVD" value="Galaxy_T16" />
     <property name="OverrideImplement.combined" value="true" />
     <property name="OverrideImplement.overriding.sorted" value="false" />
@@ -2261,7 +2215,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32962137" sideWeight="0.4914712" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32739422" sideWeight="0.4978701" order="2" side_tool="false" content_ui="tabs" />
@@ -2274,7 +2228,7 @@
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32739422" sideWeight="0.46481878" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32962137" sideWeight="0.4978678" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32995737" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3129176" sideWeight="0.46002132" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3129176" sideWeight="0.46002132" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31403118" sideWeight="0.54477614" order="5" side_tool="true" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18070363" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
@@ -2310,27 +2264,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://D:/Program Files/Android/SDK/sources/android-23/java/lang/ArrayIndexOutOfBoundsException.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="23" column="62" selection-start-line="23" selection-start-column="62" selection-end-line="23" selection-end-column="62" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://D:/Program Files/Android/SDK/sources/android-23/java/lang/IndexOutOfBoundsException.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="23" column="52" selection-start-line="23" selection-start-column="52" selection-end-line="23" selection-end-column="52" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://D:/Program Files/Android/SDK/sources/android-23/java/lang/Throwable.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="92" column="22" selection-start-line="92" selection-start-column="22" selection-end-line="92" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://D:/Program Files/Android/SDK/sources/android-23/java/lang/Exception.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -2342,13 +2275,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="20" column="67" selection-start-line="20" selection-start-column="67" selection-end-line="20" selection-end-column="67" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/object/error/RadiusOutOfBoundException.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.2585034">
-          <caret line="8" column="60" selection-start-line="8" selection-start-column="60" selection-end-line="8" selection-end-column="60" />
         </state>
       </provider>
     </entry>
@@ -2496,7 +2422,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.5153061">
           <caret line="298" column="9" selection-start-line="298" selection-start-column="9" selection-end-line="298" selection-end-column="9" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2507,28 +2432,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/worker/processor/WeightedACOProcessor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3537415">
-          <caret line="41" column="37" selection-start-line="41" selection-start-column="37" selection-end-line="41" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/object/group/GroupField.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/field/group/GroupField.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.5816327">
           <caret line="42" column="40" selection-start-line="42" selection-start-column="40" selection-end-line="42" selection-end-column="40" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#508#509#0" expanded="false" />
-            <element signature="e#550#551#0" expanded="false" />
-            <element signature="e#1170#1171#0" expanded="false" />
-            <element signature="e#1199#1200#0" expanded="false" />
-            <element signature="e#1281#1282#0" expanded="false" />
-            <element signature="e#1315#1316#0" expanded="false" />
-            <element signature="e#1401#1402#0" expanded="false" />
-            <element signature="e#1433#1434#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -2539,7 +2446,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/object/group/SocialPlanetGroup.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/field/group/SocialPlanetGroup.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-0.48639455">
           <caret line="53" column="29" selection-start-line="53" selection-start-column="29" selection-end-line="53" selection-end-column="29" />
@@ -2560,13 +2467,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/graphic/object/component/GLDrawable.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.35544217">
-          <caret line="11" column="9" selection-start-line="11" selection-start-column="9" selection-end-line="11" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://D:/Program Files/Android/SDK/sources/android-23/java/lang/Math.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33333334">
@@ -2574,18 +2474,91 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/graphic/GLSpaceView.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/supporter/DataWriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.4489796">
+          <caret line="68" column="40" selection-start-line="68" selection-start-column="40" selection-end-line="68" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/Program Files/Android/SDK/sources/android-23/android/opengl/GLU.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-3.7380953">
+          <caret line="25" column="13" selection-start-line="25" selection-start-column="13" selection-end-line="25" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/graphic/GLCameraU.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="50" column="16" selection-start-line="50" selection-start-column="16" selection-end-line="50" selection-end-column="16" />
-          <folding />
+          <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/graphic/object/GLLineCircle.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.74319726">
+          <caret line="96" column="51" selection-start-line="96" selection-start-column="51" selection-end-line="96" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/graphic/object/component/GLDrawable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="9" column="14" selection-start-line="9" selection-start-column="14" selection-end-line="9" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/graphic/object/GLText.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="82" column="19" selection-start-line="82" selection-start-column="19" selection-end-line="82" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/Program Files/Android/SDK/sources/android-23/java/util/AbstractList.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33333334">
+          <caret line="605" column="27" selection-start-line="605" selection-start-column="27" selection-end-line="605" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/graphic/object/GLPicture.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="1.2261904">
+          <caret line="45" column="16" selection-start-line="45" selection-start-column="16" selection-end-line="45" selection-end-column="16" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/graphic/GLCamera.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="59" column="21" selection-start-line="59" selection-start-column="21" selection-end-line="59" selection-end-column="21" />
+          <caret line="72" column="0" selection-start-line="72" selection-start-column="0" selection-end-line="72" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/field/SocialPlanet.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="99" column="33" selection-start-line="99" selection-start-column="33" selection-end-line="99" selection-end-column="33" />
+          <folding>
+            <element signature="e#1255#1256#0" expanded="true" />
+            <element signature="e#1287#1288#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/graphic/GLSpaceView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.32142857">
+          <caret line="84" column="0" selection-start-line="84" selection-start-column="0" selection-end-line="84" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://D:/Program Files/Android/SDK/sources/android-23/android/database/sqlite/SQLiteDatabase.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33333334">
+          <caret line="1436" column="16" selection-start-line="1436" selection-start-column="16" selection-end-line="1436" selection-end-column="16" />
           <folding />
         </state>
       </provider>
@@ -2628,93 +2601,47 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/supporter/DataWriter.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/ui/SpaceField.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4489796">
-          <caret line="68" column="40" selection-start-line="68" selection-start-column="40" selection-end-line="68" selection-end-column="40" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="61" column="55" selection-start-line="61" selection-start-column="55" selection-end-line="61" selection-end-column="55" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/SpaceField.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/field/ClosedField.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="86" column="19" selection-start-line="86" selection-start-column="19" selection-end-line="86" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/graphic/object/GLPicture.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="18" column="13" selection-start-line="18" selection-start-column="13" selection-end-line="18" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/graphic/object/GLText.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="79" column="0" selection-start-line="79" selection-start-column="0" selection-end-line="79" selection-end-column="0" />
+          <caret line="123" column="26" selection-start-line="123" selection-start-column="26" selection-end-line="123" selection-end-column="26" />
           <folding>
-            <element signature="e#1766#1767#0" expanded="true" />
-            <element signature="e#1806#1807#0" expanded="true" />
-            <element signature="e#2216#2217#0" expanded="true" />
-            <element signature="e#2258#2259#0" expanded="true" />
+            <element signature="imports" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/graphic/object/GLLineCircle.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="69" column="28" selection-start-line="69" selection-start-column="28" selection-end-line="69" selection-end-column="28" />
-          <folding>
-            <element signature="e#1523#1524#0" expanded="true" />
-            <element signature="e#1558#1559#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/object/SocialPlanet.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="112" column="34" selection-start-line="112" selection-start-column="34" selection-end-line="112" selection-end-column="34" />
-          <folding>
-            <element signature="e#1256#1257#0" expanded="true" />
-            <element signature="e#1288#1289#0" expanded="true" />
-            <element signature="e#1618#1619#0" expanded="true" />
-            <element signature="e#1652#1653#0" expanded="true" />
-            <element signature="e#1946#1947#0" expanded="true" />
-            <element signature="e#1982#1983#0" expanded="true" />
-            <element signature="e#2213#2214#0" expanded="true" />
-            <element signature="e#2243#2244#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/worker/warehouse/DataManager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="36" column="49" selection-start-line="36" selection-start-column="49" selection-end-line="36" selection-end-column="49" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/worker/processor/Processor.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="70" column="25" selection-start-line="70" selection-start-column="25" selection-end-line="70" selection-end-column="25" />
+          <caret line="77" column="9" selection-start-line="77" selection-start-column="9" selection-end-line="77" selection-end-column="9" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/servicer/object/ClosedField.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/worker/warehouse/DataManager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.38605443">
-          <caret line="132" column="26" selection-start-line="132" selection-start-column="26" selection-end-line="132" selection-end-column="26" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="39" column="63" selection-start-line="39" selection-start-column="48" selection-end-line="39" selection-end-column="63" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/lab/u2xd/socialspace/worker/processor/WeightedACOProcessor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.6139456">
+          <caret line="24" column="32" selection-start-line="24" selection-start-column="32" selection-end-line="24" selection-end-column="32" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#1180#1181#0" expanded="true" />
+            <element signature="e#1210#1211#0" expanded="true" />
           </folding>
         </state>
       </provider>

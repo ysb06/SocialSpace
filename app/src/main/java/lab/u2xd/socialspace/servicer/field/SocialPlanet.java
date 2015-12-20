@@ -1,4 +1,4 @@
-package lab.u2xd.socialspace.servicer.object;
+package lab.u2xd.socialspace.servicer.field;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -50,11 +50,6 @@ public class SocialPlanet implements GLDrawable {
         track.onCreate(gl);
     }
 
-    private void setPosition(float x, float y) {
-        face.setPosition(x, y);
-        name.setPosition(x, y - (face.getHeight() + name.getHeight()) / 2);
-    }
-
     public float getX() {
         return face.getX();
     }
@@ -98,7 +93,12 @@ public class SocialPlanet implements GLDrawable {
 
     public void update() {
         dRadian += dRadianSpeed;
-        orbit(dRadian);
+
+        float fx = (float)(Math.cos(dRadian)) * fRadius + fCenterX;
+        float fy = (float)(Math.sin(dRadian)) * fRadius + fCenterY;
+
+        face.setPosition(fx, fy);
+        name.setPosition(fx, fy - (face.getHeight() + name.getHeight()) / 2);
     }
 
     public void setCenter(float x, float y) {
@@ -111,13 +111,6 @@ public class SocialPlanet implements GLDrawable {
         name.setVisible(visible);
         face.setVisible(visible);
         track.setVisible(visible);
-    }
-
-    private void orbit(double radian) {
-        float fx = (float)(Math.cos(radian)) * fRadius + fCenterX;
-        float fy = (float)(Math.sin(radian)) * fRadius + fCenterY;
-
-        setPosition(fx, fy);
     }
 
     @Override

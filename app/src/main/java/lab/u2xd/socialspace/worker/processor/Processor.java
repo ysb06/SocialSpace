@@ -11,7 +11,7 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import lab.u2xd.socialspace.R;
-import lab.u2xd.socialspace.servicer.object.SocialPlanet;
+import lab.u2xd.socialspace.servicer.field.SocialPlanet;
 import lab.u2xd.socialspace.worker.warehouse.DataManager;
 import lab.u2xd.socialspace.worker.warehouse.objects.ProfileRaw;
 
@@ -49,29 +49,32 @@ public class Processor implements Comparator<ProfileRaw> {
         }
     }
 
-    public SocialPlanet[] getPlanets(int planet_count) {
-        if(planet_count > 20 || planet_count < 1) {
-            planet_count = 20;
-            Toast.makeText(context, "표시 수는 20개를 넘을 수 없습니다", Toast.LENGTH_SHORT);
+    public SocialPlanet[] getPlanets() {
+
+        ArrayList<ProfileRaw> finalList = new ArrayList<>();
+        for(ProfileRaw raw : rawData) {
+            if(raw.score > 0) {
+                finalList.add(raw);
+            }
         }
         SocialPlanet[] planets;
-
-        if(rawData.size() < planet_count) {
-            planets = new SocialPlanet[rawData.size()];
+        if(finalList.size() <= 20) {
+            planets = new SocialPlanet[finalList.size()];
         } else {
-            planets = new SocialPlanet[planet_count];
+            planets = new SocialPlanet[20];
         }
+
         Bitmap face = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher);
         for(int i = 0; i < planets.length; i++) {
-            //*
-            String path = dbManager.queryBitmapPathOfName(rawData.get(i).name);
+            /*
+            String path = dbManager.queryBitmapPathOfName(finalList.get(i).name);
             if(path == null) {
-                planets[i] = new SocialPlanet(face, rawData.get(i));
+                planets[i] = new SocialPlanet(face, finalList.get(i));
             } else {
-                planets[i] = new SocialPlanet(BitmapFactory.decodeFile(path), rawData.get(i));
+                planets[i] = new SocialPlanet(BitmapFactory.decodeFile(path), finalList.get(i));
             }
             // 실험자들을 위한 코드 비활성화, 실험 후에는 원래대로 할 것 */
-            //planets[i] = new SocialPlanet(face, rawData.get(i));        //실험 후에는 삭제
+            planets[i] = new SocialPlanet(face, rawData.get(i));        //실험 후에는 삭제
         }
         return planets;
     }
