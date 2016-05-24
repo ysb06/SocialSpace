@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 import javax.microedition.khronos.opengles.GL10;
 
-import lab.u2xd.socialspace.servicer.graphic.object.GLLineCircle;
-import lab.u2xd.socialspace.servicer.graphic.object.component.GLDrawable;
+import lab.u2xd.socialspace.supporter.graphic.glegacy.object.GLLineCircle;
+import lab.u2xd.socialspace.supporter.graphic.glegacy.object.component.GLDrawable;
 import lab.u2xd.socialspace.servicer.field.SocialPlanet;
 
 /**

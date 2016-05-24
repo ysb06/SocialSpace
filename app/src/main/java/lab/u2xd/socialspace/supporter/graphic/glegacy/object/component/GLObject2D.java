@@ -1,4 +1,4 @@
-package lab.u2xd.socialspace.servicer.graphic.object.component;
+package lab.u2xd.socialspace.supporter.graphic.glegacy.object.component;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;

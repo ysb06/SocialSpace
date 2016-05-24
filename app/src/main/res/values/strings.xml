@@ -82,5 +82,6 @@
 
 
     <string name="title_activity_space_main">메인 화면</string>
+    <string name="title_activity_space_field_v2">SpaceFieldV2</string>
 
 </resources>

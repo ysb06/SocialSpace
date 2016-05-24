@@ -27,6 +27,7 @@ import java.util.List;
 import lab.u2xd.socialspace.experimenter.InfoAgreement;
 import lab.u2xd.socialspace.experimenter.BasicInfo;
 import lab.u2xd.socialspace.servicer.ui.SpaceField;
+import lab.u2xd.socialspace.servicer.ui.SpaceFieldV2;
 import lab.u2xd.socialspace.worker.miner.CallEventMiner;
 import lab.u2xd.socialspace.worker.miner.CallMiner;
 import lab.u2xd.socialspace.worker.miner.SMSMiner;

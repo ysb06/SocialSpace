@@ -1,17 +1,16 @@
-package lab.u2xd.socialspace.servicer.graphic;
+package lab.u2xd.socialspace.supporter.graphic.glegacy;
 
 import android.content.Context;
 import android.opengl.GLSurfaceView;
 import android.util.AttributeSet;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.ListIterator;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
-import lab.u2xd.socialspace.servicer.graphic.object.component.GLDrawable;
+import lab.u2xd.socialspace.supporter.graphic.glegacy.object.component.GLDrawable;
 
 /**
  * Created by ysb on 2015-12-03.

@@ -5,10 +5,10 @@ import android.graphics.Color;
 
 import javax.microedition.khronos.opengles.GL10;
 
-import lab.u2xd.socialspace.servicer.graphic.object.GLLineCircle;
-import lab.u2xd.socialspace.servicer.graphic.object.component.GLDrawable;
-import lab.u2xd.socialspace.servicer.graphic.object.GLPicture;
-import lab.u2xd.socialspace.servicer.graphic.object.GLText;
+import lab.u2xd.socialspace.supporter.graphic.glegacy.object.GLLineCircle;
+import lab.u2xd.socialspace.supporter.graphic.glegacy.object.component.GLDrawable;
+import lab.u2xd.socialspace.supporter.graphic.glegacy.object.GLPicture;
+import lab.u2xd.socialspace.supporter.graphic.glegacy.object.GLText;
 import lab.u2xd.socialspace.worker.warehouse.objects.ProfileRaw;
 
 /**

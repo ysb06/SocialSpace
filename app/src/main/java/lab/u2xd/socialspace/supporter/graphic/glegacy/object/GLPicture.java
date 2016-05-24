@@ -1,4 +1,4 @@
-package lab.u2xd.socialspace.servicer.graphic.object;
+package lab.u2xd.socialspace.supporter.graphic.glegacy.object;
 
 import android.graphics.Bitmap;
 import android.opengl.GLUtils;
@@ -47,7 +47,6 @@ public class GLPicture extends GLRectangle {
         gl.glGenTextures(1, texture, 0);
         gl.glBindTexture(GL10.GL_TEXTURE_2D, texture[0]);
         gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MIN_FILTER, GL10.GL_LINEAR);
-        gl.glTexParameterf(GL10.GL_TEXTURE_2D, GL10.GL_TEXTURE_MAG_FILTER, GL10.GL_LINEAR);
         GLUtils.texImage2D(GL10.GL_TEXTURE_2D, 0, source, 0);
     }
 

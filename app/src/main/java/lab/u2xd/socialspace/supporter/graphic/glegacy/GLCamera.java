@@ -1,6 +1,4 @@
-package lab.u2xd.socialspace.servicer.graphic;
-
-import android.opengl.GLU;
+package lab.u2xd.socialspace.supporter.graphic.glegacy;
 
 import javax.microedition.khronos.opengles.GL10;
 

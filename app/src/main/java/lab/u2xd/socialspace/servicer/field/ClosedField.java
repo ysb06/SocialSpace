@@ -4,7 +4,7 @@ import android.util.Log;
 
 import java.util.Random;
 
-import lab.u2xd.socialspace.servicer.graphic.GLCamera;
+import lab.u2xd.socialspace.supporter.graphic.glegacy.GLCamera;
 
 /**
  * Created by ysb on 2015-12-03.

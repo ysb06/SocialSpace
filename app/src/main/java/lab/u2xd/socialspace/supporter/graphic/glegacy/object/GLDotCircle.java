@@ -1,8 +1,8 @@
-package lab.u2xd.socialspace.servicer.graphic.object;
+package lab.u2xd.socialspace.supporter.graphic.glegacy.object;
 
 import javax.microedition.khronos.opengles.GL10;
 
-import lab.u2xd.socialspace.servicer.graphic.object.component.GLDrawable;
+import lab.u2xd.socialspace.supporter.graphic.glegacy.object.component.GLDrawable;
 
 /**
  * Created by ysb on 2015-12-06.

@@ -83,7 +83,11 @@
         <activity
             android:name=".servicer.ui.SpaceField"
             android:label="@string/title_activity_space_field"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
+        </activity>
+        <activity
+            android:name=".servicer.ui.SpaceFieldV2"
+            android:label="@string/title_activity_space_field_v2" >
         </activity>
     </application>
 

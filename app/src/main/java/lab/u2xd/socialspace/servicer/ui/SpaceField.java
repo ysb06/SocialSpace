@@ -12,8 +12,8 @@ import android.view.View;
 import android.view.WindowManager;
 
 import lab.u2xd.socialspace.R;
-import lab.u2xd.socialspace.servicer.graphic.GLCamera;
-import lab.u2xd.socialspace.servicer.graphic.GLSpaceView;
+import lab.u2xd.socialspace.supporter.graphic.glegacy.GLCamera;
+import lab.u2xd.socialspace.supporter.graphic.glegacy.GLSpaceView;
 import lab.u2xd.socialspace.servicer.field.ClosedField;
 import lab.u2xd.socialspace.servicer.field.SocialPlanet;
 import lab.u2xd.socialspace.servicer.field.group.GroupField;

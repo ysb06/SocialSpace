@@ -1,12 +1,11 @@
-package lab.u2xd.socialspace.servicer.graphic.object.component;
+package lab.u2xd.socialspace.supporter.graphic.glspace2d.objects;
 
 import javax.microedition.khronos.opengles.GL10;
 
 /**
- * Created by ysb on 2015-12-03.
+ * Created by ysb on 2016-01-05.
  */
-public interface GLDrawable {
-
+public interface GSDrawable {
     void onCreate(GL10 gl);
     void onDestroy();
     void onDraw(GL10 gl);

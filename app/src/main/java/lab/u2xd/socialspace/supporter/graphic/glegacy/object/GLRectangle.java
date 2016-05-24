@@ -1,11 +1,11 @@
-package lab.u2xd.socialspace.servicer.graphic.object;
+package lab.u2xd.socialspace.supporter.graphic.glegacy.object;
 
 import java.nio.ByteBuffer;
 
 import javax.microedition.khronos.opengles.GL10;
 
-import lab.u2xd.socialspace.servicer.graphic.object.component.GLDrawable;
-import lab.u2xd.socialspace.servicer.graphic.object.component.GLObject2D;
+import lab.u2xd.socialspace.supporter.graphic.glegacy.object.component.GLDrawable;
+import lab.u2xd.socialspace.supporter.graphic.glegacy.object.component.GLObject2D;
 
 /**
  * Created by ysb on 2015-12-03.
